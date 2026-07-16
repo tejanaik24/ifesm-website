@@ -2,9 +2,8 @@
 import Image from 'next/image';
 import big_banner from '../../../../public/ifesm/hero_industrial.jpg';
 import featured_mobile_banner from '../../../../public/ifesm/hero_industrial.jpg';
-import ParallaxText from '@/components/Common/ParallaxImages';
-import companies_image from '../../../../public/ifesm/clients-1065x335.png';
-import { Wrapper, Inner, ImageContainer, ParallaxImages, Div } from './styles';
+import LogoMarquee from './LogoMarquee';
+import { Wrapper, Inner, ImageContainer, Div } from './styles';
 import RevealCover from '@/components/Common/RevealCover';
 import { useIsMobile } from '../../../../libs/useIsMobile';
 export const imageVariants = {
@@ -46,11 +45,7 @@ const Featured = () => {
           </Div>
         </ImageContainer>
         <h2>Trusted by 55+ MNC & Govt Partners</h2>
-        <ParallaxImages>
-          <ParallaxText baseVelocity={-4}>
-            <Image src={companies_image} alt="comapanies" />
-          </ParallaxText>
-        </ParallaxImages>
+        <LogoMarquee />
       </Inner>
     </Wrapper>
   );
