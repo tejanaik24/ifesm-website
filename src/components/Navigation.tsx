@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, MessageSquare, Shield } from "lucide-react";
+import { COMPANY, waLink } from "@/lib/data/company";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -18,7 +19,7 @@ const NAV_LINKS = [
 ];
 
 export default function Navigation() {
-  const [activeTheme, setActiveTheme] = useState<"light" | "dark" | "blueprint" | "red">("dark");
+  const [activeTheme, setActiveTheme] = useState<"light" | "red">("light");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -59,33 +60,25 @@ export default function Navigation() {
   // Determine nav styling based on active section theme
   const getNavClasses = () => {
     if (!isScrolled) {
-      return activeTheme === "light"
-        ? "bg-transparent text-[#1a1a1a]"
-        : "bg-transparent text-white";
+      return activeTheme === "red"
+        ? "bg-transparent text-white"
+        : "bg-transparent text-[#3A3A3A]";
     }
 
     switch (activeTheme) {
-      case "light":
-        return "bg-[#ffffff]/90 text-[#1a1a1a] border-b border-[#e5e5e5] backdrop-blur-md shadow-sm";
-      case "blueprint":
-        return "bg-[#0d1b2a]/95 text-white border-b border-[#E31E24]/20 backdrop-blur-md shadow-md";
       case "red":
         return "bg-[#E31E24]/95 text-white border-b border-[#b3151a]/40 backdrop-blur-md shadow-md";
-      case "dark":
+      case "light":
       default:
-        return "bg-[#1a1a1a]/90 text-white border-b border-white/10 backdrop-blur-md shadow-lg";
+        return "bg-white/90 text-[#3A3A3A] border-b border-neutral-200 backdrop-blur-md shadow-sm";
     }
   };
 
   const getButtonClasses = () => {
     switch (activeTheme) {
-      case "light":
-        return "bg-[#E31E24] hover:bg-[#b3151a] text-white";
-      case "blueprint":
-        return "bg-[#E31E24] hover:bg-[#b3151a] text-white border border-[#E31E24]/50";
       case "red":
         return "bg-white hover:bg-neutral-100 text-[#E31E24]";
-      case "dark":
+      case "light":
       default:
         return "bg-[#E31E24] hover:bg-[#b3151a] text-white";
     }
@@ -99,7 +92,7 @@ export default function Navigation() {
           <Link href="/" className="relative flex items-center gap-2 group">
             <div className="relative w-36 h-12">
               <Image
-                src="https://ifesm.com/assets/images/ifesm-logo-1-302x117.png"
+                src="/ifesm-logo.png"
                 alt="IFESM Logo"
                 fill
                 priority
@@ -129,7 +122,7 @@ export default function Navigation() {
           {/* Call to Action WhatsApp */}
           <div className="hidden sm:flex items-center gap-4">
             <a
-              href="https://wa.me/918885099004?text=Hi%20IFESM%20Group%2C%20I%20would%20like%20to%20enquire%20about%20your%20Industrial%20Safety%20services."
+              href={waLink("Hi IFESM Group, I would like to enquire about your Industrial Safety services.")}
               target="_blank"
               rel="noopener noreferrer"
               className={`flex items-center gap-2 px-5 py-2.5 font-heading text-xs font-bold tracking-widest uppercase transition-all duration-300 ${getButtonClasses()}`}
@@ -160,7 +153,7 @@ export default function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 top-20 bg-[#1a1a1a] text-white z-40 lg:hidden flex flex-col justify-between p-6 border-t border-white/10"
+            className="fixed inset-0 top-20 bg-white text-[#3A3A3A] z-40 lg:hidden flex flex-col justify-between p-6 border-t border-neutral-200"
           >
             <nav className="flex flex-col gap-6 font-heading text-lg font-bold tracking-wider uppercase mt-8">
               {NAV_LINKS.map((link) => (
@@ -168,7 +161,7 @@ export default function Navigation() {
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="hover:text-[#E31E24] transition-colors py-2 border-b border-white/5"
+                  className="hover:text-[#E31E24] transition-colors py-2 border-b border-neutral-100"
                 >
                   {link.label}
                 </Link>
@@ -176,12 +169,12 @@ export default function Navigation() {
             </nav>
 
             <div className="flex flex-col gap-4 mb-12">
-              <div className="text-xs font-mono text-neutral-400">
+              <div className="text-xs font-mono text-neutral-500">
                 <Shield className="inline-block w-4 h-4 text-[#E31E24] mr-2" />
                 An ISO 9001:2015 Certified Company
               </div>
               <a
-                href="https://wa.me/918885099004?text=Hi%20IFESM%20Group%2C%20I%20would%20like%20to%20enquire%20about%20your%20Industrial%20Safety%20services."
+                href={waLink("Hi IFESM Group, I would like to enquire about your Industrial Safety services.")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full flex items-center justify-center gap-2 bg-[#E31E24] hover:bg-[#b3151a] text-white py-4 font-heading font-bold tracking-widest uppercase transition-all duration-300"

@@ -18,11 +18,16 @@ import {
   Mail, 
   Clock, 
   MapPin, 
-  CheckCircle,
-  FileText
+  CheckCircle
 } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import { EmberCanvas } from "@/components/EmberCanvas";
+import HeroWebGL from "@/components/home/HeroWebGL";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
+import FounderMessage from "@/components/home/FounderMessage";
+import MagneticButton from "@/components/home/MagneticButton";
+import { hasWebGL } from "@/lib/webgl-support";
+import { COMPANY, waLink } from "@/lib/data/company";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -34,6 +39,7 @@ const SERVICES = [
     num: "01",
     title: "Corporate & In-house Training",
     icon: Flame,
+    image: "/service_training.png",
     desc: "Comprehensive safety development for modern enterprises. Delivering certified safety competence directly to your facility or online.",
     features: [
       "Customised curriculum for heavy industries",
@@ -47,9 +53,10 @@ const SERVICES = [
     num: "02",
     title: "CMC & AMC",
     icon: Settings,
+    image: "/service_fire_protection.png",
     desc: "Long-term operation and maintenance solutions for safety equipment, fire suppression networks, and detection loops.",
     features: [
-      "24/7 dedicated engineering response",
+      "Scheduled engineering response visits",
       "Regular testing of suppression networks",
       "Preventative maintenance & inspections",
       "Detailed health audit logging reports"
@@ -60,6 +67,7 @@ const SERVICES = [
     num: "03",
     title: "Safety & HIRA Audits",
     icon: Shield,
+    image: "/service_safety_audit.png",
     desc: "Rigorous Hazard Identification & Risk Analysis to diagnose industrial hazards across facility lifecycles.",
     features: [
       "Quantitative & Qualitative risk profiles",
@@ -73,6 +81,7 @@ const SERVICES = [
     num: "04",
     title: "Manpower / Manning Services",
     icon: Users,
+    image: "/worker_portrait.png",
     desc: "Highly qualified, outsourced HSE engineers, fire marshals, and safety officers to safeguard your operational sites.",
     features: [
       "Rigorous pre-deployment competency test",
@@ -86,6 +95,7 @@ const SERVICES = [
     num: "05",
     title: "Turnkey Projects & Design/Installation",
     icon: Zap,
+    image: "/service_engineering_blueprint.png",
     desc: "End-to-end design, procurement, and deployment of complex fire alarms, suppression systems, and BMS integrations.",
     features: [
       "FM-200, hydrant, and sprinkler designs",
@@ -97,14 +107,6 @@ const SERVICES = [
   }
 ];
 
-// Highlight Training Programs (subset of 39)
-const FEATURED_TRAINING = [
-  { title: "Confined Space Entry & Rescue", file: "confinedspace-606x306.jpg", desc: "Technical training on atmospheric testing, ventilation, and emergency extrication." },
-  { title: "Scaffolding & Work at Heights", file: "scaffolding-606x306.jpg", desc: "Rigorous protocols for fall protection, scaffold stability, and harness compliance." },
-  { title: "Lockout / Tagout (LOTO)", file: "loto-606x306.jpg", desc: "Control of hazardous energy during servicing, maintenance, and setup." },
-  { title: "Hot Work & Welding Safety", file: "hotwork-606x306.jpg", desc: "Mitigating flash fire hazards, spark control, and active fire watch duties." }
-];
-
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -113,6 +115,7 @@ export default function Home() {
   const lockerContainerRef = useRef<HTMLDivElement>(null);
   const clientRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
   const contactFormRef = useRef<HTMLFormElement>(null);
 
   // Form State
@@ -123,6 +126,14 @@ export default function Home() {
     message: ""
   });
 
+  // WebGL detection for hero particle fallback
+  const [webglOk, setWebglOk] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setWebglOk(hasWebGL() && !prefersReducedMotion);
+  }, []);
+
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const text = `Hi IFESM Group,
@@ -131,59 +142,93 @@ Name: ${formData.name}
 Company: ${formData.company}
 Service of Interest: ${formData.service}
 Message: ${formData.message}`;
-    
-    const waLink = `https://wa.me/918885099004?text=${encodeURIComponent(text)}`;
-    window.open(waLink, "_blank");
+    window.open(waLink(text), "_blank");
   };
 
   useEffect(() => {
     // -------------------------------------------------------------
-    // ANIMATIONS SETUP
+    // SPYLT-QUALITY ANIMATIONS
     // -------------------------------------------------------------
     const ctx = gsap.context(() => {
-      // 1. Hero Parallax & Reveal
+      // 1. Hero — scroll-driven tilt + scale out + text fade (SPYLT pattern)
       const heroTl = gsap.timeline({
         scrollTrigger: {
           trigger: heroRef.current,
           start: "top top",
           end: "bottom top",
-          scrub: true
-        }
+          scrub: 1.5,
+        },
       });
-      heroTl.to(".hero-bg-img", { scale: 1.1, y: 100, ease: "none" });
-      heroTl.to(".hero-text", { opacity: 0.1, y: -50, ease: "none" }, 0);
+      heroTl.to(".hero-bg-img", { scale: 1.15, y: 120, ease: "none" }, 0);
+      heroTl.to(".hero-text", { opacity: 0, y: -80, scale: 0.95, ease: "none" }, 0);
+      heroTl.to(".hero-section", { rotate: 1.5, scale: 0.92, ease: "none" }, 0);
 
-      // 2. Blueprint Animation
+      // 2. Blueprint — clip-path curtain reveal + staggered labels
+      gsap.fromTo(
+        ".blueprint-section",
+        { clipPath: "polygon(50% 0%, 50% 0%, 50% 100%, 50% 100%)" },
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          ease: "none",
+          scrollTrigger: {
+            trigger: blueprintRef.current,
+            start: "top 85%",
+            end: "top 30%",
+            scrub: 1,
+          },
+        }
+      );
+
       const blueprintTl = gsap.timeline({
         scrollTrigger: {
           trigger: blueprintRef.current,
           start: "top 80%",
           end: "bottom 30%",
-          scrub: 1
-        }
+          scrub: 1,
+        },
       });
-
-      blueprintTl.fromTo(".bp-line-h", 
-        { scaleX: 0, transformOrigin: "left" }, 
+      blueprintTl.fromTo(
+        ".bp-line-h",
+        { scaleX: 0, transformOrigin: "left" },
         { scaleX: 1, duration: 1, ease: "power2.out" }
       );
-      blueprintTl.fromTo(".bp-line-v", 
-        { scaleY: 0, transformOrigin: "top" }, 
+      blueprintTl.fromTo(
+        ".bp-line-v",
+        { scaleY: 0, transformOrigin: "top" },
         { scaleY: 1, duration: 1, ease: "power2.out" },
         "<0.2"
       );
-      blueprintTl.fromTo(".bp-label", 
-        { opacity: 0, y: 15 }, 
-        { opacity: 1, y: 0, stagger: 0.1, duration: 0.6, ease: "power2.out" },
+      blueprintTl.fromTo(
+        ".bp-label",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, stagger: 0.08, duration: 0.5, ease: "power3.out" },
         "<0.5"
       );
 
-      // 3. Services Locker Mechanical Animation (Desktop Only)
+      // Blueprint info boxes — staggered clip-path reveal
+      gsap.utils.toArray(".bp-box").forEach((box: any, i: number) => {
+        gsap.fromTo(
+          box,
+          { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)", opacity: 0 },
+          {
+            clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+            opacity: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: box,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+            delay: i * 0.1,
+          }
+        );
+      });
+
+      // 3. Services Locker — keep existing GSAP pin/scrub mechanic, enhance door reveal
       const panels = gsap.utils.toArray(".locker-panel-item");
       if (panels.length > 0) {
         const mm = gsap.matchMedia();
         mm.add("(min-width: 1024px)", () => {
-          // Pin the section — NO scrub on the pin itself, scrub only belongs on animations
           const pinST = ScrollTrigger.create({
             trigger: servicesRef.current,
             pin: true,
@@ -193,25 +238,21 @@ Message: ${formData.message}`;
             pinSpacing: true,
           });
 
-          // One big timeline that runs the full length of the pin — drives all panels
           const lockerTl = gsap.timeline({
             scrollTrigger: {
               trigger: servicesRef.current,
               start: "top top",
               end: `+=${panels.length * 600}`,
               scrub: 1.5,
-              containerAnimation: undefined,
-            }
+            },
           });
 
-          // Stagger each panel open sequentially across the full timeline
           panels.forEach((panel: any, index) => {
             const door = panel.querySelector(".locker-door");
             const content = panel.querySelector(".locker-content");
             const offset = index / panels.length;
             const step = 1 / panels.length;
 
-            // Swing door open
             lockerTl.to(door, {
               rotateY: -95,
               x: "-110%",
@@ -220,68 +261,240 @@ Message: ${formData.message}`;
               duration: step * 0.7,
             }, offset);
 
-            // Reveal inside content
             lockerTl.fromTo(content,
-              { opacity: 0, filter: "blur(6px)", y: 10 },
-              { opacity: 1, filter: "blur(0px)", y: 0, ease: "power2.out", duration: step * 0.6 },
+              { opacity: 0, filter: "blur(8px)", y: 15, scale: 0.97 },
+              { opacity: 1, filter: "blur(0px)", y: 0, scale: 1, ease: "power3.out", duration: step * 0.6 },
               offset + step * 0.3
             );
           });
 
-          return () => {
-            pinST.kill();
-          };
+          return () => { pinST.kill(); };
         });
       }
 
-      // 4. Clients Pull-back Reveal
-      gsap.fromTo(".client-panel", 
-        { scale: 1.15, opacity: 0.7 },
+      // 4. Services section header — scroll reveal
+      gsap.fromTo(
+        ".services-header",
+        { clipPath: "polygon(50% 0%, 50% 0%, 50% 100%, 50% 100%)" },
         {
-          scale: 1,
-          opacity: 1,
-          ease: "power2.out",
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          ease: "none",
           scrollTrigger: {
-            trigger: clientRef.current,
-            start: "top 90%",
-            end: "bottom 80%",
-            scrub: true,
-          }
+            trigger: servicesRef.current,
+            start: "top 85%",
+            end: "top 50%",
+            scrub: 1,
+          },
         }
       );
 
-      // 5. Gauges Counters
+      // 5. Stats — enhanced with scroll-driven parallax + counter
+      gsap.fromTo(
+        ".stats-section",
+        { clipPath: "polygon(0% 15%, 100% 0%, 100% 100%, 0% 100%)" },
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          ease: "none",
+          scrollTrigger: {
+            trigger: statsRef.current,
+            start: "top 85%",
+            end: "top 40%",
+            scrub: 1,
+          },
+        }
+      );
+
       const statsTl = gsap.timeline({
         scrollTrigger: {
           trigger: statsRef.current,
           start: "top 75%",
-          once: true
-        }
+          once: true,
+        },
       });
 
-      statsTl.fromTo(".gauge-svg", 
-        { strokeDashoffset: 314 }, // Circumference of 50r = 2 * PI * 50 = 314
-        { strokeDashoffset: (i: number, target: any) => {
-            const targetOffset = parseFloat(target.getAttribute("data-offset") || "0");
-            return targetOffset;
-          }, 
-          duration: 1.8, 
+      statsTl.fromTo(
+        ".gauge-svg",
+        { strokeDashoffset: 314 },
+        {
+          strokeDashoffset: (i: number, target: any) => {
+            return parseFloat(target.getAttribute("data-offset") || "0");
+          },
+          duration: 2,
           ease: "power3.out",
-          stagger: 0.2
+          stagger: 0.25,
         }
       );
 
-      statsTl.fromTo(".stat-num",
+      statsTl.fromTo(
+        ".stat-num",
         { textContent: "0" },
         {
           textContent: (i: number, target: any) => target.getAttribute("data-target") || "0",
-          duration: 1.5,
+          duration: 1.8,
           ease: "power2.out",
           snap: { textContent: 1 },
-          stagger: 0.2
+          stagger: 0.25,
         },
-        "<0.2"
+        "<0.3"
       );
+
+      // Stat items — staggered fade-up
+      gsap.utils.toArray(".stat-item").forEach((item: any, i: number) => {
+        gsap.fromTo(item,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: item,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+            delay: i * 0.15,
+          }
+        );
+      });
+
+      // 6. Clients — pull-back reveal (existing, enhanced)
+      gsap.fromTo(
+        ".client-panel",
+        { scale: 1.2, opacity: 0.5, clipPath: "circle(20% at 50% 50%)" },
+        {
+          scale: 1,
+          opacity: 1,
+          clipPath: "circle(100% at 50% 50%)",
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: clientRef.current,
+            start: "top 85%",
+            end: "bottom 70%",
+            scrub: 1.5,
+          },
+        }
+      );
+
+      // Client section heading — scroll reveal
+      gsap.fromTo(
+        ".clients-header",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: clientRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+
+      // 7. Innovation panel — text stagger + clip-path
+      gsap.fromTo(
+        ".innovation-section",
+        { clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" },
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".innovation-section",
+            start: "top 85%",
+            end: "top 40%",
+            scrub: 1,
+          },
+        }
+      );
+
+      gsap.utils.toArray(".innovation-card").forEach((card: any, i: number) => {
+        gsap.fromTo(card,
+          { opacity: 0, y: 25, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+            delay: i * 0.1,
+          }
+        );
+      });
+
+      // 8. Founder Message — word-by-word color fill (SPYLT pattern)
+      const founderQuote = document.querySelector(".founder-quote");
+      if (founderQuote) {
+        const text = founderQuote.textContent || "";
+        const words = text.split(" ").filter(Boolean);
+        founderQuote.innerHTML = words
+          .map((w) => `<span class="founder-word" style="color: transparent; -webkit-text-stroke: 1px #3A3A3A; transition: color 0.05s;">${w}</span>`)
+          .join(" ");
+
+        gsap.to(".founder-word", {
+          color: "#3A3A3A",
+          webkitTextStroke: "0px transparent",
+          stagger: 1,
+          scrollTrigger: {
+            trigger: ".founder-section",
+            start: "top 60%",
+            end: "30% center",
+            scrub: 1.5,
+          },
+        });
+      }
+
+      // 9. Why Choose Us cards — staggered clip-path reveal
+      gsap.utils.toArray(".wcu-card").forEach((card: any, i: number) => {
+        gsap.fromTo(card,
+          { clipPath: "polygon(50% 0%, 50% 0%, 50% 100%, 50% 100%)", opacity: 0 },
+          {
+            clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+            opacity: 1,
+            duration: 0.7,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+            delay: i * 0.12,
+          }
+        );
+      });
+
+      // 10. Footer — clip-path diagonal reveal
+      gsap.fromTo(
+        ".footer-section",
+        { clipPath: "polygon(0% 8%, 100% 0%, 100% 100%, 0% 100%)" },
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".footer-section",
+            start: "top 85%",
+            end: "top 50%",
+            scrub: 1,
+          },
+        }
+      );
+
+      // 11. Scroll indicator — fade out on scroll
+      gsap.to(".scroll-indicator", {
+        opacity: 0,
+        y: -20,
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "15% top",
+          scrub: true,
+        },
+      });
     }, containerRef);
 
     return () => {
@@ -298,27 +511,32 @@ Message: ${formData.message}`;
           ========================================== */}
       <section 
         ref={heroRef}
-        data-theme="dark"
-        className="scroll-section relative h-screen w-full flex items-center justify-center bg-[#0d0d0d] overflow-hidden"
+        data-theme="light"
+        className="hero-section scroll-section relative h-screen w-full flex items-center justify-center bg-white overflow-hidden"
       >
-        {/* Background Image Parallax */}
-        <div className="absolute inset-0 z-0 opacity-55">
+        {/* Background Image — Grey Silver Refinery (matches reference style) */}
+        <div className="absolute inset-0 z-0">
           <Image
-            src="https://ifesm.com/assets/images/banner-1266x461.jpg"
-            alt="Industrial Refinery Background"
+            src="/hero_industrial.png"
+            alt="Industrial Refinery — IFESM Fire Safety Operations"
             fill
             priority
             className="hero-bg-img object-cover object-center transform scale-105"
+            style={{ filter: 'saturate(0.75) brightness(1.05)' }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-transparent to-black/60" />
+          {/* Overlay — light scrim for text readability on white */}
+          <div className="absolute inset-0" style={{
+            background: 'linear-gradient(to top, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.60) 30%, rgba(255,255,255,0.25) 60%, rgba(255,255,255,0.0) 100%)'
+          }} />
         </div>
 
-        {/* Ambient Embers */}
-        <EmberCanvas />
+        {/* Ambient Embers / WebGL */}
+        {webglOk === true && <HeroWebGL />}
+        {webglOk === false && <EmberCanvas />}
 
         {/* Hero Content */}
-        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white hero-text mt-16">
-          <span className="inline-flex items-center gap-2 px-3 py-1 bg-[#E31E24]/20 border border-[#E31E24]/40 text-[#E31E24] text-[10px] font-mono tracking-widest uppercase mb-6 rounded-sm">
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-[#3A3A3A] hero-text mt-16">
+          <span className="float-bob inline-flex items-center gap-2 px-3 py-1 bg-[#E31E24]/10 border border-[#E31E24]/30 text-[#E31E24] text-[10px] font-mono tracking-widest uppercase mb-6 rounded-sm">
             <Flame className="w-3 h-3 animate-pulse" /> Established 2001
           </span>
           
@@ -327,45 +545,61 @@ Message: ${formData.message}`;
             <span className="text-[#E31E24]">faces it.</span>
           </h1>
 
-          <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-neutral-300 font-sans tracking-wide leading-relaxed mb-10">
+          <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-neutral-600 font-sans tracking-wide leading-relaxed mb-10">
             For 25 years, we have been the ones who run toward the heat. Engineered safety solutions and comprehensive safety management for heavy enterprises across India.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <Link
-              href="/services"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-[#E31E24] hover:bg-[#b3151a] text-white font-heading text-xs font-bold tracking-widest uppercase transition-all duration-300"
-            >
-              <span>Explore Services</span>
-              <ArrowUpRight className="w-4 h-4" />
-            </Link>
-            <a
-              href="https://wa.me/918885099004?text=Hi%20IFESM%20Group%2C%20I%20would%20like%20to%20enquire%20about%20Industrial%20Fire%20and%20Safety%20training."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 border border-white/20 hover:border-white hover:bg-white/10 text-white font-heading text-xs font-bold tracking-widest uppercase transition-all duration-300"
-            >
-              <span>Instant Safety Consultation</span>
-            </a>
+            <MagneticButton>
+              <Link
+                href="/services"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-[#E31E24] hover:bg-[#b3151a] text-white font-heading text-xs font-bold tracking-widest uppercase transition-all duration-300 pulse-glow"
+              >
+                <span>Explore Services</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+            </MagneticButton>
+            <MagneticButton>
+              <a
+                href="https://wa.me/918885099004?text=Hi%20IFESM%20Group%2C%20I%20would%20like%20to%20enquire%20about%20Industrial%20Fire%20and%20Safety%20training."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 border border-[#3A3A3A]/20 hover:border-[#3A3A3A] hover:bg-[#3A3A3A]/5 text-[#3A3A3A] font-heading text-xs font-bold tracking-widest uppercase transition-all duration-300"
+              >
+                <span>Instant Safety Consultation</span>
+              </a>
+            </MagneticButton>
           </div>
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 z-20">
-          <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-400">Scroll down</span>
+        <div className="scroll-indicator absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 z-20">
+          <span className="text-[9px] font-mono uppercase tracking-widest text-neutral-500">Scroll down</span>
           <div className="w-1 h-12 bg-gradient-to-b from-[#E31E24] to-transparent animate-bounce rounded-full" />
         </div>
       </section>
+
+      {/* ── WHY CHOOSE US ── */}
+      <WhyChooseUs />
 
       {/* ==========================================
           CHAPTER 2 — BLUEPRINT INFO GRID
           ========================================== */}
       <section 
         ref={blueprintRef}
-        data-theme="blueprint"
-        className="scroll-section relative py-24 sm:py-32 w-full bg-[#081525] overflow-hidden blueprint-grid"
+        data-theme="light"
+        className="blueprint-section scroll-section relative py-24 sm:py-32 w-full bg-white overflow-hidden blueprint-grid"
       >
-        <div className="absolute inset-0 bg-radial-gradient from-transparent to-[#08111e]/90" />
+        {/* Blueprint Background */}
+        <div className="absolute inset-0 z-0 opacity-20">
+          <Image
+            src="/blueprint_digital_twin.png"
+            alt="Industrial Digital Twin Blueprint"
+            fill
+            className="object-cover object-center"
+          />
+        </div>
+        <div className="absolute inset-0 bg-white/80 z-[1]" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Blueprint frame lines that animate in */}
@@ -373,7 +607,7 @@ Message: ${formData.message}`;
           <div className="absolute inset-y-0 left-4 w-[1px] bg-red-500/20 transform scale-y-0 bp-line-v" />
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pt-8">
-            <div className="lg:col-span-5 text-white">
+            <div className="lg:col-span-5 text-[#3A3A3A]">
               <span className="text-[10px] font-mono text-red-500 uppercase tracking-widest block mb-3 bp-label">
                 [TECHNICAL SPECIFICATION GRID]
               </span>
@@ -381,12 +615,12 @@ Message: ${formData.message}`;
                 Engineered for <br className="hidden sm:inline" />
                 Zero-Failure Operations
               </h2>
-              <p className="text-sm text-neutral-300 font-sans leading-relaxed mb-8 bp-label">
+              <p className="text-sm text-neutral-600 font-sans leading-relaxed mb-8 bp-label">
                 IFESM is the B2B industrial services division of the NIFS Group. Headquartered in Visakhapatnam, we draft safety parameters that govern operational security for major MNCs and infrastructure companies.
               </p>
               
               <div className="border-t border-red-500/10 pt-6 bp-label">
-                <div className="text-xs font-mono text-neutral-400 flex items-center gap-3">
+                <div className="text-xs font-mono text-neutral-500 flex items-center gap-3">
                   <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                   ISO 9001:2015 CERTIFIED / MSME REGISTERED
                 </div>
@@ -403,7 +637,7 @@ Message: ${formData.message}`;
               ].map((box, idx) => (
                 <div 
                   key={idx} 
-                  className="border border-red-500/20 bg-[#081525]/80 p-6 flex flex-col justify-between h-48 relative group hover:border-[#E31E24] transition-colors duration-300 bp-label"
+                  className="border border-red-500/20 bg-white p-6 flex flex-col justify-between h-48 relative group hover:border-[#E31E24] transition-colors duration-300 bp-label"
                 >
                   {/* Grid decorations to mimic CAD */}
                   <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-red-500/40" />
@@ -417,10 +651,10 @@ Message: ${formData.message}`;
                   </div>
 
                   <div className="my-auto">
-                    <span className="text-5xl font-black text-white font-heading tracking-tight block">
+                    <span className="text-5xl font-black text-[#3A3A3A] font-heading tracking-tight block">
                       {box.val}
                     </span>
-                    <span className="text-xs font-mono text-neutral-400 block mt-1 uppercase">
+                    <span className="text-xs font-mono text-neutral-500 block mt-1 uppercase">
                       {box.label}
                     </span>
                   </div>
@@ -441,210 +675,291 @@ Message: ${formData.message}`;
           ========================================== */}
       <section 
         ref={servicesRef}
-        data-theme="dark"
-        className="scroll-section relative py-20 lg:py-0 lg:h-screen w-full bg-[#111] flex items-center"
+        data-theme="light"
+        className="scroll-section relative py-20 lg:py-0 lg:h-screen w-full bg-white flex items-center"
       >
-        <div className="absolute inset-0 bg-[#0f0f0f] opacity-50 z-0" />
+        <div className="absolute inset-0 bg-neutral-50 opacity-50 z-0" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="text-center lg:text-left mb-12">
+          <div className="services-header text-center lg:text-left mb-12">
             <span className="text-[10px] font-mono text-[#E31E24] uppercase tracking-widest block mb-2">
               [SERVICE ARCHITECTURE]
             </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight">
-              5 Industrial Pillars
+            <h2 className="text-3xl sm:text-5xl font-black text-[#3A3A3A] uppercase tracking-tight">
+          5 Industrial Pillars
             </h2>
-            <p className="text-neutral-400 text-sm max-w-lg mt-2 font-sans">
+            <p className="text-neutral-500 text-sm max-w-lg mt-2 font-sans">
               Mechanical lockers unfold below to reveal our comprehensive industrial services suite. Scroll down to open the panels.
             </p>
           </div>
 
-          {/* Mechanical Panel Container */}
-          <div ref={lockerContainerRef} className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-3 lg:h-[60vh]" style={{ perspective: '1000px' }}>
+          {/* Metallic Card Grid */}
+          <div 
+            ref={lockerContainerRef} 
+            className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-3 lg:h-[62vh]" 
+            style={{ perspective: '1200px' }}
+          >
             {SERVICES.map((s, idx) => (
               <div 
                 key={idx} 
-                className="locker-panel-item relative h-[450px] lg:h-full bg-neutral-900 border border-neutral-800 flex flex-col justify-between cursor-pointer group"
+                className="locker-panel-item relative h-[480px] lg:h-full cursor-pointer group"
                 style={{ transformStyle: 'preserve-3d' }}
               >
-                {/* Locker Door — GSAP animates rotateY + x. No CSS transitions (they fight GSAP). Transform-origin set to left edge for realistic hinge. */}
+                {/* ── LOCKER DOOR (GSAP swings this open) ── */}
                 <div 
-                  className="locker-door absolute inset-0 z-20 bg-neutral-800 border-r border-neutral-700 flex flex-col justify-between p-6"
-                  style={{ transformOrigin: 'left center', willChange: 'transform, opacity' }}
+                  className="locker-door absolute inset-0 z-20 overflow-hidden"
+                  style={{ 
+                    transformOrigin: 'left center', 
+                    willChange: 'transform, opacity',
+                    background: '#f0f0f0',
+                    border: '1.5px solid rgba(58,58,58,0.25)',
+                  }}
                 >
-                  <div className="flex justify-between items-start">
-                    <span className="text-5xl font-black text-neutral-600 font-heading">
-                      {s.num}
-                    </span>
-                    <div className="w-10 h-10 border border-neutral-700 flex items-center justify-center rounded-sm">
-                      <s.icon className="w-5 h-5 text-neutral-400" />
+                  {/* Door corner brackets */}
+                  <span className="absolute top-0 left-0 z-30 block" style={{ width: 18, height: 18, borderTop: '2px solid rgba(58,58,58,0.4)', borderLeft: '2px solid rgba(58,58,58,0.4)' }} />
+                  <span className="absolute top-0 right-0 z-30 block" style={{ width: 18, height: 18, borderTop: '2px solid rgba(58,58,58,0.4)', borderRight: '2px solid rgba(58,58,58,0.4)' }} />
+                  <span className="absolute bottom-0 left-0 z-30 block" style={{ width: 18, height: 18, borderBottom: '2px solid rgba(58,58,58,0.4)', borderLeft: '2px solid rgba(58,58,58,0.4)' }} />
+                  <span className="absolute bottom-0 right-0 z-30 block" style={{ width: 18, height: 18, borderBottom: '2px solid rgba(58,58,58,0.4)', borderRight: '2px solid rgba(58,58,58,0.4)' }} />
+
+                  <div className="absolute inset-0 opacity-25">
+                    <Image src={s.image} alt={s.title} fill className="object-cover" />
+                    <div className="absolute inset-0 bg-[#f0f0f0]/70" />
+                  </div>
+                  <div className="relative z-10 h-full flex flex-col justify-between p-5">
+                    <div className="flex justify-between items-start">
+                      <span className="text-5xl font-black text-neutral-400 font-heading">{s.num}</span>
+                      <div className="w-9 h-9 border border-neutral-300 flex items-center justify-center">
+                        <s.icon className="w-4 h-4 text-neutral-500" />
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Mechanical vertical label */}
-                  <div className="my-auto lg:-rotate-90 lg:origin-center lg:whitespace-nowrap transition-transform duration-300 group-hover:scale-105">
-                    <h3 className="text-lg lg:text-xl font-bold text-neutral-300 uppercase tracking-wider text-center">
-                      {s.title}
-                    </h3>
-                  </div>
-
-                  {/* Locker ventilations */}
-                  <div className="flex flex-col gap-1 border-t border-neutral-700/60 pt-4">
-                    <span className="w-full h-1 bg-neutral-900/50" />
-                    <span className="w-full h-1 bg-neutral-900/50" />
-                    <span className="w-full h-1 bg-neutral-900/50" />
-                    <div className="text-[9px] font-mono text-neutral-500 text-center uppercase tracking-widest mt-2">
+                    <div className="my-auto lg:-rotate-90 lg:origin-center lg:whitespace-nowrap">
+                      <h3 className="text-base lg:text-lg font-bold text-neutral-600 uppercase tracking-wider text-center">{s.title}</h3>
+                    </div>
+                    <div className="text-[9px] font-mono text-neutral-400 text-center uppercase tracking-widest border-t border-neutral-200 pt-3">
                       SYS_LOCKED // PULL TO OPEN
                     </div>
                   </div>
                 </div>
 
-                {/* Inside Content — starts invisible, GSAP fades it in as door swings open */}
+                {/* ── METALLIC CARD (revealed when door opens) ── */}
                 <div 
-                  className="locker-content absolute inset-0 p-6 flex flex-col justify-between bg-neutral-950 z-10"
+                  className="locker-content absolute inset-0 z-10 overflow-hidden"
                   style={{ opacity: 0, willChange: 'opacity, filter' }}
                 >
-                  <div>
-                    <div className="flex justify-between items-start border-b border-neutral-800 pb-4 mb-4">
-                      <span className="text-2xl font-black text-[#E31E24] font-mono">
-                        [PILLAR_{s.num}]
-                      </span>
-                      <s.icon className="w-6 h-6 text-[#E31E24]" />
+                  {/* Light metal base */}
+                  <div className="absolute inset-0" style={{
+                    background: 'linear-gradient(160deg, #ffffff 0%, #f5f5f5 50%, #ececec 100%)',
+                  }} />
+
+                  {/* Outer metallic border gradient */}
+                  <div className="absolute inset-0 pointer-events-none" style={{
+                    background: 'linear-gradient(145deg, rgba(180,180,190,0.16) 0%, transparent 40%, rgba(90,90,100,0.08) 100%)',
+                    border: '1.5px solid rgba(140,140,150,0.30)',
+                  }} />
+
+                  {/* RED corner brackets */}
+                  <span className="absolute top-0 left-0 z-30 block" style={{ width: 22, height: 22, borderTop: '2.5px solid #E31E24', borderLeft: '2.5px solid #E31E24' }} />
+                  <span className="absolute top-0 right-0 z-30 block" style={{ width: 22, height: 22, borderTop: '2.5px solid #E31E24', borderRight: '2.5px solid #E31E24' }} />
+                  <span className="absolute bottom-0 left-0 z-30 block" style={{ width: 22, height: 22, borderBottom: '2.5px solid #E31E24', borderLeft: '2.5px solid #E31E24' }} />
+                  <span className="absolute bottom-0 right-0 z-30 block" style={{ width: 22, height: 22, borderBottom: '2.5px solid #E31E24', borderRight: '2.5px solid #E31E24' }} />
+
+                  {/* Thin red accent lines top & bottom */}
+                  <div className="absolute top-0 left-[22px] right-[22px] h-[2px] bg-gradient-to-r from-transparent via-[#E31E24]/60 to-transparent z-20" />
+                  <div className="absolute bottom-0 left-[22px] right-[22px] h-[1.5px] bg-gradient-to-r from-transparent via-[#E31E24]/35 to-transparent z-20" />
+
+                  {/* ── IMAGE AREA (top 58%) ── */}
+                  <div className="relative w-full z-10" style={{ height: '58%' }}>
+                    <Image
+                      src={s.image}
+                      alt={s.title}
+                      fill
+                      className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    />
+                    {/* Bottom fade to light */}
+                    <div className="absolute inset-0" style={{
+                      background: 'linear-gradient(to bottom, rgba(245,245,245,0.05) 0%, rgba(245,245,245,0.0) 30%, rgba(245,245,245,0.97) 100%)'
+                    }} />
+                    {/* Side vignette */}
+                    <div className="absolute inset-0" style={{
+                      background: 'linear-gradient(to right, rgba(245,245,245,0.60) 0%, transparent 25%, transparent 75%, rgba(245,245,245,0.60) 100%)'
+                    }} />
+                  </div>
+
+                  {/* ── TEXT AREA (bottom 42%) ── */}
+                  <div className="absolute bottom-0 left-0 right-0 z-20 p-4 flex flex-col gap-2" style={{ height: '44%' }}>
+                    {/* Badge row */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-[9px] font-mono text-[#E31E24] border border-[#E31E24]/40 px-1 py-0.5 tracking-widest leading-none">[{s.num}]</span>
+                      <div className="flex-1 h-[1px] bg-[#E31E24]/15" />
+                      <s.icon className="w-3 h-3 text-[#E31E24]/60" />
                     </div>
 
-                    <h4 className="text-lg font-bold text-white uppercase mb-3 leading-tight">
+                    {/* Service title */}
+                    <h4 className="text-[13px] font-black text-[#3A3A3A] uppercase leading-tight tracking-wide">
                       {s.title}
                     </h4>
 
-                    <p className="text-neutral-400 text-xs font-sans mb-4 leading-relaxed">
+                    {/* Short description */}
+                    <p className="text-[11px] text-neutral-600 font-sans leading-snug line-clamp-2 flex-1">
                       {s.desc}
                     </p>
 
-                    <ul className="space-y-2">
-                      {s.features.map((feat, fIdx) => (
-                        <li key={fIdx} className="text-[10px] text-neutral-300 font-sans flex items-start gap-2">
-                          <CheckCircle className="w-3.5 h-3.5 text-[#E31E24] shrink-0 mt-0.5" />
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <Link 
-                    href="/services" 
-                    className="w-full flex items-center justify-center gap-2 bg-[#E31E24] hover:bg-[#b3151a] text-white py-3 font-heading text-[10px] font-bold tracking-widest uppercase transition-colors"
-                  >
-                    <span>Pillar Details</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          CHAPTER 4 — TRAINING PARALLAX
-          ========================================== */}
-      <section 
-        data-theme="light"
-        className="scroll-section relative py-24 sm:py-32 w-full bg-[#fcfcfc] overflow-hidden blueprint-grid-light"
-      >
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-[10px] font-mono text-[#E31E24] uppercase tracking-widest block mb-2">
-              [TRAINING DEVELOPMENT]
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-neutral-900 uppercase">
-              Operational Competence
-            </h2>
-            <p className="text-neutral-600 text-sm max-w-lg mx-auto font-sans mt-2">
-              Delivering high-consequence safety drills directly to operations. 39 industrial modules audited and updated for safety compliance.
-            </p>
-          </div>
-
-          {/* Parallax Grid Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-            {FEATURED_TRAINING.map((tr, idx) => (
-              <div 
-                key={idx}
-                className="group relative bg-white border border-neutral-200 overflow-hidden flex flex-col justify-between hover:border-[#E31E24] transition-colors duration-300"
-              >
-                <div className="relative h-64 w-full bg-neutral-200 overflow-hidden">
-                  {/* Replace with fallbacks if files missing, or render clean mockup styles */}
-                  <div className="absolute inset-0 bg-neutral-900 flex items-center justify-center text-white p-6 font-mono text-center">
-                    <span className="text-xs uppercase tracking-widest text-[#E31E24] block mb-2">[IMAGE_MODULE]</span>
-                    <span className="text-sm font-bold">{tr.title}</span>
-                  </div>
-                  {/* Using live site image paths from the user specification */}
-                  <Image
-                    src={`https://ifesm.com/assets/images/${tr.file}`}
-                    alt={tr.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-60"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-85" />
-                  <div className="absolute bottom-4 left-4 text-white z-10">
-                    <span className="text-[9px] font-mono text-[#E31E24] uppercase block">[MODULE_CODE: T-{100 + idx}]</span>
-                    <h3 className="text-lg font-bold uppercase">{tr.title}</h3>
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <p className="text-neutral-600 text-xs font-sans leading-relaxed mb-6">
-                    {tr.desc}
-                  </p>
-                  <div className="flex justify-between items-center border-t border-neutral-100 pt-4">
-                    <span className="text-[9px] font-mono text-neutral-400">COMPLIANCE: OSHA / ISO</span>
+                    {/* Red arrow CTA */}
                     <Link
-                      href="/training"
-                      className="text-[10px] font-heading font-bold text-[#E31E24] uppercase tracking-wider flex items-center gap-1 hover:text-[#b3151a]"
+                      href="/services"
+                      className="flex items-center gap-2 group/arr self-start"
                     >
-                      <span>Module details</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
+                      <div className="w-5 h-5 bg-[#E31E24] group-hover/arr:bg-[#3A3A3A] flex items-center justify-center transition-colors duration-200 shrink-0">
+                        <ArrowUpRight className="w-3 h-3 text-white group-hover/arr:text-white transition-colors duration-200" />
+                      </div>
+                      <span className="text-[9px] font-mono uppercase tracking-[0.15em] text-neutral-500 group-hover/arr:text-[#E31E24] transition-colors duration-200">
+                        View Details
+                      </span>
                     </Link>
                   </div>
+
+                  {/* Inner metallic bevel */}
+                  <div className="absolute inset-[4px] pointer-events-none z-10" style={{
+                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.08)',
+                    border: '1px solid rgba(70,70,80,0.15)',
+                  }} />
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link
-              href="/training"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[#1a1a1a] hover:bg-[#E31E24] text-white font-heading text-xs font-bold tracking-widest uppercase transition-colors"
-            >
-              <span>View All 39 Programs</span>
-              <FileText className="w-4 h-4" />
-            </Link>
           </div>
         </div>
       </section>
 
       {/* ==========================================
-          CHAPTER 5 — CLIENTS STEEL WALL
+          CHAPTER 5 — STATISTICS GAUGES
+          ========================================== */}
+      <section 
+        ref={statsRef}
+        data-theme="light"
+        className="stats-section scroll-section relative py-24 w-full bg-white border-t border-b border-neutral-200 overflow-hidden"
+      >
+        {/* Worker portrait background */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/worker_portrait.png"
+            alt="IFESM HSE Safety Engineer"
+            fill
+            className="object-cover object-center opacity-15"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-white" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-[10px] font-mono text-[#E31E24] uppercase tracking-widest block mb-2">[OUR IMPACT]</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-[#3A3A3A] uppercase">Trusted by Industry Leaders</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+            
+            {/* Stat 1: Years */}
+            <div className="stat-item flex flex-col items-center">
+              <div className="relative w-40 h-40 flex items-center justify-center mb-4">
+                <svg className="absolute inset-0 w-full h-full transform -rotate-90">
+                  <circle cx="80" cy="80" r="50" fill="none" stroke="#ddd" strokeWidth="8" />
+                  <circle 
+                    className="gauge-svg" 
+                    cx="80" 
+                    cy="80" 
+                    r="50" 
+                    fill="none" 
+                    stroke="#E31E24" 
+                    strokeWidth="8" 
+                    strokeDasharray="314" 
+                    strokeDashoffset="314" 
+                    data-offset="78"
+                  />
+                </svg>
+                <div className="z-10 font-heading text-4xl font-extrabold text-[#3A3A3A]">
+                  <span className="stat-num" data-target="25">0</span>
+                </div>
+              </div>
+              <span className="text-xs font-mono text-[#E31E24] uppercase tracking-wider">[PARAMETER: YEARS_OPERATIVE]</span>
+              <span className="text-neutral-500 text-sm font-sans mt-1">Establishing safety parameters since 2001.</span>
+            </div>
+
+            {/* Stat 2: ISO */}
+            <div className="stat-item flex flex-col items-center">
+              <div className="relative w-40 h-40 flex items-center justify-center mb-4">
+                <svg className="absolute inset-0 w-full h-full transform -rotate-90">
+                  <circle cx="80" cy="80" r="50" fill="none" stroke="#ddd" strokeWidth="8" />
+                  <circle 
+                    className="gauge-svg" 
+                    cx="80" 
+                    cy="80" 
+                    r="50" 
+                    fill="none" 
+                    stroke="#E31E24" 
+                    strokeWidth="8" 
+                    strokeDasharray="314" 
+                    strokeDashoffset="314" 
+                    data-offset="0"
+                  />
+                </svg>
+                <div className="z-10 font-heading text-2xl font-extrabold text-[#3A3A3A]">
+                  9001
+                </div>
+              </div>
+              <span className="text-xs font-mono text-[#E31E24] uppercase tracking-wider">[PARAMETER: QUALITY_INDEX]</span>
+              <span className="text-neutral-500 text-sm font-sans mt-1">ISO 9001:2015 Certified System Integrity.</span>
+            </div>
+
+            {/* Stat 3: Clients */}
+            <div className="stat-item flex flex-col items-center">
+              <div className="relative w-40 h-40 flex items-center justify-center mb-4">
+                <svg className="absolute inset-0 w-full h-full transform -rotate-90">
+                  <circle cx="80" cy="80" r="50" fill="none" stroke="#ddd" strokeWidth="8" />
+                  <circle 
+                    className="gauge-svg" 
+                    cx="80" 
+                    cy="80" 
+                    r="50" 
+                    fill="none" 
+                    stroke="#E31E24" 
+                    strokeWidth="8" 
+                    strokeDasharray="314" 
+                    strokeDashoffset="314" 
+                    data-offset="141"
+                  />
+                </svg>
+                <div className="z-10 font-heading text-4xl font-extrabold text-[#3A3A3A]">
+                  <span className="stat-num" data-target="55">0</span>+
+                </div>
+              </div>
+              <span className="text-xs font-mono text-[#E31E24] uppercase tracking-wider">[PARAMETER: PARTNER_SCALE]</span>
+              <span className="text-neutral-500 text-sm font-sans mt-1">Corporate & PSU relationships managed directly.</span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          CHAPTER 6 — CLIENTS STEEL WALL
           ========================================== */}
       <section 
         ref={clientRef}
-        data-theme="dark"
-        className="scroll-section relative py-24 sm:py-32 w-full bg-[#151515] overflow-hidden concrete-bg"
+        data-theme="light"
+        className="scroll-section relative py-24 sm:py-32 w-full bg-white overflow-hidden concrete-bg"
       >
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="clients-header text-center mb-16">
             <span className="text-[10px] font-mono text-[#E31E24] uppercase tracking-widest block mb-2">
               [ORGANISATIONAL COMMAND]
             </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white uppercase">
+            <h2 className="text-3xl sm:text-5xl font-black text-[#3A3A3A] uppercase">
               55+ MNC & Govt Partners
             </h2>
-            <p className="text-neutral-400 text-sm max-w-lg mx-auto font-sans mt-2">
+            <p className="text-neutral-500 text-sm max-w-lg mx-auto font-sans mt-2">
               Our safety parameters safeguard massive conglomerates, public sector undertakings, and global enterprises.
             </p>
           </div>
 
           {/* Engraved steel panel client wall */}
-          <div className="client-panel relative max-w-4xl mx-auto bg-neutral-900 border border-neutral-800 p-8 sm:p-12 shadow-2xl rounded-sm group overflow-hidden steel-texture">
+          <div className="client-panel shimmer-overlay relative max-w-4xl mx-auto bg-white border border-neutral-200 p-8 sm:p-12 shadow-2xl rounded-sm group overflow-hidden steel-texture">
             {/* Reflective light sweep hover overlay */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shimmer pointer-events-none" 
               style={{
@@ -654,17 +969,17 @@ Message: ${formData.message}`;
             />
             
             <div className="relative w-full h-[250px] sm:h-[335px]">
-              {/* Client wall image provided in the brief */}
+              {/* Client wall image */}
               <Image
-                src="https://ifesm.com/assets/images/clients-1065x335.png"
+                src="/clients-1065x335.png"
                 alt="IFESM Client Logo Matrix"
                 fill
                 priority
-                className="object-contain filter grayscale invert opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                className="object-contain filter grayscale opacity-80 group-hover:opacity-100 transition-opacity duration-300"
               />
             </div>
 
-            <div className="mt-8 border-t border-neutral-800 pt-6 text-center">
+            <div className="mt-8 border-t border-neutral-200 pt-6 text-center">
               <p className="text-xs font-mono text-neutral-500 uppercase tracking-widest">
                 [PARTNERS INCLUDE: ADANI // AMAZON // TATA // COCA-COLA // BHEL // JOHNSON & JOHNSON // SIEMENS // HONEYWELL]
               </p>
@@ -674,129 +989,69 @@ Message: ${formData.message}`;
       </section>
 
       {/* ==========================================
-          CHAPTER 6 — STATISTICS GAUGES
+          CHAPTER 7 — INNOVATION PANEL
           ========================================== */}
       <section 
-        ref={statsRef}
-        data-theme="dark"
-        className="scroll-section relative py-24 w-full bg-[#0d0d0d] border-t border-b border-neutral-900 overflow-hidden"
+        data-theme="light"
+        className="innovation-section scroll-section relative py-24 sm:py-32 w-full bg-white overflow-hidden flex items-center"
       >
+        {/* Innovation background */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/innovation_panel.png"
+            alt="Digital Safety Innovation Platform"
+            fill
+            className="object-cover object-center opacity-40"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/70 to-transparent" />
+        </div>
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-            
-            {/* Stat 1: Years */}
-            <div className="flex flex-col items-center">
-              <div className="relative w-40 h-40 flex items-center justify-center mb-4">
-                <svg className="absolute inset-0 w-full h-full transform -rotate-90">
-                  <circle cx="80" cy="80" r="50" fill="none" stroke="#222" strokeWidth="8" />
-                  <circle 
-                    className="gauge-svg" 
-                    cx="80" 
-                    cy="80" 
-                    r="50" 
-                    fill="none" 
-                    stroke="#E31E24" 
-                    strokeWidth="8" 
-                    strokeDasharray="314" 
-                    strokeDashoffset="314" 
-                    data-offset="78" // 25 years = 25/100 -> offset is 314 * (1 - 0.25) = 235 (so offset is 78 remaining)
-                  />
-                </svg>
-                <div className="z-10 font-heading text-4xl font-extrabold text-white">
-                  <span className="stat-num" data-target="25">0</span>
+          <div className="max-w-xl">
+            <span className="text-[10px] font-mono text-[#E31E24] uppercase tracking-widest block mb-3">
+              [INNOVATION // FUTURE SAFETY]
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black text-[#3A3A3A] uppercase leading-tight mb-6">
+              Innovating Today.<br />
+              <span className="text-[#E31E24]">Protecting Tomorrow.</span>
+            </h2>
+            <p className="text-neutral-600 text-sm font-sans leading-relaxed mb-8">
+              We deploy the latest technology — from AI-aided hazard modelling to digital safety management systems — to create safer, smarter, and more resilient industries worldwide.
+            </p>
+            <div className="grid grid-cols-2 gap-4 mb-8">
+              {[
+                { label: "Digital Risk Management", icon: Shield },
+                { label: "BIM & 3D Modelling", icon: Zap },
+                { label: "IoT Safety Monitoring", icon: Settings },
+                { label: "Smart Safety Solutions", icon: Flame },
+              ].map((item, i) => (
+                <div key={i} className="innovation-card flex items-center gap-3 bg-neutral-50 border border-neutral-200 px-4 py-3 rounded-sm shimmer-overlay">
+                  <item.icon className="w-4 h-4 text-[#E31E24] shrink-0" />
+                  <span className="text-xs font-mono text-neutral-600 uppercase tracking-wide">{item.label}</span>
                 </div>
-              </div>
-              <span className="text-xs font-mono text-[#E31E24] uppercase tracking-wider">[PARAMETER: YEARS_OPERATIVE]</span>
-              <span className="text-neutral-400 text-sm font-sans mt-1">Establishing safety parameters since 2001.</span>
+              ))}
             </div>
-
-            {/* Stat 2: ISO */}
-            <div className="flex flex-col items-center">
-              <div className="relative w-40 h-40 flex items-center justify-center mb-4">
-                <svg className="absolute inset-0 w-full h-full transform -rotate-90">
-                  <circle cx="80" cy="80" r="50" fill="none" stroke="#222" strokeWidth="8" />
-                  <circle 
-                    className="gauge-svg" 
-                    cx="80" 
-                    cy="80" 
-                    r="50" 
-                    fill="none" 
-                    stroke="#E31E24" 
-                    strokeWidth="8" 
-                    strokeDasharray="314" 
-                    strokeDashoffset="314" 
-                    data-offset="0" // Fully certified
-                  />
-                </svg>
-                <div className="z-10 font-heading text-2xl font-extrabold text-white">
-                  9001
-                </div>
-              </div>
-              <span className="text-xs font-mono text-[#E31E24] uppercase tracking-wider">[PARAMETER: QUALITY_INDEX]</span>
-              <span className="text-neutral-400 text-sm font-sans mt-1">ISO 9001:2015 Certified System Integrity.</span>
-            </div>
-
-            {/* Stat 3: Clients */}
-            <div className="flex flex-col items-center">
-              <div className="relative w-40 h-40 flex items-center justify-center mb-4">
-                <svg className="absolute inset-0 w-full h-full transform -rotate-90">
-                  <circle cx="80" cy="80" r="50" fill="none" stroke="#222" strokeWidth="8" />
-                  <circle 
-                    className="gauge-svg" 
-                    cx="80" 
-                    cy="80" 
-                    r="50" 
-                    fill="none" 
-                    stroke="#E31E24" 
-                    strokeWidth="8" 
-                    strokeDasharray="314" 
-                    strokeDashoffset="314" 
-                    data-offset="141" // 55% gauge indicator offset
-                  />
-                </svg>
-                <div className="z-10 font-heading text-4xl font-extrabold text-white">
-                  <span className="stat-num" data-target="55">0</span>+
-                </div>
-              </div>
-              <span className="text-xs font-mono text-[#E31E24] uppercase tracking-wider">[PARAMETER: PARTNER_SCALE]</span>
-              <span className="text-neutral-400 text-sm font-sans mt-1">Corporate & PSU relationships managed directly.</span>
-            </div>
-
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[#E31E24] hover:bg-[#b3151a] text-white font-heading text-xs font-bold tracking-widest uppercase transition-colors"
+            >
+              <span>Discover Innovation</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ==========================================
-          CHAPTER 7 — MISSION WHITEOUT
-          ========================================== */}
-      <section 
-        data-theme="light"
-        className="scroll-section relative py-32 sm:py-48 w-full bg-[#ffffff] overflow-hidden flex items-center justify-center text-center"
-      >
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest block mb-4">
-            [CORE CORE_VALUES]
-          </span>
-          
-          <h2 className="text-3xl sm:text-5xl md:text-7xl font-black text-[#1a1a1a] tracking-tight uppercase leading-none mb-8">
-            Empowering organizations to tackle fire & industrial safety challenges.
-          </h2>
-
-          <div className="w-16 h-1 bg-[#E31E24] mx-auto mb-8" />
-
-          <p className="text-neutral-500 font-sans text-xs sm:text-sm uppercase tracking-widest">
-            VISION: REVOLUTIONISE SAFETY SERVICES WITH FUTURISTIC TECHNOLOGIES.
-          </p>
-        </div>
-      </section>
+      {/* ── FOUNDER / MD MESSAGE ── */}
+      <FounderMessage />
 
       {/* ==========================================
           CHAPTER 8 — CONTACT & FOOTER
           ========================================== */}
       <section 
-        ref={statsRef}
+        ref={footerRef}
         data-theme="red"
-        className="scroll-section relative py-20 w-full bg-[#E31E24] text-white overflow-hidden"
+        className="footer-section scroll-section relative py-20 w-full bg-[#E31E24] text-white overflow-hidden"
       >
         {/* Abstract safety line graphics */}
         <div className="absolute inset-0 opacity-15 pointer-events-none">
@@ -821,7 +1076,7 @@ Message: ${formData.message}`;
                     <MapPin className="w-5 h-5 shrink-0 mt-1 text-white" />
                     <div>
                       <span className="text-xs font-mono text-white/60 block uppercase">Address</span>
-                      <p className="text-sm font-bold">10-134 Sadguru Towers, Malatamba Rd, PM Palem, Visakhapatnam 530041 AP India</p>
+                      <p className="text-sm font-bold">{COMPANY.address.full}</p>
                     </div>
                   </div>
 
@@ -829,7 +1084,7 @@ Message: ${formData.message}`;
                     <Phone className="w-5 h-5 shrink-0 mt-1 text-white" />
                     <div>
                       <span className="text-xs font-mono text-white/60 block uppercase">Emergency / Projects Lines</span>
-                      <p className="text-sm font-bold">+91 88850 99004 / +91 92466 15282</p>
+                      <p className="text-sm font-bold">{COMPANY.phone.display}</p>
                     </div>
                   </div>
 
@@ -837,7 +1092,7 @@ Message: ${formData.message}`;
                     <Mail className="w-5 h-5 shrink-0 mt-1 text-white" />
                     <div>
                       <span className="text-xs font-mono text-white/60 block uppercase">E-Mail Address</span>
-                      <p className="text-sm font-bold">headoffice@nifsindia.com / projects@nifsindia.com</p>
+                      <p className="text-sm font-bold">{COMPANY.email.display}</p>
                     </div>
                   </div>
 
@@ -845,15 +1100,15 @@ Message: ${formData.message}`;
                     <Clock className="w-5 h-5 shrink-0 mt-1 text-white" />
                     <div>
                       <span className="text-xs font-mono text-white/60 block uppercase">Operational Hours</span>
-                      <p className="text-sm font-bold">Mon–Sat: 9:00 AM – 6:00 PM</p>
+                      <p className="text-sm font-bold">{COMPANY.hours}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div className="mt-12 border-t border-white/20 pt-6">
-                <span className="text-[9px] font-mono text-white/60 block uppercase mb-1">UNIT OF SSB HIGHER STUDIES</span>
-                <p className="text-[10px] text-white/70">© {new Date().getFullYear()} IFESM. All rights reserved. Designed to cPanel static parameters.</p>
+                <span className="text-[9px] font-mono text-white/60 block uppercase mb-1">UNIT OF {COMPANY.parentOrg.toUpperCase()}</span>
+                <p className="text-[10px] text-white/70">© {new Date().getFullYear()} IFESM. All rights reserved.</p>
               </div>
             </div>
 
