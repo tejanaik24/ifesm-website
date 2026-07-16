@@ -28,6 +28,7 @@ Update SESSION HISTORY at the end of this conversation.
 **For:** Plant managers and safety officers at large industrial clients (B2B).
 **Core Mission:** Provide an immersive, scroll-driven cinematic storytelling experience showing 25 years of industrial command and fire engineering parameters.
 **Live URL:** https://ifesm.vercel.app (Staging / Vercel Staging Copy)
+**Repository:** https://github.com/tejanaik24/ifesm-website
 **Local Dev:** `npm run dev`
 **Deployed on:** Vercel (Staging)
 
@@ -139,11 +140,11 @@ None.
 ## 📚 SESSION HISTORY
 
 ### Session 1 — 2026-07-16
-**Duration:** ~2 hours
-**Worked on:** Initialized Next.js, configured fonts/Tailwind, built the 8 scroll-driven chapters, supporting pages, and deployed to Vercel staging.
-**Completed:** Staged live preview URL: **https://ifesm.vercel.app**
-**Left off at:** Phase 1+2 complete and ready for user review.
-**Next session should start with:** Incorporate user feedback or bundle production build for FTP transfer.
+**Duration:** ~2.5 hours
+**Worked on:** Initialized Next.js, configured fonts/Tailwind, built the 8 scroll-driven chapters, supporting pages, and deployed to Vercel staging. Set up local Git repository, created GitHub remote `ifesm-website`, and connected repository to Vercel for continuous deployment on push.
+**Completed:** Staged live preview URL: **https://ifesm.vercel.app**, GitHub Repository: **https://github.com/tejanaik24/ifesm-website**
+**Left off at:** Phase 1+2 complete, fully connected to GitHub & Vercel, ready for production rollout approval.
+**Next session should start with:** Deploy static output to live cPanel host upon approval.
 
 ---
 
