@@ -44,27 +44,6 @@ export default function HeroWebGL() {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    // ── Central 3D object — wireframe icosahedron ──
-    const icosaGeo = new THREE.IcosahedronGeometry(1.4, 1);
-    const icosaMat = new THREE.MeshBasicMaterial({
-      color: 0xe31e24,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.35,
-    });
-    const icosa = new THREE.Mesh(icosaGeo, icosaMat);
-    scene.add(icosa);
-
-    // Inner solid core (subtle)
-    const coreGeo = new THREE.IcosahedronGeometry(0.6, 0);
-    const coreMat = new THREE.MeshBasicMaterial({
-      color: 0xe31e24,
-      transparent: true,
-      opacity: 0.08,
-    });
-    const core = new THREE.Mesh(coreGeo, coreMat);
-    scene.add(core);
-
     // ── Particles — 250 spheres with physics ──
     const PARTICLE_COUNT = 250;
     const particleGeo = new THREE.SphereGeometry(1, 6, 6);
@@ -124,23 +103,6 @@ export default function HeroWebGL() {
       // Smooth mouse follow (lerp with 0.03 dampening — the SPYLT pattern)
       smoothMouse.x = lerp(smoothMouse.x, mouse.x, 0.03);
       smoothMouse.y = lerp(smoothMouse.y, mouse.y, 0.03);
-
-      // ── Icosahedron — constant spin + mouse tilt + scroll scale ──
-      icosa.rotation.y += 0.004;
-      icosa.rotation.x += 0.001;
-      icosa.rotation.x = lerp(icosa.rotation.x, smoothMouse.y * 0.2, 0.02);
-      icosa.rotation.z = lerp(icosa.rotation.z, -smoothMouse.x * 0.1, 0.02);
-      // Float bob
-      icosa.position.y = Math.sin(t * 0.8) * 0.15;
-      // Scroll-driven scale out
-      const scrollScale = lerp(1, 0.6, scrollProgress);
-      icosa.scale.setScalar(scrollScale);
-
-      // Core follows with slight delay
-      core.rotation.y = icosa.rotation.y * 0.5;
-      core.rotation.x = icosa.rotation.x;
-      core.position.y = icosa.position.y;
-      core.scale.setScalar(scrollScale);
 
       // ── Particles — drift + gravity + bounce + mouse attraction ──
       for (const p of particles) {
@@ -232,16 +194,12 @@ export default function HeroWebGL() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
       renderer.dispose();
-      icosaGeo.dispose();
-      icosaMat.dispose();
-      coreGeo.dispose();
-      coreMat.dispose();
       particleGeo.dispose();
       particles.forEach((p) => {
         (p.mesh.material as THREE.MeshBasicMaterial).dispose();
         scene.remove(p.mesh);
       });
-      scene.remove(icosa, core, light);
+      scene.remove(light);
       container.removeChild(renderer.domElement);
     };
   }, []);

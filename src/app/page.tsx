@@ -116,6 +116,7 @@ export default function Home() {
   const clientRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
+  const heroImgRef = useRef<HTMLDivElement>(null);
   const contactFormRef = useRef<HTMLFormElement>(null);
 
   // Form State
@@ -162,6 +163,31 @@ Message: ${formData.message}`;
       heroTl.to(".hero-bg-img", { scale: 1.15, y: 120, ease: "none" }, 0);
       heroTl.to(".hero-text", { opacity: 0, y: -80, scale: 0.95, ease: "none" }, 0);
       heroTl.to(".hero-section", { rotate: 1.5, scale: 0.92, ease: "none" }, 0);
+
+      // Hero image — mouse-reactive tilt
+      let heroMX = 0, heroMY = 0, heroSX = 0, heroSY = 0;
+      const handleHeroMouse = (e: MouseEvent) => {
+        heroMX = (e.clientX / window.innerWidth - 0.5) * 2;
+        heroMY = (e.clientY / window.innerHeight - 0.5) * 2;
+      };
+      window.addEventListener("mousemove", handleHeroMouse);
+      const heroImgTick = () => {
+        heroSX += (heroMX - heroSX) * 0.04;
+        heroSY += (heroMY - heroSY) * 0.04;
+        if (heroImgRef.current) {
+          heroImgRef.current.style.transform = `perspective(1000px) rotateY(${heroSX * 4}deg) rotateX(${-heroSY * 3}deg) scale(1.05)`;
+        }
+        requestAnimationFrame(heroImgTick);
+      };
+      const heroRaf = requestAnimationFrame(heroImgTick);
+
+      // Cleanup mouse listener + raf on context revert
+      const origRevert = ctx.revert.bind(ctx);
+      ctx.revert = () => {
+        window.removeEventListener("mousemove", handleHeroMouse);
+        cancelAnimationFrame(heroRaf);
+        origRevert();
+      };
 
       // 2. Blueprint — clip-path curtain reveal + staggered labels
       gsap.fromTo(
@@ -515,7 +541,7 @@ Message: ${formData.message}`;
         className="hero-section scroll-section relative h-screen w-full flex items-center justify-center bg-white overflow-hidden"
       >
         {/* Background Image — Grey Silver Refinery (matches reference style) */}
-        <div className="absolute inset-0 z-0">
+        <div ref={heroImgRef} className="absolute inset-0 z-0 will-change-transform">
           <Image
             src="/hero_industrial.png"
             alt="Industrial Refinery — IFESM Fire Safety Operations"
