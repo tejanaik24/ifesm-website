@@ -148,8 +148,7 @@ Message: ${formData.message}`;
           scrub: 1.5,
         },
       });
-      heroTl.to(".hero-bg-img", { scale: 1.15, y: 120, ease: "none" }, 0);
-      heroTl.to(".hero-text", { opacity: 0, y: -80, scale: 0.95, ease: "none" }, 0);
+      heroTl.to(".hero-text", { opacity: 0, y: -80, ease: "none" }, 0);
 
       // 2. Blueprint — clip-path curtain reveal + staggered labels
       gsap.fromTo(
@@ -509,13 +508,8 @@ Message: ${formData.message}`;
             alt="Industrial Refinery — IFESM Fire Safety Operations"
             fill
             priority
-            className="hero-bg-img object-cover object-center transform scale-105"
-            style={{ filter: 'saturate(0.75) brightness(1.05)' }}
+            className="hero-bg-img object-cover object-center"
           />
-          {/* Overlay — light scrim for text readability on white */}
-          <div className="absolute inset-0" style={{
-            background: 'linear-gradient(to top, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.60) 30%, rgba(255,255,255,0.25) 60%, rgba(255,255,255,0.0) 100%)'
-          }} />
         </div>
 
         {/* Hero Content */}
