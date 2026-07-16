@@ -140,146 +140,142 @@ Message: ${formData.message}`;
     // -------------------------------------------------------------
     // ANIMATIONS SETUP
     // -------------------------------------------------------------
-
-    // 1. Hero Parallax & Reveal
-    const heroTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true
-      }
-    });
-    heroTl.to(".hero-bg-img", { scale: 1.1, y: 100, ease: "none" });
-    heroTl.to(".hero-text", { opacity: 0.1, y: -50, ease: "none" }, 0);
-
-    // 2. Blueprint Animation
-    const blueprintTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: blueprintRef.current,
-        start: "top 80%",
-        end: "bottom 30%",
-        scrub: 1
-      }
-    });
-
-    blueprintTl.fromTo(".bp-line-h", 
-      { scaleX: 0, transformOrigin: "left" }, 
-      { scaleX: 1, duration: 1, ease: "power2.out" }
-    );
-    blueprintTl.fromTo(".bp-line-v", 
-      { scaleY: 0, transformOrigin: "top" }, 
-      { scaleY: 1, duration: 1, ease: "power2.out" },
-      "<0.2"
-    );
-    blueprintTl.fromTo(".bp-label", 
-      { opacity: 0, y: 15 }, 
-      { opacity: 1, y: 0, stagger: 0.1, duration: 0.6, ease: "power2.out" },
-      "<0.5"
-    );
-
-    // 3. Services Locker Mechanical Animation (Desktop Only)
-    let servicesCtx = gsap.context(() => {
-      const panels = gsap.utils.toArray(".locker-panel-item");
-      if (panels.length === 0) return;
-
-      const mm = gsap.matchMedia();
-      mm.add("(min-width: 1024px)", () => {
-        // Pin services section
-        const st = ScrollTrigger.create({
-          trigger: servicesRef.current,
-          pin: true,
-          start: "top top",
-          end: `+=${panels.length * 800}`,
-          scrub: 1,
-        });
-
-        // Animate locker doors opening one by one
-        panels.forEach((panel: any, index) => {
-          const door = panel.querySelector(".locker-door");
-          const content = panel.querySelector(".locker-content");
-
-          const panelTl = gsap.timeline({
-            scrollTrigger: {
-              trigger: servicesRef.current,
-              start: `top+=${index * 800} top`,
-              end: `top+=${(index + 1) * 800} top`,
-              scrub: 1,
-            }
-          });
-
-          // Open the locker door (swing it 100 degrees out)
-          panelTl.to(door, {
-            rotateY: -105,
-            xPercent: -40,
-            opacity: 0.1,
-            ease: "power1.inOut"
-          });
-
-          // Reveal content from shadow
-          panelTl.fromTo(content, 
-            { opacity: 0.2, filter: "blur(4px)" }, 
-            { opacity: 1, filter: "blur(0px)", ease: "power1.out" },
-            "<"
-          );
-        });
-
-        return () => st.kill();
-      });
-    }, lockerContainerRef);
-
-    // 4. Clients Pull-back Reveal
-    gsap.fromTo(".client-panel", 
-      { scale: 1.15, opacity: 0.7 },
-      {
-        scale: 1,
-        opacity: 1,
-        ease: "power2.out",
+    const ctx = gsap.context(() => {
+      // 1. Hero Parallax & Reveal
+      const heroTl = gsap.timeline({
         scrollTrigger: {
-          trigger: clientRef.current,
-          start: "top 90%",
-          end: "bottom 80%",
-          scrub: true,
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true
         }
-      }
-    );
+      });
+      heroTl.to(".hero-bg-img", { scale: 1.1, y: 100, ease: "none" });
+      heroTl.to(".hero-text", { opacity: 0.1, y: -50, ease: "none" }, 0);
 
-    // 5. Gauges Counters
-    const statsTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: statsRef.current,
-        start: "top 75%",
-        once: true
-      }
-    });
+      // 2. Blueprint Animation
+      const blueprintTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: blueprintRef.current,
+          start: "top 80%",
+          end: "bottom 30%",
+          scrub: 1
+        }
+      });
 
-    statsTl.fromTo(".gauge-svg", 
-      { strokeDashoffset: 314 }, // Circumference of 50r = 2 * PI * 50 = 314
-      { strokeDashoffset: (i: number, target: any) => {
-          const targetOffset = parseFloat(target.getAttribute("data-offset") || "0");
-          return targetOffset;
-        }, 
-        duration: 1.8, 
-        ease: "power3.out",
-        stagger: 0.2
-      }
-    );
+      blueprintTl.fromTo(".bp-line-h", 
+        { scaleX: 0, transformOrigin: "left" }, 
+        { scaleX: 1, duration: 1, ease: "power2.out" }
+      );
+      blueprintTl.fromTo(".bp-line-v", 
+        { scaleY: 0, transformOrigin: "top" }, 
+        { scaleY: 1, duration: 1, ease: "power2.out" },
+        "<0.2"
+      );
+      blueprintTl.fromTo(".bp-label", 
+        { opacity: 0, y: 15 }, 
+        { opacity: 1, y: 0, stagger: 0.1, duration: 0.6, ease: "power2.out" },
+        "<0.5"
+      );
 
-    statsTl.fromTo(".stat-num",
-      { textContent: "0" },
-      {
-        textContent: (i: number, target: any) => target.getAttribute("data-target") || "0",
-        duration: 1.5,
-        ease: "power2.out",
-        snap: { textContent: 1 },
-        stagger: 0.2
-      },
-      "<0.2"
-    );
+      // 3. Services Locker Mechanical Animation (Desktop Only)
+      const panels = gsap.utils.toArray(".locker-panel-item");
+      if (panels.length > 0) {
+        const mm = gsap.matchMedia();
+        mm.add("(min-width: 1024px)", () => {
+          // Pin services section
+          const st = ScrollTrigger.create({
+            trigger: servicesRef.current,
+            pin: true,
+            start: "top top",
+            end: `+=${panels.length * 800}`,
+            scrub: 1,
+          });
+
+          // Animate locker doors opening one by one
+          panels.forEach((panel: any, index) => {
+            const door = panel.querySelector(".locker-door");
+            const content = panel.querySelector(".locker-content");
+
+            const panelTl = gsap.timeline({
+              scrollTrigger: {
+                trigger: servicesRef.current,
+                start: `top+=${index * 800} top`,
+                end: `top+=${(index + 1) * 800} top`,
+                scrub: 1,
+              }
+            });
+
+            // Open the locker door (swing it 100 degrees out)
+            panelTl.to(door, {
+              rotateY: -105,
+              xPercent: -40,
+              opacity: 0.1,
+              ease: "power1.inOut"
+            });
+
+            // Reveal content from shadow
+            panelTl.fromTo(content, 
+              { opacity: 0.2, filter: "blur(4px)" }, 
+              { opacity: 1, filter: "blur(0px)", ease: "power1.out" },
+              "<"
+            );
+          });
+        });
+      }
+
+      // 4. Clients Pull-back Reveal
+      gsap.fromTo(".client-panel", 
+        { scale: 1.15, opacity: 0.7 },
+        {
+          scale: 1,
+          opacity: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: clientRef.current,
+            start: "top 90%",
+            end: "bottom 80%",
+            scrub: true,
+          }
+        }
+      );
+
+      // 5. Gauges Counters
+      const statsTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: statsRef.current,
+          start: "top 75%",
+          once: true
+        }
+      });
+
+      statsTl.fromTo(".gauge-svg", 
+        { strokeDashoffset: 314 }, // Circumference of 50r = 2 * PI * 50 = 314
+        { strokeDashoffset: (i: number, target: any) => {
+            const targetOffset = parseFloat(target.getAttribute("data-offset") || "0");
+            return targetOffset;
+          }, 
+          duration: 1.8, 
+          ease: "power3.out",
+          stagger: 0.2
+        }
+      );
+
+      statsTl.fromTo(".stat-num",
+        { textContent: "0" },
+        {
+          textContent: (i: number, target: any) => target.getAttribute("data-target") || "0",
+          duration: 1.5,
+          ease: "power2.out",
+          snap: { textContent: 1 },
+          stagger: 0.2
+        },
+        "<0.2"
+      );
+    }, containerRef);
 
     return () => {
-      ScrollTrigger.getAll().forEach(st => st.kill());
-      servicesCtx.revert();
+      ctx.revert();
     };
   }, []);
 
