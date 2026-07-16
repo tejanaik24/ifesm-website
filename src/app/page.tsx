@@ -183,44 +183,54 @@ Message: ${formData.message}`;
       if (panels.length > 0) {
         const mm = gsap.matchMedia();
         mm.add("(min-width: 1024px)", () => {
-          // Pin services section
-          const st = ScrollTrigger.create({
+          // Pin the section — NO scrub on the pin itself, scrub only belongs on animations
+          const pinST = ScrollTrigger.create({
             trigger: servicesRef.current,
             pin: true,
+            anticipatePin: 1,
             start: "top top",
-            end: `+=${panels.length * 800}`,
-            scrub: 1,
+            end: `+=${panels.length * 600}`,
+            pinSpacing: true,
           });
 
-          // Animate locker doors opening one by one
+          // One big timeline that runs the full length of the pin — drives all panels
+          const lockerTl = gsap.timeline({
+            scrollTrigger: {
+              trigger: servicesRef.current,
+              start: "top top",
+              end: `+=${panels.length * 600}`,
+              scrub: 1.5,
+              containerAnimation: undefined,
+            }
+          });
+
+          // Stagger each panel open sequentially across the full timeline
           panels.forEach((panel: any, index) => {
             const door = panel.querySelector(".locker-door");
             const content = panel.querySelector(".locker-content");
+            const offset = index / panels.length;
+            const step = 1 / panels.length;
 
-            const panelTl = gsap.timeline({
-              scrollTrigger: {
-                trigger: servicesRef.current,
-                start: `top+=${index * 800} top`,
-                end: `top+=${(index + 1) * 800} top`,
-                scrub: 1,
-              }
-            });
+            // Swing door open
+            lockerTl.to(door, {
+              rotateY: -95,
+              x: "-110%",
+              opacity: 0,
+              ease: "power2.inOut",
+              duration: step * 0.7,
+            }, offset);
 
-            // Open the locker door (swing it 100 degrees out)
-            panelTl.to(door, {
-              rotateY: -105,
-              xPercent: -40,
-              opacity: 0.1,
-              ease: "power1.inOut"
-            });
-
-            // Reveal content from shadow
-            panelTl.fromTo(content, 
-              { opacity: 0.2, filter: "blur(4px)" }, 
-              { opacity: 1, filter: "blur(0px)", ease: "power1.out" },
-              "<"
+            // Reveal inside content
+            lockerTl.fromTo(content,
+              { opacity: 0, filter: "blur(6px)", y: 10 },
+              { opacity: 1, filter: "blur(0px)", y: 0, ease: "power2.out", duration: step * 0.6 },
+              offset + step * 0.3
             );
           });
+
+          return () => {
+            pinST.kill();
+          };
         });
       }
 
@@ -432,7 +442,7 @@ Message: ${formData.message}`;
       <section 
         ref={servicesRef}
         data-theme="dark"
-        className="scroll-section relative py-20 lg:py-0 lg:h-screen w-full bg-[#111] overflow-hidden flex items-center"
+        className="scroll-section relative py-20 lg:py-0 lg:h-screen w-full bg-[#111] flex items-center"
       >
         <div className="absolute inset-0 bg-[#0f0f0f] opacity-50 z-0" />
 
@@ -450,14 +460,18 @@ Message: ${formData.message}`;
           </div>
 
           {/* Mechanical Panel Container */}
-          <div ref={lockerContainerRef} className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-3 lg:h-[60vh] perspective-1000">
+          <div ref={lockerContainerRef} className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-3 lg:h-[60vh]" style={{ perspective: '1000px' }}>
             {SERVICES.map((s, idx) => (
               <div 
                 key={idx} 
-                className="locker-panel-item relative h-[450px] lg:h-full bg-neutral-900 border border-neutral-800 overflow-hidden flex flex-col justify-between cursor-pointer group"
+                className="locker-panel-item relative h-[450px] lg:h-full bg-neutral-900 border border-neutral-800 flex flex-col justify-between cursor-pointer group"
+                style={{ transformStyle: 'preserve-3d' }}
               >
-                {/* Locker Door (GSAP will rotateY or fade this out on desktop scroll) */}
-                <div className="locker-door absolute inset-0 z-20 bg-neutral-800 border-r border-neutral-700 flex flex-col justify-between p-6 transition-all duration-300">
+                {/* Locker Door — GSAP animates rotateY + x. No CSS transitions (they fight GSAP). Transform-origin set to left edge for realistic hinge. */}
+                <div 
+                  className="locker-door absolute inset-0 z-20 bg-neutral-800 border-r border-neutral-700 flex flex-col justify-between p-6"
+                  style={{ transformOrigin: 'left center', willChange: 'transform, opacity' }}
+                >
                   <div className="flex justify-between items-start">
                     <span className="text-5xl font-black text-neutral-600 font-heading">
                       {s.num}
@@ -485,8 +499,11 @@ Message: ${formData.message}`;
                   </div>
                 </div>
 
-                {/* Inside Content (Visible when door rotates open) */}
-                <div className="locker-content absolute inset-0 p-6 flex flex-col justify-between bg-neutral-950 opacity-100 z-10">
+                {/* Inside Content — starts invisible, GSAP fades it in as door swings open */}
+                <div 
+                  className="locker-content absolute inset-0 p-6 flex flex-col justify-between bg-neutral-950 z-10"
+                  style={{ opacity: 0, willChange: 'opacity, filter' }}
+                >
                   <div>
                     <div className="flex justify-between items-start border-b border-neutral-800 pb-4 mb-4">
                       <span className="text-2xl font-black text-[#E31E24] font-mono">

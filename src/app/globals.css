@@ -143,10 +143,25 @@
   mix-blend-mode: screen;
 }
 
-/* Mechanical locker door styling */
+/* Mechanical locker door — NO CSS transition here, GSAP drives all transforms */
 .locker-door {
-  transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
   transform-style: preserve-3d;
+  transform-origin: left center;
+}
+
+/* On mobile: both door and content are visible stacked (no GSAP pin on mobile) */
+@media (max-width: 1023px) {
+  .locker-door {
+    position: relative !important;
+    transform: none !important;
+    opacity: 1 !important;
+    display: none; /* Hide the door on mobile, show content directly */
+  }
+  .locker-content {
+    position: relative !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
 }
 
 /* Steel visual texture */
