@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
-import big_banner from '../../../../public/ifesm/hero_industrial.png';
-import featured_mobile_banner from '../../../../public/ifesm/hero_industrial.png';
+import big_banner from '../../../../public/ifesm/hero_industrial.jpg';
+import featured_mobile_banner from '../../../../public/ifesm/hero_industrial.jpg';
 import ParallaxText from '@/components/Common/ParallaxImages';
 import companies_image from '../../../../public/ifesm/clients-1065x335.png';
 import { Wrapper, Inner, ImageContainer, ParallaxImages, Div } from './styles';

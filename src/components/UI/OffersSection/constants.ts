@@ -1,7 +1,7 @@
-import service_training from '../../../../public/ifesm/service_training.png';
-import service_fire_protection from '../../../../public/ifesm/service_fire_protection.png';
-import service_safety_audit from '../../../../public/ifesm/service_safety_audit.png';
-import worker_portrait from '../../../../public/ifesm/worker_portrait.png';
+import service_training from '../../../../public/ifesm/service_training.jpg';
+import service_fire_protection from '../../../../public/ifesm/service_fire_protection.jpg';
+import service_safety_audit from '../../../../public/ifesm/service_safety_audit.jpg';
+import worker_portrait from '../../../../public/ifesm/worker_portrait.jpg';
 // For desktop
 export const desktopHeaderPhrases = [
   '5 Industrial Safety',

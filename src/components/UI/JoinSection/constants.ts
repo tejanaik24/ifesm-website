@@ -1,5 +1,5 @@
 import { StaticImageData } from 'next/image';
-import worker_portrait from '../../../../public/ifesm/worker_portrait.png';
+import worker_portrait from '../../../../public/ifesm/worker_portrait.jpg';
 
 export type Props = {
   testimony: string;
