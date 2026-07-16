@@ -21,12 +21,9 @@ import {
   CheckCircle
 } from "lucide-react";
 import Navigation from "@/components/Navigation";
-import { EmberCanvas } from "@/components/EmberCanvas";
-import HeroWebGL from "@/components/home/HeroWebGL";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import FounderMessage from "@/components/home/FounderMessage";
 import MagneticButton from "@/components/home/MagneticButton";
-import { hasWebGL } from "@/lib/webgl-support";
 import { COMPANY, waLink } from "@/lib/data/company";
 
 if (typeof window !== "undefined") {
@@ -116,7 +113,6 @@ export default function Home() {
   const clientRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
-  const heroImgRef = useRef<HTMLDivElement>(null);
   const contactFormRef = useRef<HTMLFormElement>(null);
 
   // Form State
@@ -126,14 +122,6 @@ export default function Home() {
     service: "General Enquiry",
     message: ""
   });
-
-  // WebGL detection for hero particle fallback
-  const [webglOk, setWebglOk] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setWebglOk(hasWebGL() && !prefersReducedMotion);
-  }, []);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -150,23 +138,6 @@ Message: ${formData.message}`;
     // -------------------------------------------------------------
     // SPYLT-QUALITY ANIMATIONS
     // -------------------------------------------------------------
-    let heroRaf = 0;
-    let heroMX = 0, heroMY = 0, heroSX = 0, heroSY = 0;
-    const onHeroMouse = (e: MouseEvent) => {
-      heroMX = (e.clientX / window.innerWidth - 0.5) * 2;
-      heroMY = (e.clientY / window.innerHeight - 0.5) * 2;
-    };
-    window.addEventListener("mousemove", onHeroMouse);
-    const heroImgTick = () => {
-      heroSX += (heroMX - heroSX) * 0.04;
-      heroSY += (heroMY - heroSY) * 0.04;
-      if (heroImgRef.current) {
-        heroImgRef.current.style.transform = `perspective(1000px) rotateY(${heroSX * 4}deg) rotateX(${-heroSY * 3}deg) scale(1.05)`;
-      }
-      heroRaf = requestAnimationFrame(heroImgTick);
-    };
-    heroRaf = requestAnimationFrame(heroImgTick);
-
     const ctx = gsap.context(() => {
       // 1. Hero — scroll-driven tilt + scale out + text fade (SPYLT pattern)
       const heroTl = gsap.timeline({
@@ -516,8 +487,6 @@ Message: ${formData.message}`;
     }, containerRef);
 
     return () => {
-      cancelAnimationFrame(heroRaf);
-      window.removeEventListener("mousemove", onHeroMouse);
       ctx.revert();
     };
   }, []);
@@ -535,7 +504,7 @@ Message: ${formData.message}`;
         className="hero-section scroll-section relative h-screen w-full flex items-center justify-center bg-white overflow-hidden"
       >
         {/* Background Image — Grey Silver Refinery (matches reference style) */}
-        <div ref={heroImgRef} className="absolute inset-0 z-0 will-change-transform">
+        <div className="absolute inset-0 z-0">
           <Image
             src="/hero_industrial.png"
             alt="Industrial Refinery — IFESM Fire Safety Operations"
@@ -549,10 +518,6 @@ Message: ${formData.message}`;
             background: 'linear-gradient(to top, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.60) 30%, rgba(255,255,255,0.25) 60%, rgba(255,255,255,0.0) 100%)'
           }} />
         </div>
-
-        {/* Ambient Embers / WebGL */}
-        {webglOk === true && <HeroWebGL />}
-        {webglOk === false && <EmberCanvas />}
 
         {/* Hero Content */}
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-[#3A3A3A] hero-text mt-16">
