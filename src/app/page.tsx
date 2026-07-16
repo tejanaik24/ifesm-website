@@ -150,7 +150,6 @@ Message: ${formData.message}`;
       });
       heroTl.to(".hero-bg-img", { scale: 1.15, y: 120, ease: "none" }, 0);
       heroTl.to(".hero-text", { opacity: 0, y: -80, scale: 0.95, ease: "none" }, 0);
-      heroTl.to(".hero-section", { rotate: 1.5, scale: 0.92, ease: "none" }, 0);
 
       // 2. Blueprint — clip-path curtain reveal + staggered labels
       gsap.fromTo(
