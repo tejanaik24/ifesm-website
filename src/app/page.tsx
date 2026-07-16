@@ -150,6 +150,23 @@ Message: ${formData.message}`;
     // -------------------------------------------------------------
     // SPYLT-QUALITY ANIMATIONS
     // -------------------------------------------------------------
+    let heroRaf = 0;
+    let heroMX = 0, heroMY = 0, heroSX = 0, heroSY = 0;
+    const onHeroMouse = (e: MouseEvent) => {
+      heroMX = (e.clientX / window.innerWidth - 0.5) * 2;
+      heroMY = (e.clientY / window.innerHeight - 0.5) * 2;
+    };
+    window.addEventListener("mousemove", onHeroMouse);
+    const heroImgTick = () => {
+      heroSX += (heroMX - heroSX) * 0.04;
+      heroSY += (heroMY - heroSY) * 0.04;
+      if (heroImgRef.current) {
+        heroImgRef.current.style.transform = `perspective(1000px) rotateY(${heroSX * 4}deg) rotateX(${-heroSY * 3}deg) scale(1.05)`;
+      }
+      heroRaf = requestAnimationFrame(heroImgTick);
+    };
+    heroRaf = requestAnimationFrame(heroImgTick);
+
     const ctx = gsap.context(() => {
       // 1. Hero — scroll-driven tilt + scale out + text fade (SPYLT pattern)
       const heroTl = gsap.timeline({
@@ -163,31 +180,6 @@ Message: ${formData.message}`;
       heroTl.to(".hero-bg-img", { scale: 1.15, y: 120, ease: "none" }, 0);
       heroTl.to(".hero-text", { opacity: 0, y: -80, scale: 0.95, ease: "none" }, 0);
       heroTl.to(".hero-section", { rotate: 1.5, scale: 0.92, ease: "none" }, 0);
-
-      // Hero image — mouse-reactive tilt
-      let heroMX = 0, heroMY = 0, heroSX = 0, heroSY = 0;
-      const handleHeroMouse = (e: MouseEvent) => {
-        heroMX = (e.clientX / window.innerWidth - 0.5) * 2;
-        heroMY = (e.clientY / window.innerHeight - 0.5) * 2;
-      };
-      window.addEventListener("mousemove", handleHeroMouse);
-      const heroImgTick = () => {
-        heroSX += (heroMX - heroSX) * 0.04;
-        heroSY += (heroMY - heroSY) * 0.04;
-        if (heroImgRef.current) {
-          heroImgRef.current.style.transform = `perspective(1000px) rotateY(${heroSX * 4}deg) rotateX(${-heroSY * 3}deg) scale(1.05)`;
-        }
-        requestAnimationFrame(heroImgTick);
-      };
-      const heroRaf = requestAnimationFrame(heroImgTick);
-
-      // Cleanup mouse listener + raf on context revert
-      const origRevert = ctx.revert.bind(ctx);
-      ctx.revert = () => {
-        window.removeEventListener("mousemove", handleHeroMouse);
-        cancelAnimationFrame(heroRaf);
-        origRevert();
-      };
 
       // 2. Blueprint — clip-path curtain reveal + staggered labels
       gsap.fromTo(
@@ -524,6 +516,8 @@ Message: ${formData.message}`;
     }, containerRef);
 
     return () => {
+      cancelAnimationFrame(heroRaf);
+      window.removeEventListener("mousemove", onHeroMouse);
       ctx.revert();
     };
   }, []);
