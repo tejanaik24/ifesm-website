@@ -4,10 +4,10 @@ import ic_circle_stack from '../../../../public/svgs/ic_circle_stack.svg';
 import ic_arrows_left_right from '../../../../public/svgs/ic_arrows_right_left.svg';
 
 // For desktop
-export const desktopHeaderPhrase = ['Engineered for', 'Zero-Failure Operations'];
+export const desktopHeaderPhrase = ['25 Years.', 'Zero Shortcuts.'];
 export const desktopParagraphPhrase = [
-  'IFESM is the B2B industrial services division of the NIFS Group.',
-  'Headquartered in Visakhapatnam, we set the safety standard for major MNCs.',
+  '55+ MNC & Govt sites protected since 2001.',
+  'ISO 9001:2015 certified. MSME approved.',
 ];
 export const desktopBriefNotePhrase = [
   '25+ years operative,',
@@ -17,11 +17,10 @@ export const desktopBriefNotePhrase = [
 ];
 
 // For mobile
-export const mobileHeaderPhrase = ['Engineered for', 'Zero-Failure Ops'];
+export const mobileHeaderPhrase = ['25 Years.', 'Zero Shortcuts.'];
 export const mobileParagraphPhrase = [
-  'IFESM is the B2B industrial services division of',
-  'the NIFS Group, headquartered in Visakhapatnam,',
-  'setting the safety standard for major MNCs.',
+  '55+ MNC & Govt sites protected since 2001.',
+  'ISO 9001:2015 certified. MSME approved.',
 ];
 
 export const mobileBriefNotePhrase = [

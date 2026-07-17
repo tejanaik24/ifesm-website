@@ -62,8 +62,7 @@ export const BannerCtn = styled.div`
   margin-bottom: 5rem;
   width: 100%;
   position: relative;
-  width: 100%;
-  height: 38.4375rem;
+  aspect-ratio: 510 / 289;
   overflow: hidden;
   border-radius: 0.75rem;
 
@@ -73,7 +72,7 @@ export const BannerCtn = styled.div`
   }
 
   @media (max-width: 768px) {
-    height: auto;
+    aspect-ratio: 510 / 289;
   }
 `;
 
@@ -132,3 +131,43 @@ export const BriefNote = styled.div`
     }
   }
 `;
+
+export const TickerStrip = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  padding: 0.45rem 0;
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+`;
+
+export const TickerTrack = styled.div`
+  display: flex;
+  gap: 3rem;
+  white-space: nowrap;
+  animation: ticker-scroll 28s linear infinite;
+
+  @keyframes ticker-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  span {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #d4f5e5;
+  }
+`;
+

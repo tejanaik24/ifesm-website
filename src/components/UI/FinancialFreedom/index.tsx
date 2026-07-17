@@ -9,14 +9,15 @@ import {
   Edge,
   Title,
   BriefNote,
+  TickerStrip,
+  TickerTrack,
 } from './styles';
 import MaskText from '@/components/Common/MaskText';
 import RevealCover from '@/components/Common/RevealCover';
 import { Div } from '../Featured/styles';
 import { imageVariants } from '../Featured';
 import { useIsMobile } from '../../../../libs/useIsMobile';
-import financial_freedom_banner from '../../../../public/ifesm/banner2-1266x461.jpg';
-import freedom_mobile_banner from '../../../../public/ifesm/banner2-1266x461.jpg';
+import training_banner from '../../../../public/ifesm/dsc03726-510x289.jpg';
 import {
   desktopBriefNotePhrase,
   desktopHeaderPhrase,
@@ -54,12 +55,25 @@ const FinancialFreedom = () => {
             whileInView="visible"
             viewport={{ amount: 0.25, once: true }}
           >
-            {isMobile ? (
-              <Image src={freedom_mobile_banner} alt="banner_img" fill />
-            ) : (
-              <Image src={financial_freedom_banner} alt="banner_img" fill />
-            )}
+            <Image src={training_banner} alt="IFESM fire safety training drill" fill sizes="90vw" />
           </Div>
+          <TickerStrip>
+            <TickerTrack>
+              <span>SITE 014 — HIRA AUDIT — CLEARED</span>
+              <span>SITE 027 — FIRE FIGHTING TRAINING — 0 INCIDENTS</span>
+              <span>SITE 031 — CONFINED SPACE ENTRY — CLEARED</span>
+              <span>SITE 038 — WORK AT HEIGHT — CLEARED</span>
+              <span>SITE 042 — SCAFFOLDING INSPECTION — CLEARED</span>
+              <span>SITE 049 — LOTO AUDIT — CLEARED</span>
+              {/* Duplicate for seamless loop */}
+              <span>SITE 014 — HIRA AUDIT — CLEARED</span>
+              <span>SITE 027 — FIRE FIGHTING TRAINING — 0 INCIDENTS</span>
+              <span>SITE 031 — CONFINED SPACE ENTRY — CLEARED</span>
+              <span>SITE 038 — WORK AT HEIGHT — CLEARED</span>
+              <span>SITE 042 — SCAFFOLDING INSPECTION — CLEARED</span>
+              <span>SITE 049 — LOTO AUDIT — CLEARED</span>
+            </TickerTrack>
+          </TickerStrip>
         </BannerCtn>
         <Edges>
           {edges.map((edge, i) => (
