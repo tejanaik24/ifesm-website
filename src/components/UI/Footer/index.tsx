@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import ifesm_logo from '../../../../public/ifesm/ifesm-logo.png';
 import ic_chevron_down from '../../../../public/svgs/ic_chevron_down.svg';
 import ic_copyright from '../../../../public/svgs/ic_copyright.svg';
@@ -6,15 +7,26 @@ import ic_copyright from '../../../../public/svgs/ic_copyright.svg';
 const linksArr = [
   {
     title: 'Company',
-    links: ['Company Profile', 'Careers', 'Our Clients'],
+    links: [
+      { title: 'Company Profile', url: '/profile' },
+      { title: 'Careers', url: '/profile' },
+      { title: 'Our Clients', url: '/clients' },
+    ],
   },
   {
     title: 'Services',
-    links: ['Corporate Training', 'Safety Audits', 'Turnkey Projects'],
+    links: [
+      { title: 'Corporate Training', url: '/training' },
+      { title: 'Safety Audits', url: '/services' },
+      { title: 'Turnkey Projects', url: '/services' },
+    ],
   },
   {
     title: 'Get in Touch',
-    links: ['Contact Us', 'Training Gallery'],
+    links: [
+      { title: 'Contact Us', url: '/contact' },
+      { title: 'Training Gallery', url: '/gallery' },
+    ],
   },
 ];
 
@@ -56,7 +68,9 @@ const Footer = () => {
                   <h3>{l.title}</h3>
                   <LinksContainer>
                     {l.links.map((link, i) => (
-                      <li key={i}>{link}</li>
+                      <li key={i}>
+                        <Link href={link.url}>{link.title}</Link>
+                      </li>
                     ))}
                   </LinksContainer>
                 </GridColumn>

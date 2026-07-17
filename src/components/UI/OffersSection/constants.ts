@@ -1,23 +1,10 @@
-import service_training from '../../../../public/ifesm/service_training.jpg';
-import service_fire_protection from '../../../../public/ifesm/service_fire_protection.jpg';
-import service_safety_audit from '../../../../public/ifesm/service_safety_audit.jpg';
-import worker_portrait from '../../../../public/ifesm/worker_portrait.jpg';
-// For desktop
-export const desktopHeaderPhrases = [
-  '5 Industrial Safety',
-  'Pillars from IFESM',
-];
-export const desktopParagraphPhrase = [
-  'IFESM offers a full range of industrial fire and safety solutions. From training to audits,',
-  "we've got you covered. Talk to us and secure your facility today.",
-];
+import service_training from '../../../../public/ifesm/offer_corporate_training.png';
+import service_fire_protection from '../../../../public/ifesm/offer_cmc_amc.png';
+import service_safety_audit from '../../../../public/ifesm/offer_safety_hira.png';
+import worker_portrait from '../../../../public/ifesm/offer_manpower.png';
+import ifesm_logo from '../../../../public/ifesm/ifesm-logo.png';
 
-// For mobile
-export const mobileParagraphPhrase = [
-  'IFESM offers a full range of industrial fire and',
-  'safety solutions. From training to audits,',
-  "we've got you covered.",
-];
+export { ifesm_logo };
 
 export const offers = [
   {

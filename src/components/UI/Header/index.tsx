@@ -14,6 +14,7 @@ import ifesm_logo from '../../../../public/ifesm/ifesm-logo.png';
 import ic_bars from '../../../../public/svgs/ic_bars.svg';
 import { GetStartedButton } from '@/components';
 import AnimatedLink from '@/components/Common/AnimatedLink';
+import Link from 'next/link';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { links, menu } from './constants';
@@ -36,11 +37,15 @@ const Header = () => {
         </LogoContainer>
         <Nav className={isOpen ? 'active' : ''}>
           {links.map((link, i) => (
-            <AnimatedLink key={i} title={link.linkTo} />
+            <Link key={i} href={link.url}>
+              <AnimatedLink title={link.linkTo} />
+            </Link>
           ))}
         </Nav>
         <CallToActions className={isOpen ? 'active' : ''}>
-          <AnimatedLink title="Careers" />
+          <Link href="/profile">
+            <AnimatedLink title="Careers" />
+          </Link>
           <GetStartedButton padding="0.5rem 0.75rem" />
         </CallToActions>
       </Inner>

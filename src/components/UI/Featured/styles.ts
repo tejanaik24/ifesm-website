@@ -8,7 +8,7 @@ export const Inner = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 6.25rem auto 0;
+  margin: 3.5rem auto 0;
   max-width: 1440px;
   width: 90%;
 

@@ -38,9 +38,17 @@ const Featured = () => {
                 src={featured_mobile_banner}
                 alt="featured_mobile_banner"
                 fill
+                priority
+                sizes="100vw"
               />
             ) : (
-              <Image src={big_banner} alt="big_banner" fill />
+              <Image
+                src={big_banner}
+                alt="big_banner"
+                fill
+                priority
+                sizes="90vw"
+              />
             )}
           </Div>
         </ImageContainer>

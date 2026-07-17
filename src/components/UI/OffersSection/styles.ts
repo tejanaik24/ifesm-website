@@ -1,209 +1,119 @@
 'use client';
 import { styled } from 'styled-components';
-import grid_background from '../../../../public/images/offer_card_grid_1.png';
 
-export const Wrapper = styled.section``;
+export const ScrollTrack = styled.div<{ $pages: number }>`
+  position: relative;
+  height: ${({ $pages }) => $pages * 100}vh;
+`;
 
-export const Inner = styled.div`
-  max-width: 1440px;
-  width: 90%;
-  margin: 12.38rem auto 0;
+export const StickyViewport = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--Background);
+`;
 
-  @media (max-width: 768px) {
-    margin-top: 6.44rem;
+export const BookViewport = styled.div`
+  position: relative;
+  width: min(100%, 36rem, 92vh * 460 / 620);
+  aspect-ratio: 460 / 620;
+  margin: 0 auto;
+  perspective: 2200px;
+  border-radius: 0.75rem;
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  transition: opacity 0.15s linear, transform 0.15s linear;
+  will-change: opacity, transform;
+`;
+
+export const FlipCard = styled.div<{ $flipped: boolean; $z: number }>`
+  position: absolute;
+  inset: 0;
+  z-index: ${({ $z }) => $z};
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transition: transform 0.8s cubic-bezier(0.45, 0.05, 0.15, 1);
+  transform: rotateY(${({ $flipped }) => ($flipped ? '-180deg' : '0deg')});
+  backface-visibility: hidden;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  filter: ${({ $flipped }) =>
+    $flipped ? 'brightness(0.85)' : 'brightness(1)'};
+`;
+
+export const CoverPage = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--Background);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  img {
+    width: 60%;
+    height: auto;
+    object-fit: contain;
   }
 `;
 
-export const Header = styled.header`
+export const ServicePage = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  text-align: center;
-  max-width: 56rem;
-  margin: 0 auto 6.75rem;
-
-  h1 {
-    font-size: 4.75rem;
-    font-weight: 400;
-  }
-
-  p {
-    max-width: 41.75rem;
-    color: #989898;
-    font-size: 1.25rem;
-    font-weight: 400;
-    line-height: 1.75rem;
-  }
-
-  @media (max-width: 768px) {
-    h1 {
-      font-size: 2.25rem;
-    }
-
-    p {
-      font-size: 1rem;
-      line-height: 1.5rem;
-    }
-  }
+  background: var(--Background);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 `;
 
-export const ImageCtn = styled.div`
-  margin: 3rem auto 0;
+export const PagePhoto = styled.div`
   position: relative;
-  display: flex;
-
-  &::after {
-    position: absolute;
-    content: '';
-    height: 13.4375rem;
-    width: 100%;
-    background: linear-gradient(180deg, rgba(19, 19, 19, 0) 0%, #131313 100%);
-    left: 0;
-    top: 50px;
-  }
+  width: 100%;
+  aspect-ratio: 4 / 3;
 
   img {
     width: 100%;
-    object-fit: contain;
-  }
-
-  @media (max-width: 768px) {
-    margin: 0.32rem auto 0;
-
-    &::after {
-      top: 30px;
-    }
-
-    img {
-      width: 90%;
-      margin: 0 auto;
-      object-fit: contain;
-    }
+    height: 100%;
+    object-fit: cover;
   }
 `;
 
-export const TextCtn = styled.div`
-  padding: 2.5rem;
-  padding-top: 3.25rem;
-  max-width: 32.25rem;
+export const PageText = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-top: auto;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem 2rem;
 
   h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 500;
-    line-height: 1.75rem;
+    color: var(--white);
   }
 
   p {
     color: var(--link-color);
     font-size: 1rem;
-    font-weight: 400;
     line-height: 1.5rem;
   }
 
   @media (max-width: 768px) {
-    padding: 1.5rem;
+    padding: 1rem 1.25rem;
+
     h2 {
-      font-size: 1.5rem;
-    }
-  }
-`;
-
-export const Offers = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-
-  &:last-child {
-    margin-top: 2rem;
-
-    div:first-child {
-      flex: 1;
-
-      ${ImageCtn} {
-        margin-top: 5.7rem;
-        flex: 2;
-      }
-
-      ${TextCtn} {
-        height: 1em;
-        flex: 1;
-      }
+      font-size: 1.25rem;
     }
 
-    div:last-child {
-      flex: 2;
-
-      ${ImageCtn} {
-        margin-top: 5.7rem;
-        flex: 2;
-        margin-left: auto;
-      }
-
-      ${TextCtn} {
-        height: 1em;
-        flex: 1;
-      }
-    }
-  }
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-
-    &:last-child {
-      div:first-child {
-        flex: 1;
-
-        ${ImageCtn} {
-          margin-top: 4.78rem;
-          flex: 1;
-        }
-
-        ${TextCtn} {
-          margin-top: 4rem;
-        }
-      }
-
-      div:last-child {
-        flex: 1;
-
-        ${ImageCtn} {
-          margin-top: 5.7rem;
-          flex: 1;
-          margin-left: auto;
-        }
-
-        ${TextCtn} {
-          margin-top: 2rem;
-        }
-      }
-    }
-  }
-`;
-
-export const OfferCard = styled.div`
-  overflow: hidden;
-  height: 31.25rem;
-  border-radius: 0.75rem;
-  border: 1px solid var(--stroke, rgba(255, 255, 255, 0.04));
-  display: flex;
-  flex-direction: column;
-  background: url(${grid_background.src}) #131313 no-repeat;
-
-  &:first-child {
-    flex: 2;
-  }
-
-  &:nth-child(2) {
-    flex: 1;
-
-    ${ImageCtn} {
-      margin-left: 2.5rem;
-      width: 100%;
+    p {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
     }
   }
 `;

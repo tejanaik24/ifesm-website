@@ -23,26 +23,27 @@ const Preloader = ({
     tl.to(imageRef.current, {
       rotate: '360deg',
       ease: 'back.out(1.7)', // Easing function
-      duration: 1.4,
+      duration: 0.35,
     });
     tl.to(imageRef.current, {
       y: '-100%', // Move the spans up
       ease: 'back.out(1.7)', // Easing function
+      duration: 0.2,
     });
     // Iterate through the span elements and animate them
     tl.to(spans.current, {
       y: '-100%', // Move the spans up
       ease: 'back.out(1.7)', // Easing function
-      duration: 1.4, // Animation duration
-      stagger: 0.05, // Stagger duration (0.2 seconds delay between each span)
+      duration: 0.35, // Animation duration
+      stagger: 0.02, // Stagger duration between each span
     });
     // Animate both the wrapper and the second overlay almost at the same time
     tl.to([wrapperRef.current, secondOverlayRef.current], {
       scaleY: 0,
       transformOrigin: 'top',
       ease: 'back.out(1.7)',
-      duration: 1,
-      stagger: 0.2,
+      duration: 0.3,
+      stagger: 0.05,
       onComplete: () => {
         setComplete(true);
       },
@@ -53,8 +54,8 @@ const Preloader = ({
       scaleY: 0,
       transformOrigin: 'top',
       ease: [0.83, 0, 0.17, 1] as any,
-      duration: 1,
-      delay: -0.9, // Adjust this delay as needed to fine-tune the timing
+      duration: 0.3,
+      delay: -0.25, // Adjust this delay as needed to fine-tune the timing
     });
   }, [setComplete]);
 

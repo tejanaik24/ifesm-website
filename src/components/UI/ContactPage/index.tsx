@@ -1,0 +1,69 @@
+'use client';
+import { FormEvent } from 'react';
+import PageHeader from '@/components/UI/PageHeader';
+import { Wrapper, InfoCard, Form } from './styles';
+
+const CONTACT_EMAIL = 'headoffice@nifsindia.com';
+
+const ContactPage = () => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const name = (form.elements.namedItem('name') as HTMLInputElement).value;
+    const email = (form.elements.namedItem('email') as HTMLInputElement).value;
+    const phone = (form.elements.namedItem('phone') as HTMLInputElement).value;
+    const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value;
+
+    const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\n${message}`;
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+      'Website Enquiry'
+    )}&body=${encodeURIComponent(body)}`;
+  };
+
+  return (
+    <>
+      <PageHeader
+        title="Contact Us"
+        subtitle="Reach out for corporate training, audits, or turnkey fire safety projects."
+      />
+      <Wrapper>
+        <InfoCard>
+          <h3>Address</h3>
+          <p>10-134, Sadguru Towers, Malatamba Rd, PM Palem, Visakhapatnam, Andhra Pradesh 530041</p>
+          <h3>Contact</h3>
+          <p>
+            <a href="mailto:headoffice@nifsindia.com">headoffice@nifsindia.com</a>
+            <br />
+            <a href="tel:+918885099004">+91 88850 99004</a>
+            <br />
+            <a href="tel:+919246615282">+91 92466 15282</a>
+          </p>
+          <h3>Hours</h3>
+          <p>Mon – Sat, 9AM to 6PM</p>
+        </InfoCard>
+
+        <Form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="name">Name</label>
+            <input id="name" name="name" type="text" required />
+          </div>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input id="email" name="email" type="email" required />
+          </div>
+          <div>
+            <label htmlFor="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" />
+          </div>
+          <div>
+            <label htmlFor="message">Message</label>
+            <textarea id="message" name="message" />
+          </div>
+          <button type="submit">Send Enquiry</button>
+        </Form>
+      </Wrapper>
+    </>
+  );
+};
+
+export default ContactPage;
