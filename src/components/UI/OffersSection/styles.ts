@@ -1,5 +1,6 @@
 'use client';
 import { styled } from 'styled-components';
+import { motion } from 'framer-motion';
 
 export const ScrollTrack = styled.div<{ $pages: number }>`
   position: relative;
@@ -115,5 +116,80 @@ export const PageText = styled.div`
       font-size: 0.875rem;
       line-height: 1.25rem;
     }
+  }
+`;
+
+export const MobileWrapper = styled.section`
+  padding: 5rem 0;
+  width: 90%;
+  max-width: 80rem;
+  margin: 0 auto;
+  position: relative;
+`;
+
+export const MobileHeader = styled.div`
+  text-align: center;
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
+  h2 {
+    font-size: 2.25rem;
+    font-weight: 500;
+  }
+  
+  p {
+    font-size: 1rem;
+    color: var(--link-color);
+  }
+`;
+
+export const MobileCardsList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+export const MobileCard = styled(motion.div)`
+  position: relative;
+  background: var(--Background);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 -0.25rem 1rem rgba(0, 0, 0, 0.05), 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
+  transform-origin: top center;
+  margin-bottom: 2.5rem;
+  will-change: transform;
+`;
+
+export const MobileImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+export const MobileCardText = styled.div`
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  
+  h3 {
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--white);
+  }
+  
+  p {
+    font-size: 0.95rem;
+    line-height: 1.4rem;
+    color: var(--link-color);
   }
 `;

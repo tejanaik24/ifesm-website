@@ -3,6 +3,8 @@ import {
   Featured,
   FinancialFuture,
   FinancilaFreedom,
+  CompanyIntro,
+  OfflineOnlineTraining,
   HeroSection,
   IntroSection,
   JoinSection,
@@ -17,6 +19,8 @@ export default function Home() {
       <OffersSection />
       <FinancilaFreedom />
       <FinancialFuture />
+      <CompanyIntro />
+      <OfflineOnlineTraining />
       <IntroSection />
       <JoinSection />
       <FAQ />

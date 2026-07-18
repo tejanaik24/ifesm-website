@@ -1,6 +1,5 @@
 'use client';
 import { styled } from 'styled-components';
-import card_grid from '../../../../public/images/card_grid.png';
 
 export const Wrapper = styled.section`
   padding-top: 7.75rem;
@@ -60,9 +59,20 @@ export const Card = styled.div`
   border-radius: 0.75rem;
   border: 1px solid var(--stroke, rgba(255, 255, 255, 0.04));
   background: #131313;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+
+  &:hover {
+    transform: translateY(-0.375rem);
+    box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.25);
+  }
 
   @media (max-width: 768px) {
     height: 27.5rem;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
   }
 `;
 
@@ -102,19 +112,46 @@ export const TextCtn = styled.div`
 `;
 
 export const SVGCtn = styled.div`
-  background: url(${card_grid.src});
+  position: relative;
   height: 24.55rem;
-  display: grid;
-  place-items: center;
+  overflow: hidden;
+
+  img {
+    object-fit: cover;
+  }
 
   @media (max-width: 768px) {
     height: 15.28219rem;
-    background-position: center center;
-    background-size: contain;
+  }
+`;
+
+export const IconBadge = styled.div`
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--emerald);
+  display: grid;
+  place-items: center;
+  z-index: 1;
+
+  img {
+    width: 1.5rem;
+    height: 1.5rem;
+    object-fit: contain;
+  }
+
+  @media (max-width: 768px) {
+    width: 2.5rem;
+    height: 2.5rem;
+    top: 1rem;
+    left: 1rem;
 
     img {
-      width: 7.5rem;
-      height: 7.5rem;
+      width: 1.25rem;
+      height: 1.25rem;
     }
   }
 `;
@@ -172,20 +209,3 @@ export const Stat = styled.div`
 //   font-weight: 500;
 //   text-transform: uppercase;
 // `;
-
-export const Banner = styled.div`
-  height: 45rem;
-  width: 100%;
-  position: relative;
-
-  img {
-    object-fit: cover;
-  }
-
-  @media (max-width: 768px) {
-    height: 31.25rem;
-    img {
-      object-fit: contain;
-    }
-  }
-`;

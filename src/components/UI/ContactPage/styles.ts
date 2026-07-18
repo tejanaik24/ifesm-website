@@ -1,21 +1,46 @@
 'use client';
 import { styled } from 'styled-components';
+import GhostMotif from '@/components/Common/GhostMotif';
 
 export const Wrapper = styled.section`
+  position: relative;
   width: 90%;
-  max-width: 60rem;
-  margin: 0 auto 6rem;
+  max-width: 70rem;
+  margin: 4rem auto 6rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 4rem;
+  z-index: 1;
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     grid-template-columns: 1fr;
+    gap: 3rem;
+    overflow: hidden;
+  }
+`;
+
+export const InfoColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+`;
+
+export const ImageCtn = styled.div`
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.12);
+
+  img {
+    border-radius: 1rem;
+    object-fit: cover;
   }
 `;
 
 export const InfoCard = styled.div`
-  padding: 2rem;
+  padding: 2.5rem;
   border-radius: 1rem;
   background: rgba(0, 0, 0, 0.03);
   border: 1px solid rgba(0, 0, 0, 0.08);
@@ -24,6 +49,7 @@ export const InfoCard = styled.div`
     font-size: 1.125rem;
     font-weight: 600;
     padding-bottom: 0.5rem;
+    color: var(--white);
   }
 
   p {
@@ -31,6 +57,10 @@ export const InfoCard = styled.div`
     font-size: 1rem;
     line-height: 1.5rem;
     padding-bottom: 1.5rem;
+  }
+
+  p:last-child {
+    padding-bottom: 0;
   }
 
   a {
@@ -42,7 +72,7 @@ export const InfoCard = styled.div`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
 
   label {
     font-size: 0.875rem;
@@ -54,7 +84,7 @@ export const Form = styled.form`
   input,
   textarea {
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 0.85rem 1.15rem;
     border-radius: 0.5rem;
     border: 1px solid rgba(0, 0, 0, 0.15);
     background: var(--Background);
@@ -64,13 +94,13 @@ export const Form = styled.form`
   }
 
   textarea {
-    min-height: 7rem;
+    min-height: 9.5rem;
     resize: vertical;
   }
 
   button {
     margin-top: 0.5rem;
-    padding: 0.875rem 2rem;
+    padding: 0.875rem 2.25rem;
     border: none;
     border-radius: 3rem;
     background: var(--green);
@@ -78,5 +108,14 @@ export const Form = styled.form`
     font-weight: 600;
     cursor: pointer;
     align-self: flex-start;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: var(--emerald);
+    }
   }
+`;
+
+export const MirroredMotif = styled(GhostMotif)`
+  transform: scaleX(-1) rotate(45deg);
 `;

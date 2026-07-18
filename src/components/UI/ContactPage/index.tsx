@@ -1,7 +1,11 @@
 'use client';
 import { FormEvent } from 'react';
+import Image from 'next/image';
 import PageHeader from '@/components/UI/PageHeader';
-import { Wrapper, InfoCard, Form } from './styles';
+import { Wrapper, InfoColumn, ImageCtn, InfoCard, Form, MirroredMotif } from './styles';
+
+import contact_banner from '../../../../public/ifesm/pageheader-contact-banner.jpg';
+import contact_office from '../../../../public/ifesm/contact-office.jpg';
 
 const CONTACT_EMAIL = 'headoffice@nifsindia.com';
 
@@ -25,22 +29,40 @@ const ContactPage = () => {
       <PageHeader
         title="Contact Us"
         subtitle="Reach out for corporate training, audits, or turnkey fire safety projects."
+        image={contact_banner}
       />
       <Wrapper>
-        <InfoCard>
-          <h3>Address</h3>
-          <p>10-134, Sadguru Towers, Malatamba Rd, PM Palem, Visakhapatnam, Andhra Pradesh 530041</p>
-          <h3>Contact</h3>
-          <p>
-            <a href="mailto:headoffice@nifsindia.com">headoffice@nifsindia.com</a>
-            <br />
-            <a href="tel:+918885099004">+91 88850 99004</a>
-            <br />
-            <a href="tel:+919246615282">+91 92466 15282</a>
-          </p>
-          <h3>Hours</h3>
-          <p>Mon – Sat, 9AM to 6PM</p>
-        </InfoCard>
+        <MirroredMotif
+          variant="blueprint"
+          position={{ bottom: '-5%', left: '-5%' }}
+          size={240}
+          opacity={0.08}
+        />
+        <InfoColumn>
+          <ImageCtn>
+            <Image
+              src={contact_office}
+              alt="IFESM office in Visakhapatnam"
+              fill
+              sizes="(max-width: 900px) 90vw, 450px"
+              priority
+            />
+          </ImageCtn>
+          <InfoCard>
+            <h3>Address</h3>
+            <p>10-134, Sadguru Towers, Malatamba Rd, PM Palem, Visakhapatnam, Andhra Pradesh 530041</p>
+            <h3>Contact</h3>
+            <p>
+              <a href="mailto:headoffice@nifsindia.com">headoffice@nifsindia.com</a>
+              <br />
+              <a href="tel:+918885099004">+91 88850 99004</a>
+              <br />
+              <a href="tel:+919246615282">+91 92466 15282</a>
+            </p>
+            <h3>Hours</h3>
+            <p>Mon – Sat, 9AM to 6PM</p>
+          </InfoCard>
+        </InfoColumn>
 
         <Form onSubmit={handleSubmit}>
           <div>

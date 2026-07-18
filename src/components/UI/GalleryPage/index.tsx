@@ -3,6 +3,7 @@ import Image from 'next/image';
 import PageHeader from '@/components/UI/PageHeader';
 import { Wrapper, Grid, GridItem } from './styles';
 import { galleryPhotos } from '@/components/UI/TrainingPage/constants';
+import facility_banner from '../../../../public/ifesm/pageheader-facility-banner.jpg';
 
 const GalleryPage = () => {
   return (
@@ -10,6 +11,7 @@ const GalleryPage = () => {
       <PageHeader
         title="Training Gallery"
         subtitle="A look at IFESM training sessions and drills, on real sites, with real teams."
+        image={facility_banner}
       />
       <Wrapper>
         <Grid>

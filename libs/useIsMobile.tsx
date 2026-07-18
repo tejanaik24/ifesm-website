@@ -2,25 +2,21 @@
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
-const isClient = typeof window === 'object';
-
 export const useIsMobile = () => {
   const pathname = usePathname();
-  const [isMobile, setIsMobile] = useState(isClient && window.innerWidth <= 768);
+  // Start false to match the server-rendered (desktop) markup; the real
+  // value is read after mount so hydration never sees a text mismatch.
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      const newIsMobile = window.innerWidth <= 768;
-      setIsMobile(newIsMobile);
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
     };
-
-    if (isClient) {
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      };
-    }
   }, [pathname]);
 
   return isMobile;

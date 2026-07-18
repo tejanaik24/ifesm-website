@@ -1,5 +1,4 @@
 'use client';
-import { useState } from 'react';
 import Image from 'next/image';
 import { Edge, Edges, Title } from '../FinancialFreedom/styles';
 import lola_card from '../../../../public/ifesm/dsc03614-510x289.jpg';
@@ -10,10 +9,9 @@ import {
   Inner,
   Header,
   HeaderMainText,
-  CardsContainer,
-  LeftImage,
-  MiddleImage,
-  RightImage,
+  Stage,
+  Carousel,
+  Card,
 } from './styles';
 import { MaskText } from '@/components';
 import { useIsMobile } from '../../../../libs/useIsMobile';
@@ -24,13 +22,25 @@ import {
   mobileHeaderPhrase,
   mobileParagraphPhrase,
 } from './constants';
+import GhostMotif from '@/components/Common/GhostMotif';
+
+const galleryPhotos = [
+  { src: orange_card, alt: 'IFESM training session' },
+  { src: lola_card, alt: 'IFESM safety drill' },
+  { src: terry_card, alt: 'IFESM facility deployment' },
+];
 
 const IntroSection = () => {
   const isMobile = useIsMobile();
-  const [isHovered, setIsHovered] = useState<boolean>(false);
 
   return (
     <Wrapper>
+      <GhostMotif
+        variant="smoke"
+        position={{ top: '15%', left: '8%' }}
+        size={280}
+        opacity={0.05}
+      />
       <Inner>
         <Header>
           <h3>Training Gallery</h3>
@@ -48,24 +58,15 @@ const IntroSection = () => {
             )}
           </HeaderMainText>
         </Header>
-        <CardsContainer>
-          <LeftImage
-            className={isHovered ? 'active' : ''}
-            src={orange_card}
-            alt="orange_atm_card"
-          />
-          <MiddleImage
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            src={lola_card}
-            alt="blue card"
-          />
-          <RightImage
-            className={isHovered ? 'active' : ''}
-            src={terry_card}
-            alt="terry card"
-          />
-        </CardsContainer>
+        <Stage>
+          <Carousel>
+            {galleryPhotos.map((photo, i) => (
+              <Card key={i} $index={i} $total={galleryPhotos.length} $radius={isMobile ? 120 : 340}>
+                <Image src={photo.src} alt={photo.alt} fill sizes="22rem" />
+              </Card>
+            ))}
+          </Carousel>
+        </Stage>
         <Edges>
           {edges.map((edge, i) => (
             <Edge key={i}>

@@ -1,7 +1,5 @@
 'use client';
 import Image from 'next/image';
-import future_banner from '../../../../public/ifesm/banner3-1266x461.jpg';
-import future_mobile_banner from '../../../../public/ifesm/banner3-1266x461.jpg';
 import {
   Wrapper,
   Inner,
@@ -10,9 +8,9 @@ import {
   Card,
   TextCtn,
   SVGCtn,
+  IconBadge,
   Stats,
   Stat,
-  Banner,
 } from './styles';
 import MaskText from '@/components/Common/MaskText';
 import { useIsMobile } from '../../../../libs/useIsMobile';
@@ -52,7 +50,10 @@ const FinancialFuture = () => {
                 <MaskText phrases={new Array(info.details)} tag="p" />
               </TextCtn>
               <SVGCtn>
-                <Image src={info.icon} alt="icon" />
+                <IconBadge>
+                  <Image src={info.icon} alt="icon" />
+                </IconBadge>
+                <Image src={info.image} alt={info.title} fill sizes="(max-width: 768px) 90vw, 45vw" />
               </SVGCtn>
             </Card>
           ))}
@@ -66,13 +67,6 @@ const FinancialFuture = () => {
           ))}
         </Stats>
       </Inner>
-      <Banner>
-        {isMobile ? (
-          <Image src={future_mobile_banner} alt="future_banner" fill />
-        ) : (
-          <Image src={future_banner} alt="future_banner" fill />
-        )}
-      </Banner>
     </Wrapper>
   );
 };

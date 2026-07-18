@@ -5,6 +5,8 @@ export { default as Featured } from './UI/Featured';
 export { default as OffersSection } from './UI/OffersSection';
 export { default as FinancilaFreedom } from './UI/FinancialFreedom';
 export { default as FinancialFuture } from './UI/FinancialFuture';
+export { default as CompanyIntro } from './UI/CompanyIntro';
+export { default as OfflineOnlineTraining } from './UI/OfflineOnlineTraining';
 export { default as IntroSection } from './UI/IntroSection';
 export { default as JoinSection } from './UI/JoinSection';
 export { default as FAQ } from './UI/FAQ';
@@ -18,3 +20,6 @@ export { default as ProfilePage } from './UI/ProfilePage';
 export { default as GalleryPage } from './UI/GalleryPage';
 export { default as ClientsPage } from './UI/ClientsPage';
 export { default as ContactPage } from './UI/ContactPage';
+export { default as GhostMotif } from './Common/GhostMotif';
+export { default as FloatingActions } from './Common/FloatingActions';
+

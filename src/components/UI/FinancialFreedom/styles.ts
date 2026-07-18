@@ -5,7 +5,7 @@ export const Wrapper = styled.section`
   margin-top: 11.25rem;
 
   @media (max-width: 768px) {
-    margint-top: 6.25rem;
+    margin-top: 6.25rem;
   }
 `;
 

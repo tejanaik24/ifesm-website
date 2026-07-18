@@ -1,13 +1,18 @@
+import turnkey_projects_photo from '../../../../public/ifesm/turnkey-projects.jpg';
+import design_installation_photo from '../../../../public/ifesm/design-installation-works.jpg';
+
 export const additionalServices = [
   {
     title: 'Turnkey Projects',
     details:
       'Design, Installation, Manning operations in Fire Engineering, Industrial Safety & Disaster Management.',
+    image: turnkey_projects_photo,
   },
   {
     title: 'Design & Installation Works',
     details:
       'Extinguishers, sprinkler systems, smoke detectors, access control systems, fire alarm systems, industrial safety equipment, building management systems, hydrant systems, FM-200 system, electronic services.',
+    image: design_installation_photo,
   },
 ];
 

@@ -19,8 +19,8 @@ export const Cards = styled.div`
 `;
 
 export const Card = styled.div`
-  padding: 2rem;
   border-radius: 1rem;
+  overflow: hidden;
   background: rgba(0, 0, 0, 0.03);
   border: 1px solid rgba(0, 0, 0, 0.08);
 
@@ -35,6 +35,20 @@ export const Card = styled.div`
     font-size: 1rem;
     line-height: 1.5rem;
   }
+`;
+
+export const CardImage = styled.div`
+  position: relative;
+  width: 100%;
+  aspect-ratio: 606 / 306;
+
+  img {
+    object-fit: cover;
+  }
+`;
+
+export const CardBody = styled.div`
+  padding: 2rem;
 `;
 
 export const ProgramListTitle = styled.h2`

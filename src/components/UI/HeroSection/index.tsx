@@ -19,6 +19,7 @@ import worker_portrait from '../../../../public/ifesm/worker_portrait.jpg';
 import { GetStartedButton } from '@/components';
 import MaskText from '@/components/Common/MaskText';
 import { useIsMobile } from '../../../../libs/useIsMobile';
+import GhostMotif from '@/components/Common/GhostMotif';
 import {
   credentials,
   mobileParagraphPhrases,
@@ -51,6 +52,13 @@ const HeroSection = () => {
 
   return (
     <Wrapper>
+      <GhostMotif
+        variant="blueprint"
+        position={{ top: '2%', right: '5%' }}
+        size={250}
+        opacity={0.08}
+        animateType="draw"
+      />
       <Inner>
         <Content>
           <Pill>

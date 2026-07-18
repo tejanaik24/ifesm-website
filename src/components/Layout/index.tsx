@@ -3,7 +3,7 @@
 import { ReactLenis } from '@studio-freight/react-lenis';
 import StyledComponentsRegistry from '../../../libs/registry';
 import { GlobalStyles } from './GlobalStyles';
-import { Footer, Header, Preloader } from '..';
+import { Footer, Header, Preloader, FloatingActions } from '..';
 import { useState } from 'react';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -12,7 +12,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <StyledComponentsRegistry>
       <ReactLenis
         root
-        easing={(t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t))}
+        options={{
+          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothTouch: false,
+        }}
       >
         <GlobalStyles />
         <Preloader setComplete={setComplete} />
@@ -20,6 +23,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <Header />
           {children}
           <Footer />
+          <FloatingActions />
         </div>
       </ReactLenis>
     </StyledComponentsRegistry>

@@ -9,6 +9,15 @@ import {
   CallToActions,
   AbsoluteLinks,
   BurgerMenu,
+  MobileHeaderWrapper,
+  MobileHeaderInner,
+  IconButton,
+  Backdrop,
+  Drawer,
+  DrawerContent,
+  DrawerNav,
+  DrawerLinkTitle,
+  DrawerCTA,
 } from './styles';
 import ifesm_logo from '../../../../public/ifesm/ifesm-logo.png';
 import ic_bars from '../../../../public/svgs/ic_bars.svg';
@@ -16,16 +25,86 @@ import { GetStartedButton } from '@/components';
 import AnimatedLink from '@/components/Common/AnimatedLink';
 import Link from 'next/link';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { links, menu } from './constants';
+import { useIsMobile } from '../../../../libs/useIsMobile';
+
+const CloseIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+);
+
+const BarsIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="4" y1="12" x2="20" y2="12" />
+    <line x1="4" y1="6" x2="20" y2="6" />
+    <line x1="4" y1="18" x2="20" y2="18" />
+  </svg>
+);
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <MobileHeaderWrapper>
+        <MobileHeaderInner>
+          <Link href="/" onClick={() => setIsOpen(false)}>
+            <Image src={ifesm_logo} alt="IFESM logo" priority height={40} width={120} style={{ objectFit: 'contain' }} />
+          </Link>
+          <IconButton onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
+            {isOpen ? <CloseIcon /> : <BarsIcon />}
+          </IconButton>
+        </MobileHeaderInner>
+
+        <AnimatePresence>
+          {isOpen && (
+            <>
+              <Backdrop
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsOpen(false)}
+              />
+              <Drawer
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'tween', ease: 'easeOut', duration: 0.35 }}
+              >
+                <DrawerContent>
+                  <DrawerNav>
+                    {links.map((link, i) => (
+                      <Link key={i} href={link.url} onClick={() => setIsOpen(false)}>
+                        <DrawerLinkTitle>{link.linkTo}</DrawerLinkTitle>
+                      </Link>
+                    ))}
+                  </DrawerNav>
+                  <DrawerCTA>
+                    <Link href="/profile" onClick={() => setIsOpen(false)}>
+                      <DrawerLinkTitle>Careers</DrawerLinkTitle>
+                    </Link>
+                    <GetStartedButton padding="0.75rem 1.5rem" />
+                  </DrawerCTA>
+                </DrawerContent>
+              </Drawer>
+            </>
+          )}
+        </AnimatePresence>
+      </MobileHeaderWrapper>
+    );
+  }
+
   return (
     <Wrapper>
       <Inner>
         <LogoContainer>
-          <Image src={ifesm_logo} alt="IFESM logo" priority />
+          <Link href="/">
+            <Image src={ifesm_logo} alt="IFESM logo" priority />
+          </Link>
           <BurgerMenu onClick={() => setIsOpen(!isOpen)}>
             <motion.div
               variants={menu}

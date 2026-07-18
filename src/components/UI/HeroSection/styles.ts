@@ -4,11 +4,16 @@ import { motion } from 'framer-motion';
 import hero_background from '../../../../public/images/grid_background.png';
 
 export const Wrapper = styled.section`
+  position: relative;
   margin-top: 6.25rem;
   width: 90%;
   max-width: 80rem;
   margin-left: auto;
   margin-right: auto;
+
+  @media (max-width: 768px) {
+    overflow: hidden;
+  }
 `;
 
 export const Inner = styled.div`

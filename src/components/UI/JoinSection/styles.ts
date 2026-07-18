@@ -61,8 +61,10 @@ export const Testimonial = styled.div`
 
 export const Testimony = styled.p`
   color: #292929;
+  font-family: var(--font-accent), serif;
+  font-style: italic;
+  font-weight: 500;
   font-size: 1.5rem;
-  font-weight: 400;
   line-height: 2rem;
 
   @media (max-width: 768px) {
@@ -115,15 +117,21 @@ export const Name = styled.div`
 
 export const Avatar = styled.div`
   margin-left: auto;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
   @media (max-width: 768px) {
     width: 2.5rem;
     height: 2.5rem;
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
   }
 `;
 

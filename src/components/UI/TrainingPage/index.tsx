@@ -11,6 +11,7 @@ import {
   CtaBlock,
 } from './styles';
 import { galleryPhotos, trainingCategories } from './constants';
+import training_banner from '../../../../public/ifesm/pageheader-training-banner.jpg';
 
 const TrainingPage = () => {
   return (
@@ -18,6 +19,7 @@ const TrainingPage = () => {
       <PageHeader
         title="Corporate Training Programs"
         subtitle="We have highly experienced faculty with latest equipment."
+        image={training_banner}
       />
       <Wrapper>
         <GalleryGrid>

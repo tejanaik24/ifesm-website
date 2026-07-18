@@ -17,7 +17,7 @@ import RevealCover from '@/components/Common/RevealCover';
 import { Div } from '../Featured/styles';
 import { imageVariants } from '../Featured';
 import { useIsMobile } from '../../../../libs/useIsMobile';
-import training_banner from '../../../../public/ifesm/dsc03726-510x289.jpg';
+import training_banner from '../../../../public/ifesm/financial-freedom-banner.png';
 import {
   desktopBriefNotePhrase,
   desktopHeaderPhrase,
@@ -55,7 +55,7 @@ const FinancialFreedom = () => {
             whileInView="visible"
             viewport={{ amount: 0.25, once: true }}
           >
-            <Image src={training_banner} alt="IFESM fire safety training drill" fill sizes="90vw" />
+            <Image src={training_banner} alt="IFESM industrial fire fighting training drill" fill sizes="90vw" />
           </Div>
           <TickerStrip>
             <TickerTrack>

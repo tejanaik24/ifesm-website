@@ -23,7 +23,7 @@ export const GlobalStyles = styled.createGlobalStyle`
   body {
     max-width: 100vw;
     overflow-x: hidden;
-    font-family: 'SF Pro Display', sans-serif;
+    font-family: var(--font-sans), sans-serif;
     background-color: var(--Background);
     color: var(--white);
     scroll-snap-type: y mandatory;
@@ -45,6 +45,23 @@ export const GlobalStyles = styled.createGlobalStyle`
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  .accent {
+    font-family: var(--font-accent), serif;
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   .parallax {

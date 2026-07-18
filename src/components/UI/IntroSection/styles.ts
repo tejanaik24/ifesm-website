@@ -1,12 +1,13 @@
 'use client';
-import Image from 'next/image';
 import { styled } from 'styled-components';
 
 export const Wrapper = styled.section`
+  position: relative;
   padding-top: 7.5rem;
 
   @media (max-width: 768px) {
     padding-top: 6rem;
+    overflow: hidden;
   }
 `;
 
@@ -71,43 +72,60 @@ export const HeaderMainText = styled.div`
   }
 `;
 
-export const CardsContainer = styled.div`
+export const Stage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   margin-bottom: 7.77rem;
   width: 100%;
-`;
+  height: 22rem;
+  perspective: 2000px;
 
-export const LeftImage = styled(Image)`
-  transform: rotate(270deg);
-  position: absolute;
-  top: 64px;
-  transition: transform 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
-
-  &.active {
-    transform: rotate(70.281deg) translate(-50%, 60%);
-    top: 60%;
+  @media (max-width: 768px) {
+    height: 14rem;
   }
 `;
 
-export const MiddleImage = styled(Image)`
+export const Carousel = styled.div`
   position: relative;
-  z-index: 3;
-  cursor: pointer;
+  width: 22rem;
+  height: 14rem;
+  transform-style: preserve-3d;
+  animation: spin 24s linear infinite;
+
+  ${Stage}:hover & {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+
+  @media (max-width: 768px) {
+    width: 15rem;
+    height: 9.5rem;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
 `;
 
-export const RightImage = styled(Image)`
-  width: 21.875rem;
-  height: 13.875rem;
-  transform: rotate(90deg);
-  top: 65px;
+export const Card = styled.div<{ $index: number; $total: number; $radius: number }>`
   position: absolute;
-  transition: transform 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
+  inset: 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.25);
+  transform: rotateY(${({ $index, $total }) => (360 / $total) * $index}deg)
+    translateZ(${({ $radius }) => $radius}px);
 
-  &.active {
-    transform: rotate(-70.281deg) translate(50%, 60%);
-    top: 60%;
+  img {
+    object-fit: cover;
   }
 `;
