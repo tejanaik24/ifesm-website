@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 const FloatingActions = () => {
   const whatsappUrl =
-    'https://wa.me/918885099004?text=Hi%20IFESM%20Group%2C%20I%20would%20like%20to%20enquire%20about%20your%20Industrial%20Safety%20services.';
-  const phoneUrl = 'tel:+918885099004';
+    'https://wa.me/919989315222?text=Hi%20IFESM%20Group%2C%20I%20would%20like%20to%20enquire%20about%20your%20Industrial%20Safety%20services.';
+  const phoneUrl = 'tel:+919989315222';
 
   return (
     <Container

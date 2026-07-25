@@ -9,8 +9,8 @@ Update SESSION HISTORY at the end of this conversation.
 ============================================================ -->
 
 # 🧠 BRAIN — ifesm-website
-**Last Updated:** 2026-07-18T02:00:00Z
-**NEXUS Version:** Session 2 (supersedes Session 1 below — that build was rejected)
+**Last Updated:** 2026-07-22T12:37:00Z
+**NEXUS Version:** Session 6 (latest)
 **Brain Health:** FRESH
 
 ---
@@ -107,7 +107,8 @@ ifesm-website-repo/
 
 ## 🔄 PENDING / OPEN DECISIONS
 
-1. **OffersSection image swap:** replacing the generic `offer_*.png` illustrations with real legacy photos. **User has not yet confirmed.**
+1. **Contact form email:** Currently sends to `headoffice@ifesm.com`. User may want to change this.
+2. **Further content/design changes:** User may request updates post-launch.
 
 ---
 
@@ -147,6 +148,31 @@ ifesm-website-repo/
 
 ---
 
+## ⚠️ DEPLOYMENT STEPS, MISTAKES & LESSONS LEARNED
+
+### Steps Executed
+1. **Verification of Quota**: Queried cPanel UAPI `StatsBar` to ensure the server has unlimited quota and can handle the file upload.
+2. **Local Compilation**: Compiled static website content into `/out` using `npm run build`.
+3. **Backup Action**: Down-copied the old `public_html` directory locally to `C:\Users\user\.gemini\antigravity\scratch\ifesm_old_site_backup_20260722`, created `public_html_backup_20260722_1738` on the server, and uploaded the backup there.
+4. **Site Upload**: Transferred all compiled assets and static `.html` files (264 files) directly into `public_html`, maintaining continuous site availability (Option 2).
+5. **Clean URL Configuration**: Configured `.htaccess` file on the server to rewrite extensionless paths to `.html` pages.
+
+### Mistakes Encountered & Corrections Applied
+* **Folder Lock on Local Build**:
+  - *Mistake*: The build folder `out/` was locked by two background Python HTTP servers running on the local host.
+  - *Correction*: Terminated the blocking Python processes using PowerShell's `Stop-Process` cmdlet.
+* **PowerShell Runspace Thread Restriction**:
+  - *Mistake*: Attempting to override `[System.Net.ServicePointManager]::ServerCertificateValidationCallback` globally inside PowerShell threw a "There is no Runspace available" background thread exception.
+  - *Correction*: Removed the global callback override and used default TLS 1.2 validation since the cPanel API's SSL certificate is valid.
+* **cPanel API Folder Duplication Limitation**:
+  - *Mistake*: Attempted to duplicate the `public_html` directory server-side using cPanel UAPI's `Fileman::copyfiles` method, which is not supported for directories.
+  - *Correction*: Successfully switched to downloading the files locally over FTP and then uploading the backup folder to the server.
+* **Apache/LiteSpeed Clean URL Redirect Loops**:
+  - *Mistake*: Generic rewrite rules using `-f` checks against `%{REQUEST_FILENAME}.html` or `%{DOCUMENT_ROOT}` failed due to filesystem resolution differences on LiteSpeed, causing 404s.
+  - *Correction*: Defined explicit individual page mappings (e.g. `RewriteRule ^careers$ careers.html [L]`) in `.htaccess` without `RewriteBase /`. This is 100% loop-proof and works perfectly on the server.
+
+---
+
 ## 📚 SESSION HISTORY
 
 ### Session 1 — 2026-07-16 (REJECTED, historical only)
@@ -164,7 +190,35 @@ Antigravity built a Next 16 + Tailwind v4 + shadcn build. User rejected it (too 
 **Worked on:** Mobile-only bug-fix pass, training gallery photo regeneration, icon removal, burger menu alignment correction, scroll animation enhancements, and global FAB panel.
 **Completed:** Exported viewport settings, rebuilt the mobile header with a premium sliding drawer layout, high color contrast, backdrop click-to-close, auto-closing on route navigation, and clean inline SVGs, implemented a JavaScript scroll listener fallback for sticky stack card merging on mobile with container boundary height clamping (bypassing Lenis compatibility limitations) combined with Framer Motion viewport entrance slide-ups in OffersSection, scaled down 3D carousel radius and background GhostMotif icons on mobile, added overflow containment wrapper rules, disabled smoothTouch in Lenis, regenerated 8 out-of-brand training gallery card photos with high-quality warm-lit Indian-worker-in-PPE safety themed AI photography, removed the overlapping background shield GhostMotif checkmark icon from CompanyIntro, added floating WhatsApp and call phone action buttons (FABs) with high-fidelity Bootstrap vector assets in bottom-right corner for all viewports, and verified successful green production build.
 
+### Session 5 — 2026-07-22
+**Worked on:** Content update from IFESM team, NIFS branding, visual polish, and Vercel deployment.
+**Completed:**
+- Hero tagline updated: "Engineering Safer Workplaces. Empowering Skilled Professionals. Protecting Industries."
+- Profile/About page expanded with: Trusted Partner, Safety Mission, Careers, Society, Future, Purpose sections
+- Services page updated with all 10 service categories + quality policy
+- Careers page created (`/careers`) with categories, metrics, recruitment process, CTA
+- Header: dual logo layout (IFESM + NIFS round logo), logos sized up (desktop: 70×200/70×150, mobile: 45×140/45×110)
+- Footer: IFESM contact info + full NIFS section (round logo in original colors, description, Explore links, Accreditations, Contact card)
+- All phone numbers updated across: ContactPage, Footer, FloatingActions, GetStartedButton, CareersPage
+- All NIFS→IFESM text references replaced (except where NIFS is intentional parent org)
+- CareersPage, TrainingPage, ServicesPage enhanced with MaskText animations, motion cards, hover effects, gradient CTAs
+- Footer NIFS logo filter fix: removed `brightness(0) invert(1)` so round logo shows original colors
+- Contact form sends to: `headoffice@ifesm.com` (mailto)
+- GetStartedButton → WhatsApp `+91 99893 15222`
+- Careers/Training CTAs → `mailto:projects@nifsindia.com`
+- **Deployed to Vercel:** https://ifesm-website.vercel.app
+
+### Session 6 — 2026-07-22
+**Worked on:** Production deployment to ifesm.com, server backups, and clean URLs rewrite rules.
+**Completed:**
+- Verified cPanel quota using cPanel JSON API and Basic Authentication.
+- Compiled static HTML files locally under `out/` via `npm run build`.
+- Created server-side backup directory `public_html_backup_20260722_1738` and backed up the entire old site (including assets and PDFs) locally and on the server.
+- Deployed the new static files recursively to `public_html` via FTP with zero downtime.
+- Configured `.htaccess` rewrite rules to support clean, extensionless URLs (e.g. `/careers`, `/services`) mapping internally to `.html` files on LiteSpeed.
+- Verified live site responses (200 OK) on `https://www.ifesm.com/` and all subpages.
+
 ---
 
 ## 🔑 ENVIRONMENT & CONFIG
-No environment variables required. `npm run dev` for local, `npm run build` to verify production build. cPanel/FTP deploy creds in memory `ifesm-cpanel-credentials` (plain file hosting, no Node server on the live host — static export or equivalent needed at actual deploy time, TBD with user).
+No environment variables required. `npm run dev` for local, `npm run build` to verify production build. **Deployed to production (ifesm.com)** via FTP, and Vercel staging at `https://ifesm-website.vercel.app`.

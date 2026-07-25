@@ -10,7 +10,7 @@ export type Props = {
 export const testimonials = [
   {
     testimony:
-      'Pioneers and leading professional institute in India, established in 2001, with a Certificate from an ISO 9001:2015 certified organization.',
+      'Pioneers and leading professional institute in India, established in 2002, with a Certificate from an ISO 9001:2015 certified organization.',
     person: 'IFESM Group',
     avatar: worker_portrait,
   },

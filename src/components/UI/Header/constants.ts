@@ -22,20 +22,24 @@ export const menu = {
 };
 export const links = [
   {
-    url: '/services',
-    linkTo: 'Services',
+    url: '/profile',
+    linkTo: 'Profile',
+    children: [
+      { url: '/profile', linkTo: 'Company Profile' },
+      { url: '/training', linkTo: 'Training' },
+    ],
   },
   {
-    url: '/training',
-    linkTo: 'Training',
+    url: '/services',
+    linkTo: 'Services',
   },
   {
     url: '/clients',
     linkTo: 'Clients',
   },
   {
-    url: '/profile',
-    linkTo: 'Profile',
+    url: '/careers',
+    linkTo: 'Careers',
   },
   {
     url: '/contact',

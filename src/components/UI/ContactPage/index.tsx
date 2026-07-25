@@ -7,7 +7,7 @@ import { Wrapper, InfoColumn, ImageCtn, InfoCard, Form, MirroredMotif } from './
 import contact_banner from '../../../../public/ifesm/pageheader-contact-banner.jpg';
 import contact_office from '../../../../public/ifesm/contact-office.jpg';
 
-const CONTACT_EMAIL = 'headoffice@nifsindia.com';
+const CONTACT_EMAIL = 'projects@nifsindia.com';
 
 const ContactPage = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -53,14 +53,12 @@ const ContactPage = () => {
             <p>10-134, Sadguru Towers, Malatamba Rd, PM Palem, Visakhapatnam, Andhra Pradesh 530041</p>
             <h3>Contact</h3>
             <p>
-              <a href="mailto:headoffice@nifsindia.com">headoffice@nifsindia.com</a>
+              <a href="mailto:projects@nifsindia.com">projects@nifsindia.com</a>
               <br />
-              <a href="tel:+918885099004">+91 88850 99004</a>
+              <a href="tel:+919989315222">+91 99893 15222</a>
               <br />
-              <a href="tel:+919246615282">+91 92466 15282</a>
+              <a href="tel:+919492858292">+91 94928 58292</a>
             </p>
-            <h3>Hours</h3>
-            <p>Mon – Sat, 9AM to 6PM</p>
           </InfoCard>
         </InfoColumn>
 

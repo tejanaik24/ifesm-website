@@ -62,7 +62,7 @@ const HeroSection = () => {
       <Inner>
         <Content>
           <Pill>
-            <span>Established 2001 &middot; ISO 9001:2015 Certified</span>
+            <span>Established 2002 &middot; ISO 9001:2015 Certified</span>
             <Image src={ic_chevron_right} alt="chevron-right" />
           </Pill>
           <HeroTextContainer>

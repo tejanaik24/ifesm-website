@@ -20,6 +20,7 @@ export { default as ProfilePage } from './UI/ProfilePage';
 export { default as GalleryPage } from './UI/GalleryPage';
 export { default as ClientsPage } from './UI/ClientsPage';
 export { default as ContactPage } from './UI/ContactPage';
+export { default as CareersPage } from './UI/CareersPage';
 export { default as GhostMotif } from './Common/GhostMotif';
 export { default as FloatingActions } from './Common/FloatingActions';
 

@@ -1,24 +1,38 @@
 // For desktop
-export const phrases = ["India's No.1", 'Industrial Fire Engineering', '& Safety Management'];
+export const phrases = [
+  'Engineering Safer Workplaces.',
+  'Empowering Skilled Professionals.',
+  'Protecting Industries.',
+];
 export const paragraphPhrases = [
-  '25+ years engineering safety solutions for 55+ MNC & Govt partners.',
-  'ISO 9001:2015 certified. Trusted across India since 2001.',
+  'For over two decades, IFESM has been committed to strengthening',
+  "India's industrial safety ecosystem through fire engineering,",
+  'industrial safety engineering, professional education, workforce',
+  'development, corporate HSE services and technology-enabled safety',
+  'solutions.',
 ];
 
 // For mobile
 export const mobilePhrases = [
-  "India's No.1",
-  'Industrial Fire',
-  'Engineering &',
-  'Safety Management',
+  'Engineering',
+  'Safer Workplaces.',
+  'Empowering',
+  'Skilled Professionals.',
 ];
 export const mobileParagraphPhrases = [
-  '25+ years engineering safety solutions',
-  'for 55+ MNC & Govt partners across India.',
+  'For over two decades, IFESM has',
+  'been committed to strengthening',
+  "India's industrial safety",
+  'ecosystem through fire engineering,',
+  'industrial safety engineering,',
+  'professional education, workforce',
+  'development, corporate HSE services',
+  'and technology-enabled safety',
+  'solutions.',
 ];
 
 export const credentials = [
-  { number: '25+', subtitle: 'Years Operative' },
-  { number: '55+', subtitle: 'MNC & Govt Partners' },
-  { number: '9001', subtitle: 'ISO 2015 Certified' },
+  { number: '25+', subtitle: 'Years Experience' },
+  { number: '500+', subtitle: 'Industries Served' },
+  { number: '9001', subtitle: 'ISO Certified' },
 ];

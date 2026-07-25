@@ -6,7 +6,7 @@ import ic_arrows_left_right from '../../../../public/svgs/ic_arrows_right_left.s
 // For desktop
 export const desktopHeaderPhrase = ['25 Years.', 'Zero Shortcuts.'];
 export const desktopParagraphPhrase = [
-  '55+ MNC & Govt sites protected since 2001.',
+  '55+ MNC & Govt sites protected since 2002.',
   'ISO 9001:2015 certified. MSME approved.',
 ];
 export const desktopBriefNotePhrase = [
@@ -19,7 +19,7 @@ export const desktopBriefNotePhrase = [
 // For mobile
 export const mobileHeaderPhrase = ['25 Years.', 'Zero Shortcuts.'];
 export const mobileParagraphPhrase = [
-  '55+ MNC & Govt sites protected since 2001.',
+  '55+ MNC & Govt sites protected since 2002.',
   'ISO 9001:2015 certified. MSME approved.',
 ];
 
@@ -36,7 +36,7 @@ export const edges = [
   {
     point: '25+ Years Operative',
     details:
-      'Establishing safety parameters for Indian industry since 2001.',
+      'Establishing safety parameters for Indian industry since 2002.',
     icon: ic_banknotes,
   },
   {

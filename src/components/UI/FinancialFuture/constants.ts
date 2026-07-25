@@ -41,7 +41,7 @@ export const stats = [
 // For desktop
 export const desktopHeaderPhrase = [
   'Trusted by Industry',
-  'Leaders Since 2001',
+  'Leaders Since 2002',
 ];
 export const desktopParagraphPhrase = [
   'At IFESM, we empower industries to confidently manage their safety future. Our modern',
@@ -51,7 +51,7 @@ export const desktopParagraphPhrase = [
 // For mobile
 export const mobileHeaderPhrase = [
   'Trusted by Industry',
-  ' Leaders Since 2001',
+  ' Leaders Since 2002',
 ];
 export const mobileParagraphPhrase = [
   'At IFESM, we empower industries to confidently',

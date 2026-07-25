@@ -5,7 +5,10 @@ import {
   Wrapper,
   Inner,
   LogoContainer,
+  LogoWrapper,
   Nav,
+  NavItem,
+  NavDropdown,
   CallToActions,
   AbsoluteLinks,
   BurgerMenu,
@@ -20,6 +23,7 @@ import {
   DrawerCTA,
 } from './styles';
 import ifesm_logo from '../../../../public/ifesm/ifesm-logo.png';
+import nifs_logo from '../../../../public/ifesm/nifs-logo-round.jpeg';
 import ic_bars from '../../../../public/svgs/ic_bars.svg';
 import { GetStartedButton } from '@/components';
 import AnimatedLink from '@/components/Common/AnimatedLink';
@@ -53,7 +57,10 @@ const Header = () => {
       <MobileHeaderWrapper>
         <MobileHeaderInner>
           <Link href="/" onClick={() => setIsOpen(false)}>
-            <Image src={ifesm_logo} alt="IFESM logo" priority height={40} width={120} style={{ objectFit: 'contain' }} />
+            <LogoWrapper>
+              <Image src={ifesm_logo} alt="IFESM logo" priority height={45} width={140} style={{ objectFit: 'contain' }} />
+              <Image src={nifs_logo} alt="NIFS logo" priority height={45} width={110} style={{ objectFit: 'contain' }} />
+            </LogoWrapper>
           </Link>
           <IconButton onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
             {isOpen ? <CloseIcon /> : <BarsIcon />}
@@ -78,15 +85,24 @@ const Header = () => {
                 <DrawerContent>
                   <DrawerNav>
                     {links.map((link, i) => (
-                      <Link key={i} href={link.url} onClick={() => setIsOpen(false)}>
-                        <DrawerLinkTitle>{link.linkTo}</DrawerLinkTitle>
-                      </Link>
+                      <div key={i}>
+                        <Link href={link.url} onClick={() => setIsOpen(false)}>
+                          <DrawerLinkTitle>{link.linkTo}</DrawerLinkTitle>
+                        </Link>
+                        {link.children?.map((child, j) => (
+                          <Link
+                            key={j}
+                            href={child.url}
+                            onClick={() => setIsOpen(false)}
+                            style={{ display: 'block', marginTop: '0.75rem', marginLeft: '1rem' }}
+                          >
+                            <DrawerLinkTitle style={{ fontSize: '1.1rem' }}>{child.linkTo}</DrawerLinkTitle>
+                          </Link>
+                        ))}
+                      </div>
                     ))}
                   </DrawerNav>
                   <DrawerCTA>
-                    <Link href="/profile" onClick={() => setIsOpen(false)}>
-                      <DrawerLinkTitle>Careers</DrawerLinkTitle>
-                    </Link>
                     <GetStartedButton padding="0.75rem 1.5rem" />
                   </DrawerCTA>
                 </DrawerContent>
@@ -103,7 +119,10 @@ const Header = () => {
       <Inner>
         <LogoContainer>
           <Link href="/">
-            <Image src={ifesm_logo} alt="IFESM logo" priority />
+            <LogoWrapper>
+              <Image src={ifesm_logo} alt="IFESM logo" priority height={70} width={200} style={{ objectFit: 'contain' }} />
+              <Image src={nifs_logo} alt="NIFS logo" priority height={70} width={150} style={{ objectFit: 'contain' }} />
+            </LogoWrapper>
           </Link>
           <BurgerMenu onClick={() => setIsOpen(!isOpen)}>
             <motion.div
@@ -115,16 +134,28 @@ const Header = () => {
           </BurgerMenu>
         </LogoContainer>
         <Nav className={isOpen ? 'active' : ''}>
-          {links.map((link, i) => (
-            <Link key={i} href={link.url}>
-              <AnimatedLink title={link.linkTo} />
-            </Link>
-          ))}
+          {links.map((link, i) =>
+            link.children ? (
+              <NavItem key={i}>
+                <Link href={link.url}>
+                  <AnimatedLink title={link.linkTo} />
+                </Link>
+                <NavDropdown>
+                  {link.children.map((child, j) => (
+                    <Link key={j} href={child.url}>
+                      {child.linkTo}
+                    </Link>
+                  ))}
+                </NavDropdown>
+              </NavItem>
+            ) : (
+              <Link key={i} href={link.url}>
+                <AnimatedLink title={link.linkTo} />
+              </Link>
+            )
+          )}
         </Nav>
         <CallToActions className={isOpen ? 'active' : ''}>
-          <Link href="/profile">
-            <AnimatedLink title="Careers" />
-          </Link>
           <GetStartedButton padding="0.5rem 0.75rem" />
         </CallToActions>
       </Inner>

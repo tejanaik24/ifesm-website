@@ -34,6 +34,16 @@ export const LogoContainer = styled.div`
   }
 `;
 
+export const LogoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+  }
+`;
+
 export const BurgerMenu = styled.div`
   display: none;
   position: relative;
@@ -91,6 +101,44 @@ export const Nav = styled.div`
     &.active {
       opacity: 1;
       visibility: visible;
+    }
+  }
+`;
+
+export const NavItem = styled.div`
+  position: relative;
+
+  &:hover > div {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+`;
+
+export const NavDropdown = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 10rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  transition: all 0.25s ease;
+
+  a {
+    background: var(--Background);
+    border: 0.5px solid #3d3d3d;
+    border-radius: 0.5rem;
+    padding: 0.625rem 1rem;
+    color: var(--link-color);
+    font-size: 0.9rem;
+
+    &:hover {
+      color: var(--white);
     }
   }
 `;
@@ -183,7 +231,7 @@ export const Drawer = styled(motion.div)`
   top: 0;
   right: 0;
   bottom: 0;
-  width: 17.5rem; /* 280px */
+  width: 17.5rem;
   background: var(--emerald);
   box-shadow: -0.5rem 0 2rem rgba(0, 0, 0, 0.25);
   z-index: 99;
@@ -206,7 +254,7 @@ export const DrawerNav = styled.nav`
 `;
 
 export const DrawerLinkTitle = styled.span`
-  color: #F5F1E8; /* Off-white for high contrast on red background */
+  color: #F5F1E8;
   font-size: 1.35rem;
   font-weight: 500;
   cursor: pointer;
