@@ -1,34 +1,24 @@
 // For desktop
 export const phrases = [
-  'Engineering Safer Workplaces.',
-  'Empowering Skilled Professionals.',
-  'Protecting Industries.',
+  "India's Trusted Partner",
+  'in Fire & Industrial Safety.',
 ];
 export const paragraphPhrases = [
-  'For over two decades, IFESM has been committed to strengthening',
-  "India's industrial safety ecosystem through fire engineering,",
-  'industrial safety engineering, professional education, workforce',
-  'development, corporate HSE services and technology-enabled safety',
-  'solutions.',
+  '25+ years engineering safer workplaces — trusted by',
+  '500+ industries and 55+ MNC & Govt partners across India.',
 ];
 
 // For mobile
 export const mobilePhrases = [
-  'Engineering',
-  'Safer Workplaces.',
-  'Empowering',
-  'Skilled Professionals.',
+  "India's Trusted",
+  'Partner in Fire',
+  '& Industrial Safety.',
 ];
 export const mobileParagraphPhrases = [
-  'For over two decades, IFESM has',
-  'been committed to strengthening',
-  "India's industrial safety",
-  'ecosystem through fire engineering,',
-  'industrial safety engineering,',
-  'professional education, workforce',
-  'development, corporate HSE services',
-  'and technology-enabled safety',
-  'solutions.',
+  '25+ years engineering safer',
+  'workplaces — trusted by 500+',
+  'industries and 55+ MNC &',
+  'Govt partners across India.',
 ];
 
 export const credentials = [

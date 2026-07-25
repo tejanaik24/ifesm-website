@@ -19,12 +19,16 @@ export const Inner = styled.main`
 `;
 
 export const FooterLogo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+
   @media (max-width: 768px) {
-    width: 13.2rem;
-    height: 5.6rem;
+    gap: 0.75rem;
+
     img {
-      width: 100%;
-      height: 100%;
+      height: 3.5rem;
+      width: auto;
       object-fit: contain;
     }
   }
@@ -108,7 +112,8 @@ export const IconCtn = styled.div`
 
 export const FooterNavigation = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 2rem;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr 1fr;
@@ -142,7 +147,7 @@ export const LinksContainer = styled.ul`
   gap: 0.75rem;
 
   li {
-    color: #efefef;
+    color: var(--link-color);
     font-size: 1rem;
     font-weight: 400;
     cursor: pointer;
@@ -154,7 +159,7 @@ export const LinksContainer = styled.ul`
       content: '';
       width: 100%;
       height: 1px;
-      background-color: #efefef;
+      background-color: var(--link-color);
       left: 0;
       bottom: -5px;
       transform: scaleX(0);
@@ -218,70 +223,6 @@ export const CopyRight = styled.div`
   @media (max-width: 768px) {
     font-size: 0.8125rem;
     gap: 0.25rem;
-  }
-`;
-
-export const NifsSection = styled.footer`
-  background: #1a1a1a;
-  padding: 4rem 0 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-`;
-
-export const NifsInner = styled.main`
-  width: 90%;
-  max-width: 1440px;
-  margin: 0 auto;
-`;
-
-export const NifsTop = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 3rem;
-  padding-bottom: 3rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-
-  @media (max-width: 900px) {
-    flex-direction: column;
-    gap: 2.5rem;
-  }
-`;
-
-export const NifsDescription = styled.div`
-  max-width: 380px;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-
-  img.round-logo {
-    filter: none;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: contain;
-  }
-
-  p {
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    color: #999;
-  }
-
-  @media (max-width: 768px) {
-    max-width: 100%;
-  }
-`;
-
-export const NifsGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1.3fr;
-  gap: 2rem;
-
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
   }
 `;
 

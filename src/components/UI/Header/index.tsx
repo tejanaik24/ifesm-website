@@ -23,7 +23,7 @@ import {
   DrawerCTA,
 } from './styles';
 import ifesm_logo from '../../../../public/ifesm/ifesm-logo.png';
-import nifs_logo from '../../../../public/ifesm/nifs-logo-round.jpeg';
+import nifs_logo from '../../../../public/ifesm/nifs-logo-round-transparent.png';
 import ic_bars from '../../../../public/svgs/ic_bars.svg';
 import { GetStartedButton } from '@/components';
 import AnimatedLink from '@/components/Common/AnimatedLink';

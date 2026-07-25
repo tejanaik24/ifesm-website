@@ -1,56 +1,52 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import ifesm_logo from '../../../../public/ifesm/ifesm-logo.png';
-import nifs_logo from '../../../../public/ifesm/nifs-logo.png';
-import nifs_round_logo from '../../../../public/ifesm/nifs-logo-round.jpeg';
+import nifs_round_logo from '../../../../public/ifesm/nifs-logo-round-transparent.png';
 import ic_copyright from '../../../../public/svgs/ic_copyright.svg';
 
-const ifesmLinks = [
+const footerLinks = [
   {
     title: 'Company',
     links: [
-      { title: 'Company Profile', url: '/profile' },
-      { title: 'Careers', url: '/careers' },
-      { title: 'Our Clients', url: '/clients' },
+      { title: 'Company Profile', url: '/profile', external: false },
+      { title: 'Careers', url: '/careers', external: false },
+      { title: 'Our Clients', url: '/clients', external: false },
     ],
   },
   {
     title: 'Services',
     links: [
-      { title: 'Corporate Training', url: '/training' },
-      { title: 'Safety Audits', url: '/services' },
-      { title: 'Turnkey Projects', url: '/services' },
+      { title: 'Corporate Training', url: '/training', external: false },
+      { title: 'Safety Audits', url: '/services', external: false },
+      { title: 'Turnkey Projects', url: '/services', external: false },
     ],
   },
   {
     title: 'Get in Touch',
     links: [
-      { title: 'Contact Us', url: '/contact' },
-      { title: 'Training Gallery', url: '/gallery' },
+      { title: 'Contact Us', url: '/contact', external: false },
+      { title: 'Training Gallery', url: '/gallery', external: false },
     ],
   },
-];
-
-const nifsLinks = [
   {
-    title: 'Explore',
+    title: 'Explore NIFS',
     links: [
-      { title: 'Courses', url: 'https://www.nifsindia.com/courses' },
-      { title: 'Industrial Services', url: 'https://www.nifsindia.com/services' },
-      { title: 'Centers', url: 'https://www.nifsindia.com/centers' },
-      { title: 'Placements', url: 'https://www.nifsindia.com/placements' },
-      { title: 'Gallery', url: 'https://www.nifsindia.com/gallery' },
-      { title: 'About', url: 'https://www.nifsindia.com/about' },
-      { title: 'Blog', url: 'https://www.nifsindia.com/blog' },
+      { title: 'Courses', url: 'https://www.nifsindia.com/courses', external: true },
+      { title: 'Industrial Services', url: 'https://www.nifsindia.com/services', external: true },
+      { title: 'Centers', url: 'https://www.nifsindia.com/centers', external: true },
+      { title: 'Placements', url: 'https://www.nifsindia.com/placements', external: true },
+      { title: 'Gallery', url: 'https://www.nifsindia.com/gallery', external: true },
+      { title: 'About', url: 'https://www.nifsindia.com/about', external: true },
+      { title: 'Blog', url: 'https://www.nifsindia.com/blog', external: true },
     ],
   },
   {
     title: 'Accreditations',
     links: [
-      { title: 'Acharya Nagarjuna University', url: 'https://www.nifsindia.com/accreditations' },
-      { title: 'Fire Safety Dept (ANU)', url: 'https://www.nifsindia.com/accreditations' },
-      { title: 'Annamalai University', url: 'https://www.nifsindia.com/accreditations' },
-      { title: 'National Safety Council', url: 'https://www.nifsindia.com/accreditations' },
+      { title: 'Acharya Nagarjuna University', url: 'https://www.nifsindia.com/accreditations', external: true },
+      { title: 'Fire Safety Dept (ANU)', url: 'https://www.nifsindia.com/accreditations', external: true },
+      { title: 'Annamalai University', url: 'https://www.nifsindia.com/accreditations', external: true },
+      { title: 'National Safety Council', url: 'https://www.nifsindia.com/accreditations', external: true },
     ],
   },
 ];
@@ -68,95 +64,65 @@ import {
   LinksContainer,
   FooterBottom,
   CopyRight,
-  NifsSection,
-  NifsInner,
-  NifsTop,
-  NifsDescription,
-  NifsGrid,
   NifsContactCard,
 } from './styles';
 
 const Footer = () => {
   return (
-    <>
-      <Wrapper>
-        <Inner>
-          <FooterLogo>
-            <Image src={ifesm_logo} alt="IFESM logo" />
-          </FooterLogo>
-          <FooterMainContent>
-            <FooterMiddle>
-              <QRContainer>
-                <TextCtn>
-                  <p>10-134 Sadguru Towers, Malatamba Rd, PM Palem, Visakhapatnam 530041, AP India</p>
-                  <p>
-                    <a href="tel:+919989315222">+91 99893 15222</a>
-                    {' / '}
-                    <a href="tel:+919492858292">+91 94928 58292</a>
-                  </p>
-                  <p>
-                    <a href="https://wa.me/919989315222?text=Hi%20IFESM%20Group%2C%20I%20would%20like%20to%20enquire%20about%20your%20Industrial%20Safety%20services." target="_blank" rel="noopener noreferrer">
-                      WhatsApp Us
-                    </a>
-                  </p>
-                  <p>
-                    <a href="mailto:projects@nifsindia.com">projects@nifsindia.com</a>
-                  </p>
-                </TextCtn>
-              </QRContainer>
-              <FooterNavigation>
-                {ifesmLinks.map((l, i) => (
-                  <GridColumn key={i}>
-                    <h3>{l.title}</h3>
-                    <LinksContainer>
-                      {l.links.map((link, i) => (
-                        <li key={i}>
+    <Wrapper>
+      <Inner>
+        <FooterLogo>
+          <Image src={ifesm_logo} alt="IFESM logo" height={70} width={200} style={{ objectFit: 'contain' }} />
+          <Image src={nifs_round_logo} alt="NIFS India logo" height={70} width={70} style={{ objectFit: 'contain' }} />
+        </FooterLogo>
+        <FooterMainContent>
+          <FooterMiddle>
+            <QRContainer>
+              <TextCtn>
+                <p>10-134 Sadguru Towers, Malatamba Rd, PM Palem, Visakhapatnam 530041, AP India</p>
+                <p>
+                  <a href="tel:+919989315222">+91 99893 15222</a>
+                  {' / '}
+                  <a href="tel:+919492858292">+91 94928 58292</a>
+                </p>
+                <p>
+                  <a href="https://wa.me/919989315222?text=Hi%20IFESM%20Group%2C%20I%20would%20like%20to%20enquire%20about%20your%20Industrial%20Safety%20services." target="_blank" rel="noopener noreferrer">
+                    WhatsApp Us
+                  </a>
+                </p>
+                <p>
+                  <a href="mailto:projects@nifsindia.com">projects@nifsindia.com</a>
+                </p>
+                <p>
+                  National Institute of Fire and Safety (NIFS) — igniting careers in fire
+                  engineering and industrial safety since 2004. An ISO 9001:2015 certified unit of
+                  SSB Institute of Higher Studies Educational Society.
+                </p>
+              </TextCtn>
+            </QRContainer>
+            <FooterNavigation>
+              {footerLinks.map((l, i) => (
+                <GridColumn key={i}>
+                  <h3>{l.title}</h3>
+                  <LinksContainer>
+                    {l.links.map((link, j) =>
+                      link.external ? (
+                        <li key={j}>
+                          <a href={link.url} target="_blank" rel="noopener noreferrer">
+                            {link.title}
+                          </a>
+                        </li>
+                      ) : (
+                        <li key={j}>
                           <Link href={link.url}>{link.title}</Link>
                         </li>
-                      ))}
-                    </LinksContainer>
-                  </GridColumn>
-                ))}
-              </FooterNavigation>
-            </FooterMiddle>
-            <FooterBottom>
-              <CopyRight>
-                <Image src={ic_copyright} alt="copyright svg" />
-                IFESM Group, unit of NIFS Group (SSB Higher Studies).
-              </CopyRight>
-            </FooterBottom>
-          </FooterMainContent>
-        </Inner>
-      </Wrapper>
-
-      <NifsSection>
-        <NifsInner>
-          <NifsTop>
-            <NifsDescription>
-              <Image src={nifs_round_logo} alt="NIFS India logo" width={80} height={80} className="round-logo" />
-              <p>
-                National Institute of Fire and Safety — igniting careers in fire engineering and
-                industrial safety since 2004. An ISO 9001:2015 certified unit of SSB Institute of
-                Higher Studies Educational Society.
-              </p>
-            </NifsDescription>
-            <NifsGrid>
-              {nifsLinks.map((section, i) => (
-                <GridColumn key={i}>
-                  <h3>{section.title}</h3>
-                  <LinksContainer>
-                    {section.links.map((link, j) => (
-                      <li key={j}>
-                        <a href={link.url} target="_blank" rel="noopener noreferrer">
-                          {link.title}
-                        </a>
-                      </li>
-                    ))}
+                      )
+                    )}
                   </LinksContainer>
                 </GridColumn>
               ))}
               <NifsContactCard>
-                <h3>Contact</h3>
+                <h3>NIFS Head Office</h3>
                 <p>
                   Door No. 47-10-15, 2nd Lane,<br />
                   Dwarakanagar, AG Avenue Building,<br />
@@ -173,21 +139,18 @@ const Footer = () => {
                 <p>
                   <a href="mailto:headoffice@nifsindia.com">headoffice@nifsindia.com</a>
                 </p>
-                <p>
-                  <a href="mailto:Counsellor@nifsindia.com">Counsellor@nifsindia.com</a>
-                </p>
               </NifsContactCard>
-            </NifsGrid>
-          </NifsTop>
+            </FooterNavigation>
+          </FooterMiddle>
           <FooterBottom>
             <CopyRight>
               <Image src={ic_copyright} alt="copyright svg" />
-              NIFS India — National Institute of Fire and Safety. All rights reserved.
+              IFESM Group, unit of NIFS Group (SSB Higher Studies). All rights reserved.
             </CopyRight>
           </FooterBottom>
-        </NifsInner>
-      </NifsSection>
-    </>
+        </FooterMainContent>
+      </Inner>
+    </Wrapper>
   );
 };
 
