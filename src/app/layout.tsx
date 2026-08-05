@@ -1,4 +1,5 @@
 import Layout from '@/components/Layout';
+import { DevAnnotations } from '@/components/DevAnnotations';
 import './globals.css';
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans, Fraunces } from 'next/font/google';
@@ -18,14 +19,10 @@ const fraunces = Fraunces({
   display: 'swap',
 });
 
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-};
-
 export const metadata: Metadata = {
   title: 'IFESM - Industrial Fire Engineering & Safety Management',
   description: 'Proponents in delivering world class expertise solutions consistently in field of Fire & industrial Safety Management.',
+  viewport: 'width=device-width, initial-scale=1',
 };
 
 export default function RootLayout({
@@ -35,9 +32,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${jakarta.variable} ${fraunces.variable}`}>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
       <body>
         <Layout>{children}</Layout>
+        <DevAnnotations />
       </body>
     </html>
   );
 }
+

@@ -208,17 +208,16 @@ Antigravity built a Next 16 + Tailwind v4 + shadcn build. User rejected it (too 
 - Careers/Training CTAs → `mailto:projects@nifsindia.com`
 - **Deployed to Vercel:** https://ifesm-website.vercel.app
 
-### Session 6 — 2026-07-22
-**Worked on:** Production deployment to ifesm.com, server backups, and clean URLs rewrite rules.
+### Session 8 — 2026-08-05
+**Worked on:** Navigation bar branding update.
 **Completed:**
-- Verified cPanel quota using cPanel JSON API and Basic Authentication.
-- Compiled static HTML files locally under `out/` via `npm run build`.
-- Created server-side backup directory `public_html_backup_20260722_1738` and backed up the entire old site (including assets and PDFs) locally and on the server.
-- Deployed the new static files recursively to `public_html` via FTP with zero downtime.
-- Configured `.htaccess` rewrite rules to support clean, extensionless URLs (e.g. `/careers`, `/services`) mapping internally to `.html` files on LiteSpeed.
-- Verified live site responses (200 OK) on `https://www.ifesm.com/` and all subpages.
+- Removed NIFS round logo from desktop and mobile navigation header (`src/components/UI/Header/index.tsx`).
+- Added vertical divider and IFESM full form typography ("Industrial Fire Engineering & Safety Management" + "Unit of NIFS Group") beside IFESM logo in header (`src/components/UI/Header/index.tsx` & `src/components/UI/Header/styles.ts`).
+- Verified 100% green production build (`npm run build`, 12/12 static pages generated cleanly).
 
 ---
 
+
 ## 🔑 ENVIRONMENT & CONFIG
 No environment variables required. `npm run dev` for local, `npm run build` to verify production build. **Deployed to production (ifesm.com)** via FTP, and Vercel staging at `https://ifesm-website.vercel.app`.
+

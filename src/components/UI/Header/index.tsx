@@ -6,6 +6,10 @@ import {
   Inner,
   LogoContainer,
   LogoWrapper,
+  LogoDivider,
+  LogoText,
+  LogoFullForm,
+  LogoSubText,
   Nav,
   NavItem,
   NavDropdown,
@@ -22,8 +26,9 @@ import {
   DrawerLinkTitle,
   DrawerCTA,
 } from './styles';
+
 import ifesm_logo from '../../../../public/ifesm/ifesm-logo.png';
-import nifs_logo from '../../../../public/ifesm/nifs-logo-round-transparent.png';
+
 import ic_bars from '../../../../public/svgs/ic_bars.svg';
 import { GetStartedButton } from '@/components';
 import AnimatedLink from '@/components/Common/AnimatedLink';
@@ -58,8 +63,11 @@ const Header = () => {
         <MobileHeaderInner>
           <Link href="/" onClick={() => setIsOpen(false)}>
             <LogoWrapper>
-              <Image src={ifesm_logo} alt="IFESM logo" priority height={45} width={140} style={{ objectFit: 'contain' }} />
-              <Image src={nifs_logo} alt="NIFS logo" priority height={45} width={110} style={{ objectFit: 'contain' }} />
+              <Image src={ifesm_logo} alt="IFESM logo" priority height={55} width={155} style={{ objectFit: 'contain' }} />
+              <LogoDivider />
+              <LogoText>
+                <LogoFullForm>Industrial Fire Engineering &amp; Safety Management</LogoFullForm>
+              </LogoText>
             </LogoWrapper>
           </Link>
           <IconButton onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
@@ -115,51 +123,60 @@ const Header = () => {
   }
 
   return (
-    <Wrapper>
-      <Inner>
-        <LogoContainer>
-          <Link href="/">
-            <LogoWrapper>
-              <Image src={ifesm_logo} alt="IFESM logo" priority height={70} width={200} style={{ objectFit: 'contain' }} />
-              <Image src={nifs_logo} alt="NIFS logo" priority height={70} width={150} style={{ objectFit: 'contain' }} />
-            </LogoWrapper>
-          </Link>
-          <BurgerMenu onClick={() => setIsOpen(!isOpen)}>
-            <motion.div
-              variants={menu}
-              animate={isOpen ? 'open' : 'closed'}
-              initial="closed"
-            ></motion.div>
-            <Image src={ic_bars} alt="bars" />
-          </BurgerMenu>
-        </LogoContainer>
-        <Nav className={isOpen ? 'active' : ''}>
-          {links.map((link, i) =>
-            link.children ? (
-              <NavItem key={i}>
-                <Link href={link.url}>
+    <>
+      <Wrapper>
+
+
+        <Inner>
+          <LogoContainer>
+            <Link href="/">
+              <LogoWrapper>
+                <Image src={ifesm_logo} alt="IFESM logo" priority height={80} width={230} style={{ objectFit: 'contain' }} />
+                <LogoDivider />
+                <LogoText>
+                  <LogoFullForm>Industrial Fire Engineering &amp; Safety Management</LogoFullForm>
+                  <LogoSubText>Unit of NIFS Group</LogoSubText>
+                </LogoText>
+              </LogoWrapper>
+            </Link>
+
+            <BurgerMenu onClick={() => setIsOpen(!isOpen)}>
+              <motion.div
+                variants={menu}
+                animate={isOpen ? 'open' : 'closed'}
+                initial="closed"
+              ></motion.div>
+              <Image src={ic_bars} alt="bars" />
+            </BurgerMenu>
+          </LogoContainer>
+          <Nav className={isOpen ? 'active' : ''}>
+            {links.map((link, i) =>
+              link.children ? (
+                <NavItem key={i}>
+                  <Link href={link.url}>
+                    <AnimatedLink title={link.linkTo} />
+                  </Link>
+                  <NavDropdown>
+                    {link.children.map((child, j) => (
+                      <Link key={j} href={child.url}>
+                        {child.linkTo}
+                      </Link>
+                    ))}
+                  </NavDropdown>
+                </NavItem>
+              ) : (
+                <Link key={i} href={link.url}>
                   <AnimatedLink title={link.linkTo} />
                 </Link>
-                <NavDropdown>
-                  {link.children.map((child, j) => (
-                    <Link key={j} href={child.url}>
-                      {child.linkTo}
-                    </Link>
-                  ))}
-                </NavDropdown>
-              </NavItem>
-            ) : (
-              <Link key={i} href={link.url}>
-                <AnimatedLink title={link.linkTo} />
-              </Link>
-            )
-          )}
-        </Nav>
-        <CallToActions className={isOpen ? 'active' : ''}>
-          <GetStartedButton padding="0.5rem 0.75rem" />
-        </CallToActions>
-      </Inner>
-    </Wrapper>
+              )
+            )}
+          </Nav>
+          <CallToActions className={isOpen ? 'active' : ''}>
+            <GetStartedButton padding="0.5rem 0.75rem" />
+          </CallToActions>
+        </Inner>
+      </Wrapper>
+    </>
   );
 };
 

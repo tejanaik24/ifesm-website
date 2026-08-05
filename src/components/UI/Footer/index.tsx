@@ -1,154 +1,209 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import ifesm_logo from '../../../../public/ifesm/ifesm-logo.png';
 import nifs_round_logo from '../../../../public/ifesm/nifs-logo-round-transparent.png';
+import ifesm_footer_art from '../../../../public/ifesm/ifesm_footer_art.png';
 import ic_copyright from '../../../../public/svgs/ic_copyright.svg';
-
-const footerLinks = [
-  {
-    title: 'Company',
-    links: [
-      { title: 'Company Profile', url: '/profile', external: false },
-      { title: 'Careers', url: '/careers', external: false },
-      { title: 'Our Clients', url: '/clients', external: false },
-    ],
-  },
-  {
-    title: 'Services',
-    links: [
-      { title: 'Corporate Training', url: '/training', external: false },
-      { title: 'Safety Audits', url: '/services', external: false },
-      { title: 'Turnkey Projects', url: '/services', external: false },
-    ],
-  },
-  {
-    title: 'Get in Touch',
-    links: [
-      { title: 'Contact Us', url: '/contact', external: false },
-      { title: 'Training Gallery', url: '/gallery', external: false },
-    ],
-  },
-  {
-    title: 'Explore NIFS',
-    links: [
-      { title: 'Courses', url: 'https://www.nifsindia.com/courses', external: true },
-      { title: 'Industrial Services', url: 'https://www.nifsindia.com/services', external: true },
-      { title: 'Centers', url: 'https://www.nifsindia.com/centers', external: true },
-      { title: 'Placements', url: 'https://www.nifsindia.com/placements', external: true },
-      { title: 'Gallery', url: 'https://www.nifsindia.com/gallery', external: true },
-      { title: 'About', url: 'https://www.nifsindia.com/about', external: true },
-      { title: 'Blog', url: 'https://www.nifsindia.com/blog', external: true },
-    ],
-  },
-  {
-    title: 'Accreditations',
-    links: [
-      { title: 'Acharya Nagarjuna University', url: 'https://www.nifsindia.com/accreditations', external: true },
-      { title: 'Fire Safety Dept (ANU)', url: 'https://www.nifsindia.com/accreditations', external: true },
-      { title: 'Annamalai University', url: 'https://www.nifsindia.com/accreditations', external: true },
-      { title: 'National Safety Council', url: 'https://www.nifsindia.com/accreditations', external: true },
-    ],
-  },
-];
-
 import {
   Wrapper,
   Inner,
-  FooterLogo,
-  FooterMainContent,
-  FooterMiddle,
-  QRContainer,
-  TextCtn,
-  FooterNavigation,
-  GridColumn,
-  LinksContainer,
-  FooterBottom,
-  CopyRight,
-  NifsContactCard,
+  FooterCardContainer,
+  FooterHeroSection,
+  FooterTopGrid,
+  BrandColumn,
+  NavigationGrid,
+  NavCol,
+  FooterMiddleRow,
+  FooterArtBanner,
+  VyzmaCredit,
 } from './styles';
+
+const footerNav = [
+  {
+    title: 'Services',
+    links: [
+      { label: 'Manpower Deployment', url: '/services#manpower-deployment', external: false },
+      { label: 'Corporate Trainings', url: '/services#trainings', external: false },
+      { label: 'Safety Audits & HIRA', url: '/services#safety-audits', external: false },
+      { label: 'AI Digital Safety', url: '/services#ai-digital-safety', external: false },
+      { label: 'Technical Education', url: '/services#technical-education', external: false },
+      { label: 'Fire Engineering', url: '/services#fire-engineering', external: false },
+    ],
+  },
+  {
+    title: 'Resources',
+    links: [
+      { label: 'Company Profile', url: '/profile', external: false },
+      { label: 'Training Gallery', url: '/gallery', external: false },
+      { label: 'Our Clients', url: '/clients', external: false },
+      { label: 'Careers', url: '/careers', external: false },
+      { label: 'Contact Support', url: '/contact', external: false },
+    ],
+  },
+  {
+    title: 'NIFS Ecosystem',
+    links: [
+      { label: 'Courses Portal', url: 'https://www.nifsindia.com/courses', external: true },
+      { label: 'NIFS Head Office', url: 'https://www.nifsindia.com/about', external: true },
+      { label: 'Accreditations', url: 'https://www.nifsindia.com/accreditations', external: true },
+      { label: 'Placements Wing', url: 'https://www.nifsindia.com/placements', external: true },
+      { label: 'WhatsApp Enquiry', url: 'https://wa.me/919989315222?text=Hi%20IFESM%20Group%2C%20I%20would%20like%20to%20enquire%20about%20your%20Industrial%20Safety%20services.', external: true },
+    ],
+  },
+];
 
 const Footer = () => {
   return (
     <Wrapper>
       <Inner>
-        <FooterLogo>
-          <Image src={ifesm_logo} alt="IFESM logo" height={70} width={200} style={{ objectFit: 'contain' }} />
-          <Image src={nifs_round_logo} alt="NIFS India logo" height={70} width={70} style={{ objectFit: 'contain' }} />
-        </FooterLogo>
-        <FooterMainContent>
-          <FooterMiddle>
-            <QRContainer>
-              <TextCtn>
-                <p>10-134 Sadguru Towers, Malatamba Rd, PM Palem, Visakhapatnam 530041, AP India</p>
-                <p>
-                  <a href="tel:+919989315222">+91 99893 15222</a>
-                  {' / '}
-                  <a href="tel:+919492858292">+91 94928 58292</a>
-                </p>
-                <p>
-                  <a href="https://wa.me/919989315222?text=Hi%20IFESM%20Group%2C%20I%20would%20like%20to%20enquire%20about%20your%20Industrial%20Safety%20services." target="_blank" rel="noopener noreferrer">
-                    WhatsApp Us
-                  </a>
-                </p>
-                <p>
-                  <a href="mailto:projects@nifsindia.com">projects@nifsindia.com</a>
-                </p>
-                <p>
-                  National Institute of Fire and Safety (NIFS) — igniting careers in fire
-                  engineering and industrial safety since 2004. An ISO 9001:2015 certified unit of
-                  SSB Institute of Higher Studies Educational Society.
-                </p>
-              </TextCtn>
-            </QRContainer>
-            <FooterNavigation>
-              {footerLinks.map((l, i) => (
-                <GridColumn key={i}>
-                  <h3>{l.title}</h3>
-                  <LinksContainer>
-                    {l.links.map((link, j) =>
-                      link.external ? (
-                        <li key={j}>
+        <FooterCardContainer>
+          <FooterHeroSection>
+            <Image
+              src={ifesm_footer_art}
+              alt="IFESM Industrial Safety Background Art"
+              fill
+              style={{ objectFit: 'cover', objectPosition: 'center center', opacity: 1, zIndex: 1 }}
+              priority
+            />
+            <div className="hero-left">
+              <div className="status-badge">
+                <span className="dot" />
+                24/7 Incident Emergency Hotline Active
+              </div>
+              <h2>
+                Ready to Elevate Your Plant&apos;s <span className="accent-gold">Safety Standards?</span>
+              </h2>
+              <p>
+                Partner with India&apos;s premier Fire &amp; Industrial Safety division. Certified HSE manpower, turnkey fire protection, and AI digital safety across 500+ industrial assets.
+              </p>
+            </div>
+
+            <div className="hero-right">
+              <Link href="/contact" className="primary-btn">
+                Schedule Safety Audit &rarr;
+              </Link>
+              <a href="tel:+919989315222" className="hotline-btn">
+                📞 Hotline: +91 99893 15222
+              </a>
+            </div>
+          </FooterHeroSection>
+
+          <FooterTopGrid>
+
+
+            <BrandColumn>
+              <div className="brand-logos">
+                <Image
+                  src={ifesm_logo}
+                  alt="IFESM Logo"
+                  height={48}
+                  width={160}
+                  className="ifesm-logo-img"
+                />
+                <div className="nifs-emblem-badge" title="NIFS India Crest">
+                  <Image
+                    src={nifs_round_logo}
+                    alt="NIFS Crest"
+                    width={40}
+                    height={40}
+                    style={{ objectFit: 'contain' }}
+                  />
+                </div>
+              </div>
+
+              <div className="nifs-division-pill">
+                <span className="pill-label">OFFICIAL DIVISION OF</span>
+                <span className="pill-tag">NIFS GROUP</span>
+              </div>
+
+              <p className="brand-tagline">
+                IFESM makes industrial safety engineering simple, reliable, and compliant &mdash; backed by 25+ years of NIFS Group excellence for 500+ industrial plants.
+              </p>
+
+              <Link href="/contact" className="brand-cta-btn">
+                Enquire Now &rarr;
+              </Link>
+            </BrandColumn>
+
+            <NavigationGrid>
+              {footerNav.map((col, i) => (
+                <NavCol key={i}>
+                  <h3>{col.title}</h3>
+                  <ul>
+                    {col.links.map((link, j) => (
+                      <li key={j}>
+                        {link.external ? (
                           <a href={link.url} target="_blank" rel="noopener noreferrer">
-                            {link.title}
+                            {link.label}
                           </a>
-                        </li>
-                      ) : (
-                        <li key={j}>
-                          <Link href={link.url}>{link.title}</Link>
-                        </li>
-                      )
-                    )}
-                  </LinksContainer>
-                </GridColumn>
+                        ) : (
+                          <Link href={link.url}>{link.label}</Link>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </NavCol>
               ))}
-              <NifsContactCard>
-                <h3>NIFS Head Office</h3>
-                <p>
-                  Door No. 47-10-15, 2nd Lane,<br />
-                  Dwarakanagar, AG Avenue Building,<br />
-                  3rd Floor, Visakhapatnam (A.P.) – 530016
-                </p>
-                <p>
-                  <a href="tel:+918374340999">+91-8374-340-999</a>
-                </p>
-                <p>
-                  <a href="https://wa.me/918374340999?text=Hi%20NIFS%2C%20I%20would%20like%20to%20know%20more%20about%20your%20courses." target="_blank" rel="noopener noreferrer">
-                    Chat on WhatsApp →
-                  </a>
-                </p>
-                <p>
-                  <a href="mailto:headoffice@nifsindia.com">headoffice@nifsindia.com</a>
-                </p>
-              </NifsContactCard>
-            </FooterNavigation>
-          </FooterMiddle>
-          <FooterBottom>
-            <CopyRight>
-              <Image src={ic_copyright} alt="copyright svg" />
-              IFESM Group, unit of NIFS Group (SSB Higher Studies). All rights reserved.
-            </CopyRight>
-          </FooterBottom>
-        </FooterMainContent>
+
+              <NavCol>
+                <h3>Location &amp; Language</h3>
+                <ul>
+                  <li>
+                    <span style={{ fontSize: '0.88rem', color: '#555555', lineHeight: 1.45, display: 'block' }}>
+                      Visakhapatnam, Andhra Pradesh, India
+                    </span>
+                  </li>
+                  <li>
+                    <a href="tel:+919989315222" style={{ fontWeight: 600, color: '#1A1A1A' }}>
+                      +91 99893 15222
+                    </a>
+                  </li>
+                  <li>
+                    <a href="mailto:projects@nifsindia.com" style={{ color: '#E31E24', fontWeight: 600 }}>
+                      projects@nifsindia.com
+                    </a>
+                  </li>
+                </ul>
+
+                <div className="lang-select-box" style={{ marginTop: '0.5rem' }}>
+                  <span>🌐</span>
+                  <select defaultValue="en-IN">
+                    <option value="en-IN">English (India)</option>
+                    <option value="en-US">English (Global)</option>
+                  </select>
+                </div>
+              </NavCol>
+            </NavigationGrid>
+          </FooterTopGrid>
+
+          <FooterMiddleRow>
+            <div className="copyright-text">
+              <Image src={ic_copyright} alt="copyright" width={15} height={15} />
+              <span>&copy; 2026 IFESM Group, Unit of NIFS Group (SSB Higher Studies). All rights reserved.</span>
+            </div>
+
+            <div className="legal-links">
+              <Link href="/contact">Terms of Service</Link>
+              <Link href="/contact">Privacy Policy</Link>
+              <Link href="/contact">ISO 9001:2015 Certified</Link>
+              <VyzmaCredit href="https://vyzma.in" target="_blank" rel="noopener noreferrer">
+                <span className="vyzma-emoji">🐺</span>
+                Built by <strong>Vyzma</strong>
+              </VyzmaCredit>
+            </div>
+          </FooterMiddleRow>
+
+          <FooterArtBanner>
+            <Image
+              src={ifesm_footer_art}
+              alt="IFESM Industrial Safety & Fire Engineering Panoramic Artwork"
+              priority
+              quality={90}
+            />
+          </FooterArtBanner>
+        </FooterCardContainer>
       </Inner>
     </Wrapper>
   );

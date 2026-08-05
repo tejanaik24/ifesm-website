@@ -1,8 +1,16 @@
 'use client';
 import { useRef } from 'react';
 import Image from 'next/image';
-import { logoRow1, logoRow2, type ClientLogo } from './logos';
+import {
+  scrollLogos,
+  dropLogos,
+  mobileScrollLogos,
+  mobileDropLogos,
+  type ClientLogo,
+} from './logos';
 import { MarqueeWrap, Track, Card } from './marqueeStyles';
+import GravityLogoDrop from './GravityLogoDrop';
+import { useIsMobile } from '../../../../libs/useIsMobile';
 
 const Row = ({
   logos,
@@ -30,11 +38,25 @@ const Row = ({
   );
 };
 
-const LogoMarquee = () => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-    <Row logos={logoRow1} />
-    <Row logos={logoRow2} reverse />
-  </div>
-);
+const LogoMarquee = ({ showDrop = true }: { showDrop?: boolean }) => {
+  const isMobile = useIsMobile();
+  const scroll = isMobile ? mobileScrollLogos : scrollLogos;
+  const drop = isMobile ? mobileDropLogos : dropLogos;
+
+  return (
+    <div
+      style={{ display: 'flex', flexDirection: 'column', alignSelf: 'stretch', width: '100%' }}
+    >
+      <Row logos={scroll} />
+      {showDrop && (
+        <GravityLogoDrop
+          logos={drop}
+          size={isMobile ? 72 : 110}
+          height={isMobile ? '14rem' : '20rem'}
+        />
+      )}
+    </div>
+  );
+};
 
 export default LogoMarquee;
