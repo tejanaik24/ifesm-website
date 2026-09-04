@@ -3,6 +3,7 @@ RewriteEngine On
 RewriteRule ^careers/?$ careers.html [L]
 RewriteRule ^clients/?$ clients.html [L]
 RewriteRule ^contact/?$ contact.html [L]
+RewriteRule ^find-a-job/?$ find-a-job.html [L]
 RewriteRule ^gallery/?$ gallery.html [L]
 RewriteRule ^profile/?$ profile.html [L]
 RewriteRule ^services/?$ services.html [L]

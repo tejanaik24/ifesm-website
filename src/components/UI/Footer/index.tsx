@@ -39,6 +39,8 @@ const footerNav = [
       { label: 'Training Gallery', url: '/gallery', external: false },
       { label: 'Our Clients', url: '/clients', external: false },
       { label: 'Careers', url: '/careers', external: false },
+      { label: 'Find My Job', url: '/find-a-job', external: false },
+      { label: 'Blog', url: '/blog', external: false },
       { label: 'Contact Support', url: '/contact', external: false },
     ],
   },

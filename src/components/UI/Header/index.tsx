@@ -55,7 +55,9 @@ const BarsIcon = () => (
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const isMobile = useIsMobile();
+  // The complete brand lockup, six links and CTA need more room than a phone breakpoint.
+  // Switch to the accessible drawer before the desktop row becomes crowded.
+  const isMobile = useIsMobile(1320);
 
   if (isMobile) {
     return (

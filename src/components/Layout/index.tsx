@@ -3,7 +3,7 @@
 import { ReactLenis } from '@studio-freight/react-lenis';
 import StyledComponentsRegistry from '../../../libs/registry';
 import { GlobalStyles } from './GlobalStyles';
-import { Footer, Header, Preloader, FloatingActions } from '..';
+import { Footer, Header, Preloader, FloatingActions, CareerAdvisorWidget } from '..';
 import { useState } from 'react';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -23,6 +23,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <Header />
           {children}
           <Footer />
+          <CareerAdvisorWidget />
           <FloatingActions />
         </div>
       </ReactLenis>

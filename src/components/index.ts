@@ -21,6 +21,10 @@ export { default as GalleryPage } from './UI/GalleryPage';
 export { default as ClientsPage } from './UI/ClientsPage';
 export { default as ContactPage } from './UI/ContactPage';
 export { default as CareersPage } from './UI/CareersPage';
+export { default as JobFinderPage } from './UI/JobFinderPage';
+export { default as BlogPage } from './UI/BlogPage';
+export { default as BlogPostPage } from './UI/BlogPostPage';
 export { default as GhostMotif } from './Common/GhostMotif';
 export { default as FloatingActions } from './Common/FloatingActions';
+export { default as CareerAdvisorWidget } from './Common/CareerAdvisorWidget';
 

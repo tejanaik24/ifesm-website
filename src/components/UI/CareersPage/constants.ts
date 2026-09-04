@@ -48,20 +48,24 @@ export const whyBuildCareer = [
   'Long-term Career Support',
 ];
 
+export const recruitingIndustries = [
+  'Manufacturing', 'Steel', 'Power', 'Oil & Gas', 'Petrochemicals', 'Construction',
+  'Infrastructure', 'Warehousing & Logistics', 'Ports', 'Mining', 'Pharmaceutical',
+  'Food Processing', 'Renewable Energy', 'Healthcare',
+];
+
 export const recruitmentProcess = [
   'Register',
   'Profile Verification',
-  'Opportunity Matching',
   'Interview',
   'Selection',
   'Deployment',
-  'Career Progression',
 ];
 
 export const successMetrics = [
-  { label: 'Active Professionals Deployed', value: '500+' },
-  { label: 'New Opportunities This Month', value: '50+' },
-  { label: 'Professionals Placed This Year', value: '200+' },
-  { label: 'Partner Companies', value: '100+' },
-  { label: 'States Served', value: '20+' },
+  { label: 'Active Professionals Deployed Across India', value: '720+' },
+  { label: 'New Opportunities This Month', value: '58+' },
+  { label: 'Professionals Placed This Year', value: '270+' },
+  { label: 'Partner Companies', value: '500+' },
+  { label: 'States Served in India', value: '24' },
 ];

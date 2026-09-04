@@ -42,6 +42,14 @@ export const links = [
     linkTo: 'Careers',
   },
   {
+    url: '/find-a-job',
+    linkTo: 'Find My Job',
+  },
+  {
+    url: '/blog',
+    linkTo: 'Blog',
+  },
+  {
     url: '/contact',
     linkTo: 'Contact',
   },

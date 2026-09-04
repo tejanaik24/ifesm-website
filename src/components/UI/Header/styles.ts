@@ -239,9 +239,9 @@ export const BurgerMenu = styled.div`
 export const Nav = styled.div`
   display: flex;
   align-items: center;
-  gap: 3.75rem;
+  gap: clamp(1rem, 2.2vw, 2.4rem);
   position: relative;
-  margin-right: -6.3rem;
+  flex-shrink: 0;
 
   a {
     color: var(--link-color);
@@ -320,6 +320,7 @@ export const CallToActions = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-shrink: 0;
 
   div {
     span {
@@ -607,5 +608,4 @@ export const TrustPill = styled.span`
     padding: 0.25rem 0.6rem;
   }
 `;
-
 

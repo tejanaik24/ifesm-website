@@ -23,7 +23,7 @@ import {
   ProcessSection,
   ImageCtn,
 } from './styles';
-import { careerCategories, whyBuildCareer, recruitmentProcess, successMetrics } from './constants';
+import { careerCategories, whyBuildCareer, recruitmentProcess, recruitingIndustries, successMetrics } from './constants';
 import careers_banner from '../../../../public/ifesm/pageheader-facility-banner.jpg';
 import profile_team from '../../../../public/ifesm/profile-team-onsite.jpg';
 
@@ -57,10 +57,10 @@ const CareersPage = () => {
           />
           <MaskText
             phrases={[
-              'IFESM continuously connects qualified fire & safety and HSE professionals',
-              'with industries across India. Unlike organizations that recruit only occasionally,',
-              'IFESM supports an active recruitment ecosystem with ongoing manpower',
-              'requirements from partner industries.',
+              'IFESM connects qualified fire and safety professionals with industries across India',
+              'for permanent positions, project deployments, shutdown activities, maintenance projects',
+              'and construction assignments. Our recruitment team matches qualified professionals',
+              'to opportunities based on industry requirements.',
             ]}
             tag="p"
           />
@@ -82,24 +82,12 @@ const CareersPage = () => {
         </MetricsGrid>
 
         <IntroSection id="opportunities">
-          <MaskText phrases={['Live Opportunities']} tag="h2" />
+          <MaskText phrases={['Find the Right Opportunity']} tag="h2" />
           <MaskText
             phrases={[
-              'A searchable list of current openings by location, role,',
-              'experience and industry is coming soon. Until then, reach out',
-              'directly and our recruitment team will match you to live roles.',
-            ]}
-            tag="p"
-          />
-        </IntroSection>
-
-        <IntroSection>
-          <MaskText phrases={['Candidate Registration']} tag="h2" />
-          <MaskText
-            phrases={[
-              'A self-serve portal to create your profile, upload your resume',
-              'and certifications, and get notified of matching roles is',
-              'coming soon. For now, send your resume directly to our team.',
+              'Tell us about your qualification, experience, preferred industry, role and location.',
+              'The job finder prepares a clear profile for the recruitment team to review against',
+              'current vacancies before they are shared with you.',
             ]}
             tag="p"
           />
@@ -132,6 +120,18 @@ const CareersPage = () => {
             ))}
           </Cards>
         </section>
+
+        <WhySection>
+          <MaskText phrases={['Industries Recruiting Through IFESM']} tag="h2" />
+          <div className="why-grid">
+            {recruitingIndustries.map((industry) => (
+              <div key={industry} className="why-item">
+                <span className="check" aria-hidden="true">+</span>
+                <span>{industry}</span>
+              </div>
+            ))}
+          </div>
+        </WhySection>
 
         <WhySection>
           <MaskText phrases={['Why Build Your Career Through IFESM']} tag="h2" />
@@ -195,8 +195,8 @@ const CareersPage = () => {
             <a href="mailto:projects@nifsindia.com" className="cta-primary">
               <span>Register Your Resume</span>
             </a>
-            <a href="#opportunities" className="cta-secondary">
-              <span>View Live Opportunities</span>
+            <a href="/find-a-job" className="cta-secondary">
+              <span>Find My Job</span>
             </a>
             <a href="tel:+919989315222" className="cta-secondary">
               <span>Talk to Our Recruitment Team</span>
