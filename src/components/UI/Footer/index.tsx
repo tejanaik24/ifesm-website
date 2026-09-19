@@ -47,10 +47,10 @@ const footerNav = [
   {
     title: 'NIFS Ecosystem',
     links: [
-      { label: 'Courses Portal', url: 'https://www.nifsindia.com/courses', external: true },
-      { label: 'NIFS Head Office', url: 'https://www.nifsindia.com/about', external: true },
-      { label: 'Accreditations', url: 'https://www.nifsindia.com/accreditations', external: true },
-      { label: 'Placements Wing', url: 'https://www.nifsindia.com/placements', external: true },
+      { label: 'Courses Portal', url: 'https://nifsindia.net/courses/', external: true },
+      { label: 'NIFS Head Office', url: 'https://nifsindia.net/about/', external: true },
+      { label: 'Accreditations', url: 'https://nifsindia.net/about/', external: true },
+      { label: 'Placements Wing', url: 'https://nifsindia.net/placements/', external: true },
       { label: 'WhatsApp Enquiry', url: 'https://wa.me/919989315222?text=Hi%20IFESM%20Group%2C%20I%20would%20like%20to%20enquire%20about%20your%20Industrial%20Safety%20services.', external: true },
     ],
   },
