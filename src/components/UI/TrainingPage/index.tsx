@@ -1,12 +1,9 @@
 'use client';
-import Image from 'next/image';
 import PageHeader from '@/components/UI/PageHeader';
 import MaskText from '@/components/Common/MaskText';
 import GhostMotif from '@/components/Common/GhostMotif';
 import {
   Wrapper,
-  GalleryGrid,
-  GalleryItem,
   CategoryTitle,
   CategoryList,
   CategoryCard,
@@ -15,7 +12,7 @@ import {
   StatsGrid,
   StatCard,
 } from './styles';
-import { galleryPhotos, trainingCategories } from './constants';
+import { trainingCategories } from './constants';
 import training_banner from '../../../../public/ifesm/pageheader-training-banner.jpg';
 
 const trainingStats = [
@@ -58,27 +55,6 @@ const TrainingPage = () => {
             ))}
           </StatsGrid>
         </StatsSection>
-
-        <section>
-          <MaskText phrases={['Training Gallery']} tag="h2" />
-          <GalleryGrid>
-            {galleryPhotos.map((photo, i) => (
-              <GalleryItem
-                key={photo.alt}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
-                whileHover={{ scale: 1.03, zIndex: 10 }}
-              >
-                <Image src={photo.src} alt={photo.alt} fill sizes="25vw" />
-                <div className="overlay">
-                  <span>{photo.alt}</span>
-                </div>
-              </GalleryItem>
-            ))}
-          </GalleryGrid>
-        </section>
 
         <section>
           <MaskText phrases={['Offline & Online Training']} tag="h2" />
