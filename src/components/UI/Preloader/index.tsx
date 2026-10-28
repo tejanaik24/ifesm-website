@@ -19,6 +19,11 @@ const Preloader = ({
   const wrapperRef = useRef(null);
 
   useEffect(() => {
+    // Phones skip the intro (hidden by CSS) so content shows as soon as JS is ready.
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      setComplete(true);
+      return;
+    }
     const tl = gsap.timeline();
     tl.to(imageRef.current, {
       rotate: '360deg',

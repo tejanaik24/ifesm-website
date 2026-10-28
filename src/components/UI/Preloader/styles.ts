@@ -15,6 +15,10 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export const Inner = styled.div`
@@ -67,4 +71,8 @@ export const SecondOverlay = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;

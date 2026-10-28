@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ifesm_logo from '../../../../public/ifesm/ifesm-logo.png';
 import nifs_round_logo from '../../../../public/ifesm/nifs-logo-round-transparent.png';
-import ifesm_footer_art from '../../../../public/ifesm/ifesm_footer_art.png';
+import ifesm_footer_art from '../../../../public/ifesm/ifesm_footer_art.jpg';
 import ic_copyright from '../../../../public/svgs/ic_copyright.svg';
 import {
   Wrapper,

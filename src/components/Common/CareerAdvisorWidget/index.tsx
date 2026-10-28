@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import gouthami from '../../../../public/ifesm/gouthami-career-advisor.png';
+import gouthami from '../../../../public/ifesm/gouthami-career-advisor.jpg';
 import { jobFinderFields } from '@/components/UI/JobFinderPage/constants';
 import { Avatar, CloseButton, Details, Field, Header, Option, Options, Panel, Progress, ResultActions, Step, Teaser, Trigger, Widget } from './styles';
 
@@ -10,7 +10,7 @@ const whatsappNumber = '919989315222';
 const resumeEmail = 'projects@nifsindia.com';
 
 const CareerAdvisorWidget = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>(Array(jobFinderFields.length).fill(''));
   const [details, setDetails] = useState({ name: '', phone: '', email: '' });

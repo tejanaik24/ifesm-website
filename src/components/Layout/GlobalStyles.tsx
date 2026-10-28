@@ -22,11 +22,11 @@ export const GlobalStyles = styled.createGlobalStyle`
   html,
   body {
     max-width: 100vw;
-    overflow-x: hidden;
+    overflow-x: hidden; /* fallback for Safari < 16 */
+    overflow-x: clip; /* unlike hidden, keeps position: sticky working */
     font-family: var(--font-sans), sans-serif;
     background-color: var(--Background);
     color: var(--white);
-    scroll-snap-type: y mandatory;
 
     &::-webkit-scrollbar {
       width: 0.5rem;

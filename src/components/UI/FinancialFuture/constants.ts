@@ -1,7 +1,7 @@
 import ic_money_send from '../../../../public/svgs/ic_money_send.svg';
 import ic_wallet_minus from '../../../../public/svgs/ic_wallet_minus.svg';
-import turnkey_projects_photo from '../../../../public/ifesm/financial-future-card-1.png';
-import cmc_amc_photo from '../../../../public/ifesm/financial-future-card-2.png';
+import turnkey_projects_photo from '../../../../public/ifesm/financial-future-card-1.jpg';
+import cmc_amc_photo from '../../../../public/ifesm/financial-future-card-2.jpg';
 export const cardsInfo = [
   {
     title: 'Turnkey Projects',

@@ -246,7 +246,8 @@ export const MobileCardsList = styled.div`
 `;
 
 export const MobileCard = styled(motion.div)`
-  position: relative;
+  /* Native sticky stacking; top offset is set per card inline. */
+  position: sticky;
   background: var(--Background);
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 0.75rem;
@@ -254,7 +255,6 @@ export const MobileCard = styled(motion.div)`
   box-shadow: 0 -0.25rem 1rem rgba(0, 0, 0, 0.05), 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
   transform-origin: top center;
   margin-bottom: 2.5rem;
-  will-change: transform;
 `;
 
 export const MobileImageWrapper = styled.div`

@@ -32,74 +32,7 @@ const OffersSection = () => {
   const trackRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const bookRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const mobileContainerRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState(0);
-
-  useEffect(() => {
-    if (!isMobile) return;
-
-    let ticking = false;
-
-    const handleMobileScroll = () => {
-      if (ticking) return;
-      ticking = true;
-
-      requestAnimationFrame(() => {
-        ticking = false;
-        const cardElements = cardRefs.current;
-        const container = mobileContainerRef.current;
-        if (!container) return;
-
-        const basePinOffset = 70;
-        const stackOffset = 24;
-        const scrollY = window.scrollY;
-
-        const containerRect = container.getBoundingClientRect();
-        const containerBottom = containerRect.bottom + scrollY;
-
-        cardElements.forEach((card, i) => {
-          if (!card) return;
-          
-          const currentTransform = card.style.transform;
-          let currentTranslateY = 0;
-          const match = currentTransform.match(/translateY\(([^px)]+)px\)/);
-          if (match) {
-            currentTranslateY = parseFloat(match[1]);
-          }
-
-          const rect = card.getBoundingClientRect();
-          const cardNaturalTop = rect.top + scrollY - currentTranslateY;
-          const pinPoint = cardNaturalTop - (basePinOffset + i * stackOffset);
-
-          const cardHeight = card.offsetHeight;
-          const maxTranslateY = Math.max(0, containerBottom - cardNaturalTop - cardHeight - (cardElements.length - 1 - i) * 16 - 24);
-
-          if (scrollY > pinPoint) {
-            const diff = Math.min(maxTranslateY, scrollY - pinPoint);
-            card.style.transform = `translate3d(0, ${diff}px, 0)`;
-            const maxScaleScroll = 400;
-            const scaleDiff = Math.min(diff / maxScaleScroll, 1);
-            const scale = 1 - scaleDiff * 0.05;
-            card.style.transform += ` scale(${scale})`;
-            card.style.boxShadow = `0 -10px 20px rgba(0,0,0,${0.05 + scaleDiff * 0.08}), 0 15px 30px rgba(0,0,0,${0.1 + scaleDiff * 0.12})`;
-          } else {
-            card.style.transform = 'translate3d(0, 0px, 0) scale(1)';
-            card.style.boxShadow = '0 -4px 16px rgba(0, 0, 0, 0.05), 0 12px 24px rgba(0, 0, 0, 0.1)';
-          }
-        });
-      });
-    };
-
-    window.addEventListener('scroll', handleMobileScroll, { passive: true });
-    window.addEventListener('resize', handleMobileScroll);
-    setTimeout(handleMobileScroll, 100);
-
-    return () => {
-      window.removeEventListener('scroll', handleMobileScroll);
-      window.removeEventListener('resize', handleMobileScroll);
-    };
-  }, [isMobile]);
 
   useEffect(() => {
     let ticking = false;
@@ -178,12 +111,9 @@ const OffersSection = () => {
           <h2>Our 10 Core Services</h2>
           <p>Delivering world class fire &amp; industrial safety expertise across India.</p>
         </MobileHeader>
-        <MobileCardsList ref={mobileContainerRef}>
+        <MobileCardsList>
           {offers.map((offer, i) => (
-            <MobileCard
-              key={offer.title}
-              ref={(el: any) => { cardRefs.current[i] = el; }}
-            >
+            <MobileCard key={offer.title} style={{ top: 70 + i * 24 }}>
               <MobileImageWrapper>
                 <Image src={offer.illustration} alt={offer.title} />
               </MobileImageWrapper>

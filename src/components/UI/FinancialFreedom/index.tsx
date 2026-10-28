@@ -17,7 +17,7 @@ import RevealCover from '@/components/Common/RevealCover';
 import { Div } from '../Featured/styles';
 import { imageVariants } from '../Featured';
 import { useIsMobile } from '../../../../libs/useIsMobile';
-import training_banner from '../../../../public/ifesm/financial-freedom-banner.png';
+import training_banner from '../../../../public/ifesm/financial-freedom-banner.jpg';
 import {
   desktopBriefNotePhrase,
   desktopHeaderPhrase,
