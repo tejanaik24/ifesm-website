@@ -58,46 +58,26 @@ export const Header = styled.header`
   }
 `;
 
-export const ContentGrid = styled.div`
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 4rem;
+export const Pillars = styled.div`
   width: 100%;
-  align-items: center;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
   margin-bottom: 3.5rem;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
   }
-`;
-
-export const ImageCtn = styled.div`
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  border-radius: 0.75rem;
-  overflow: hidden;
-  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.15);
-
-  img {
-    border-radius: 0.75rem;
-    object-fit: cover;
-  }
-`;
-
-export const Pillars = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
 `;
 
 export const Pillar = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 2rem;
+  gap: 1rem;
+  padding: 2.25rem 2rem;
   border-radius: 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(0, 0, 0, 0.02);
@@ -106,7 +86,11 @@ export const Pillar = styled.div`
     color: var(--link-color);
     font-size: 1rem;
     font-weight: 400;
-    line-height: 1.5rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.75rem 1.5rem;
   }
 `;
 

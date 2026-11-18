@@ -43,7 +43,7 @@ Update SESSION HISTORY at the end of this conversation.
 | Language | TypeScript | |
 | Styling | **styled-components 6.x** | No Tailwind, no shadcn |
 | Animation | GSAP + Framer Motion | OffersSection uses hand-rolled scroll math (see below); everything else uses Framer `whileInView`/`useInView` |
-| Smooth Scroll | `@studio-freight/react-lenis` | Sets `overflow: hidden auto` on `<html>/<body>` — breaks native `position: sticky` site-wide. Any pinned/sticky section must fake it with a scroll-listener + fixed/absolute swap (see OffersSection). |
+| Smooth Scroll | `@studio-freight/react-lenis` | Sticky was broken by `overflow-x: hidden` on html/body, not Lenis. Since 2026-10-28 GlobalStyles uses `overflow-x: clip` and native `position: sticky` works (mobile OffersSection cards use it). Never go back to per-frame JS transforms on mobile — caused up/down jitter. |
 | Fonts | `next/font/google` — Plus Jakarta Sans (primary) + Fraunces italic (accent serif, used sparingly) | Was previously a broken `cdnfonts.com` import — fixed |
 
 ---
@@ -221,3 +221,18 @@ Antigravity built a Next 16 + Tailwind v4 + shadcn build. User rejected it (too 
 ## 🔑 ENVIRONMENT & CONFIG
 No environment variables required. `npm run dev` for local, `npm run build` to verify production build. **Deployed to production (ifesm.com)** via FTP, and Vercel staging at `https://ifesm-website.vercel.app`.
 
+### Session 9 - 2026-08-12
+**Worked on:** Interpreted the requirements in `Website_IFESM_06.08.2026_Observations.docx` into a product update rather than a literal content dump.
+**Completed:** Reframed `/clients` around the supplied industry and safety-partnership positioning; updated `/careers` with the supplied figures, industry coverage and recruitment sequence; added an eight-step `/find-a-job` preference flow; and added Find My Job to the header and footer. The flow hands a selected profile to recruitment by WhatsApp, email or phone and deliberately does not claim a numeric match or show invented vacancies. Resume handoff is explicitly by email because this static site has no upload backend. `npm run build` passed with 13 static routes; existing unrelated warnings remain in gravity-gallery components.
+
+### Session 10 - 2026-08-12
+**Worked on:** Added the approved IFESM-only Gouthami career-advisor widget, based on the NIFS interaction pattern but ported from static JavaScript to a React module.
+**Completed:** Generated and integrated a synthetic advisor portrait; the global widget auto-opens with the eight-step Find My Job flow, collects contact details, and creates a candidate-reviewed WhatsApp message to `+91 99893 15222`. Resume handoff is explicitly via email because WhatsApp cannot attach files. Production build passed and the Impeccable detector returned no findings.
+
+### Session 11 - 2026-08-12
+**Worked on:** Fixed the IFESM desktop navigation and Enquire Now collision risk.
+**Completed:** Removed the negative-margin layout hack, made desktop navigation spacing fluid, and switched the Header to its existing drawer layout at 1320px rather than waiting for the phone breakpoint. This keeps the full brand lockup, six links and CTA from competing for the same horizontal space. Production build passed; no deployment was made.
+
+### Session 12 - 2026-11-18
+**Worked on:** Client request (Kusuma) to remove the portrait photo from the homepage Vision / Mission / Quality section.
+**Completed:** Removed `company_portrait` image from `src/components/UI/CompanyIntro/index.tsx` and updated `src/components/UI/CompanyIntro/styles.ts` so the Vision, Mission, and Quality cards form a balanced, responsive 3-column grid on desktop and stack cleanly on mobile (375px+). Full-site check confirmed `company-intro-portrait.jpg` is not used elsewhere. Production build passed (`npm run build`, 15/15 static pages exported to `out/`).
